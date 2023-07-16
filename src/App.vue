@@ -1,34 +1,84 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+import {RouterLink, RouterView} from 'vue-router';
+import { watch, ref } from "vue";
+import { useRoute } from 'vue-router';
+
+const DEFAULT_TITLE = 'The Isle'
+
+const route = useRoute();
+const subTitle = ref("");
+const headerClass = ref('');
+
+watch(route, () => {
+  subTitle.value = route.meta.subTitle || route.name;
+  headerClass.value = route.name;
+  document.title = DEFAULT_TITLE + ' - ' + route.meta.title;
+})
+
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+  <header :class="headerClass">
+    <h1>THE ISLE</h1>
+    <p>{{subTitle.toUpperCase()}}</p>
 
     <div class="wrapper">
-      <HelloWorld msg="You did it!" />
 
       <nav>
         <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
+        <RouterLink to="/carnivores">Carnivours</RouterLink>
+        <RouterLink to="/herbivores">Herbivoiurs</RouterLink>
+        <RouterLink to="/maps">Map</RouterLink>
+        <RouterLink to="/damage">Damage</RouterLink>
+        <RouterLink to="/ftr">FTR</RouterLink>
+        <RouterLink to="/opendinos">OpenDinos</RouterLink>
       </nav>
     </div>
   </header>
 
-  <RouterView />
+  <RouterView/>
+
+  <footer>
+    <h2></h2>
+    <div>
+      <RouterLink to="/about">Quellen</RouterLink>
+      <RouterLink to="/about">About</RouterLink>
+    </div>
+  </footer>
 </template>
 
 <style scoped>
 header {
+  font-family: Verdana,sans-serif;
+  padding: 30px;
+  text-align: center;
   line-height: 1.5;
   max-height: 100vh;
+  background-image: url('assets/Hintergrundstartseite.gif');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 100% 100%;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+.carnivores {
+  background-image: url('assets/Carnivores.jpg');
+}
+.herbivores {
+  background-image: url('assets/Herbivores.jpg');
+}
+.maps {
+  background-image: url('assets/maps.jpg');
+}
+
+header h1 {
+  font-size: 3rem;
+  color: var(--isle-blue);
+  text-shadow: 2px 2px #000;
+}
+header p {
+  font-size: 1.5rem;
+  color: var(--isle-blue);
+  text-shadow: 2px 2px #000;
 }
 
 nav {
@@ -36,10 +86,11 @@ nav {
   font-size: 12px;
   text-align: center;
   margin-top: 2rem;
+  text-shadow: 2px 2px #000;
 }
 
 nav a.router-link-exact-active {
-  color: var(--color-text);
+  color: #55AAAA;
 }
 
 nav a.router-link-exact-active:hover {
@@ -63,10 +114,6 @@ nav a:first-of-type {
     padding-right: calc(var(--section-gap) / 2);
   }
 
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
   header .wrapper {
     display: flex;
     place-items: flex-start;
@@ -81,5 +128,11 @@ nav a:first-of-type {
     padding: 1rem 0;
     margin-top: 1rem;
   }
+}
+
+footer {
+  padding: 20px;
+  background: #333;
+  margin-top: 20px;
 }
 </style>
