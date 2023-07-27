@@ -11,11 +11,12 @@
 	</main>
 
 	<footer>
-		<p>visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to learn SvelteKit</p>
+		<p>the isle info powered by &copy;FTR</p>
 	</footer>
 </div>
 
 <style>
+
 	.app {
 		display: flex;
 		flex-direction: column;
@@ -39,6 +40,8 @@
 		justify-content: center;
 		align-items: center;
 		padding: 12px;
+		font-size: 0.7em;
+		font-style: italic;
 	}
 
 	footer a {
