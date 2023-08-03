@@ -1,9 +1,6 @@
-<svelte:head>
-    <link rel="stylesheet" href="https://unpkg.com/mono-icons@1.0.5/iconfont/icons.css">
-</svelte:head>
-
 <script lang="ts">
-    import {writable} from "svelte/store";
+    import bigMap from '$lib/images/legacy-map-v3.jpg';
+    import smallMap from '$lib/images/legacy-map-v3-small.jpg';
 
     interface Point {
         type: PointType;
@@ -18,9 +15,6 @@
         Player
     }
 
-    import bigMap from '$lib/images/legacy-map-v3.jpg';
-    import smallMap from '$lib/images/legacy-map-v3-small.jpg';
-
     const borders = {latMin: -844, latMax: 753, longMin: -724, longMax: 873}
     const borderSize = {
         width: Math.abs(borders.latMin - borders.latMax),
@@ -29,7 +23,7 @@
     const locale = "de-DE";
 
     let showTeleports: boolean = true;
-    let showPointsOfIntresed: boolean = true;
+    let showPointOfInterest: boolean = true;
 
     let map = {width: 0, height: 0};
     let mouse: { x: number; y: number } | null = null;
@@ -63,7 +57,7 @@
         {type: PointType.Player, name: "Player", lat: -204, long: 118},
     ]
 
-    $: filteredPoints = points.filter(x => x.type == PointType.Teleport && showTeleports || x.type == PointType.POI && showPointsOfIntresed);
+    $: filteredPoints = points.filter(x => x.type == PointType.Teleport && showTeleports || x.type == PointType.POI && showPointOfInterest);
 
     $: mouseCoordinates = {
         lat: ((mouse?.x ?? 20) / map.width * borderSize.width + borders.latMin).toLocaleString(locale, {
@@ -87,15 +81,18 @@
 
 <section>
     <h1>Map</h1>
-    <div>
+    <div class="toggle-buttons box">
+        <div>
+            <input type="checkbox" class="toggle" bind:checked={showTeleports} id="showTeleports"/>
+            <label for="showTeleports">Show Teleports</label>
+        </div>
 
-        <input type="checkbox" class="toggle" bind:checked={showTeleports} name="enabled" id="showTeleports"/>
-        <label for="showTeleports">Show Teleports</label>
-
-        <input type="checkbox" class="toggle" bind:checked={showPointsOfIntresed} name="enabled" id="showPointsOfIntresed"/>
-        <label for="showPointsOfIntresed">Show Points of Intresse</label>
+        <div>
+            <input type="checkbox" class="toggle" bind:checked={showPointOfInterest} id="showPointOfInterest"/>
+            <label for="showPointOfInterest">Show Point of Interest</label>
+        </div>
     </div>
-    <div role="img" class="map"
+    <div role="img" class="map box"
          bind:clientWidth={map.width} bind:clientHeight={map.height}>
         <span class="cursor-position"
               style:top="{mouse?.y}px"
@@ -139,15 +136,33 @@
         width: 100%;
     }
 
-    .map {
-        position: relative;
+    .box {
         box-sizing: border-box;
-        display: block;
-        z-index: 1;
+        border-color: var(--color-bg-1);
+        border-width: 0 1em 0.5em 1em;
+        border-style: solid;
+        padding: 0.75em;
+        background: var(--color-bg-2);
         width: 100%;
         margin: 0;
-        border: 1em solid #28282a;
-        border-radius: 1.5em;
+    }
+
+    .box:first-of-type {
+        border-top-width: 1em;
+        border-radius: 1em 1em 0 0;
+    }
+
+
+    .box:last-of-type {
+        border-bottom-width: 1em;
+        border-radius: 0 0 1em 1em;
+    }
+
+    .map {
+        position: relative;
+        display: block;
+        z-index: 1;
+        padding: 0;
 
         & .poi, .cursor-position {
             position: absolute;
@@ -229,14 +244,31 @@
     }
 
     @media (max-width: 600px) {
-        .map {
+        .box {
             border-left: 0;
             border-right: 0;
-
         }
 
         .map_marker > i {
             font-size: 1.5em !important;
+        }
+    }
+
+    .toggle-buttons {
+        display: flex;
+        flex-direction: row;
+
+        & div {
+            margin:  0.25em 1em  0.25em 0;
+        }
+        & div:last-of-type {
+            margin-right: 0;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .toggle-buttons {
+            flex-direction: column;
         }
     }
 </style>

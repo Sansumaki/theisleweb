@@ -16,6 +16,11 @@
             <path d="M0,0 L1,2 C1.5,3 1.5,3 2,3 L2,0 Z"/>
         </svg>
         <ul>
+            <li>
+                <i class="mi-menu"></i>
+            </li>
+        </ul>
+        <ul>
             <li aria-current={$page.url.pathname === '/' ? 'page' : undefined}>
                 <a href="/">The Isle</a>
             </li>
@@ -102,6 +107,20 @@
         background-size: contain;
     }
 
+    ul:first-of-type {
+        display: none;
+    }
+
+    @media (max-width: 600px) {
+        ul:first-of-type {
+            display: block;
+        }
+
+        ul:last-of-type {
+            display: none;
+        }
+    }
+
     li {
         position: relative;
         height: 100%;
@@ -119,7 +138,7 @@
         border-top: var(--size) solid var(--color-theme-1);
     }
 
-    nav a {
+    nav a, i {
         display: flex;
         height: 100%;
         align-items: center;
@@ -131,6 +150,10 @@
         letter-spacing: 0.1em;
         text-decoration: none;
         transition: color 0.2s linear;
+    }
+
+    nav i {
+        font-size: 2em;
     }
 
     a:hover {

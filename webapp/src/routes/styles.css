@@ -20,6 +20,8 @@
 body {
 	min-height: 100vh;
 	margin: 0;
+	overflow-x: hidden;
+	max-width: 100%;
 	background-attachment: fixed;
 	background-color: var(--color-bg-1);
 	background-size: 100vw 100vh;
@@ -112,8 +114,8 @@ button:focus:not(:focus-visible) {
 	--toggle-color: var(--color-text);
 	--toggle-bg-color: var(--color-bg-2);
 	position: relative;
-	padding-left: 5rem;
-	line-height: 2.5rem;
+	padding-left: 4rem;
+	line-height: 2rem;
 	cursor: pointer;
 }
 
@@ -123,8 +125,8 @@ button:focus:not(:focus-visible) {
 	box-sizing: border-box;
 	position: absolute;
 	left: 0;
-	width: 4.5rem;
-	height: 2.5rem;
+	width: 3.5rem;
+	height: 2rem;
 	border: 1px solid var(--toggle-color);
 	border-radius: 1.25rem;
 	background-color: var(--toggle-bg-color);
@@ -138,8 +140,8 @@ button:focus:not(:focus-visible) {
 	top: 0;
 	bottom: 0;
 	left: 0.25rem;
-	width: 2rem;
-	height: 2rem;
+	width: 1.5rem;
+	height: 1.5rem;
 	margin: auto;
 	transform: translate(0, 0);
 	border-radius: 50%;
@@ -155,5 +157,5 @@ button:focus:not(:focus-visible) {
 }
 
 .toggle:checked + label:after {
-	transform: translate(2rem, 0);
+	transform: translate(1.5rem, 0);
 }
