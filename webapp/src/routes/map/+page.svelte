@@ -2,56 +2,139 @@
     <link rel="stylesheet" href="https://unpkg.com/mono-icons@1.0.5/iconfont/icons.css">
 </svelte:head>
 
-<script>
+<script lang="ts">
+    import {writable} from "svelte/store";
+
+    interface Point {
+        type: PointType;
+        name: string;
+        lat: number;
+        long: number;
+    }
+
+    enum PointType {
+        POI,
+        Teleport,
+        Player
+    }
+
     import bigMap from '$lib/images/legacy-map-v3.jpg';
     import smallMap from '$lib/images/legacy-map-v3-small.jpg';
 
-    let showPosition = false;
-    let m = {x: 0, y: 0};
-    let map = {w: 0, h: 0};
+    const borders = {latMin: -844, latMax: 753, longMin: -724, longMax: 873}
+    const borderSize = {
+        width: Math.abs(borders.latMin - borders.latMax),
+        height: Math.abs(borders.longMin - borders.longMax)
+    }
+    const locale = "de-DE";
 
-    $: ma = {x: 100 / map.w * m.x, y: 100 / map.h * m.y}
-    $: displayPosition = showPosition ? 'block' : 'none';
+    let showTeleports: boolean = true;
+    let showPointsOfIntresed: boolean = true;
+
+    let map = {width: 0, height: 0};
+    let mouse: { x: number; y: number } | null = null;
+    let currentPOI: Point | null = null;
+
+    let points: Point[] = [
+        {type: PointType.POI, name: "Center", lat: 0, long: 0},
+        {type: PointType.POI, name: "Aviary", lat: -25, long: 280},
+        {type: PointType.Teleport, name: "Great Falls", lat: -234, long: 527},
+        {type: PointType.Teleport, name: "North Twins", lat: -468, long: -232},
+        {type: PointType.Teleport, name: "South Twins", lat: -489, long: -137},
+        {type: PointType.Teleport, name: "Ports", lat: 446, long: 204},
+        {type: PointType.Teleport, name: "Hidden", lat: 393, long: 55},
+        {type: PointType.Teleport, name: "Murky Pond", lat: 319, long: -111},
+        {type: PointType.Teleport, name: "Hot Springs", lat: 131, long: -353},
+        {type: PointType.Teleport, name: "Ocean Falls", lat: 23, long: -485},
+        {type: PointType.Teleport, name: "Northernmost", lat: -134, long: -463},
+        {type: PointType.Teleport, name: "The Damn", lat: 26, long: -158},
+        {type: PointType.Teleport, name: "Dump/Ravine", lat: -286, long: -252},
+        {type: PointType.Teleport, name: "Cargo Pond", lat: -507, long: -48},
+        {type: PointType.Teleport, name: "Gulf Pond", lat: -493, long: 208},
+        {type: PointType.Teleport, name: "Western Pond", lat: -694, long: 249},
+        {type: PointType.Teleport, name: "Puddle Pond", lat: -457, long: 387},
+        {type: PointType.Teleport, name: "The Wash", lat: -359, long: 328},
+        {type: PointType.Teleport, name: "Sewer Pond", lat: -261, long: 299},
+        {type: PointType.Teleport, name: "Lazy River", lat: -151, long: 470},
+        {type: PointType.Teleport, name: "East Swamp", lat: 178, long: 66},
+        {type: PointType.Teleport, name: "Middle Swamp", lat: -16, long: 76},
+        {type: PointType.Teleport, name: "West Swamp", lat: -113, long: 39},
+        {type: PointType.Teleport, name: "Canyon Pond", lat: -40, long: 165},
+        {type: PointType.Player, name: "Player", lat: -204, long: 118},
+    ]
+
+    $: filteredPoints = points.filter(x => x.type == PointType.Teleport && showTeleports || x.type == PointType.POI && showPointsOfIntresed);
+
+    $: mouseCoordinates = {
+        lat: ((mouse?.x ?? 20) / map.width * borderSize.width + borders.latMin).toLocaleString(locale, {
+            maximumFractionDigits: 0,
+            minimumFractionDigits: 0
+        }),
+        long: ((mouse?.y ?? 20) / map.height * borderSize.height + borders.longMin).toLocaleString(locale, {
+            maximumFractionDigits: 0,
+            minimumFractionDigits: 0
+        })
+    }
+
+    function LatToX(lat: number, mapWidth: number): number {
+        return mapWidth * (lat - borders.latMin) / borderSize.width;
+    }
+
+    function LongToY(long: number, mapHeight: number): number {
+        return mapHeight * (long - borders.longMin) / borderSize.height;
+    }
 </script>
 
 <section>
     <h1>Map</h1>
-    <div role="img" class="map">
+    <div>
+
+        <input type="checkbox" class="toggle" bind:checked={showTeleports} name="enabled" id="showTeleports"/>
+        <label for="showTeleports">Show Teleports</label>
+
+        <input type="checkbox" class="toggle" bind:checked={showPointsOfIntresed} name="enabled" id="showPointsOfIntresed"/>
+        <label for="showPointsOfIntresed">Show Points of Intresse</label>
+    </div>
+    <div role="img" class="map"
+         bind:clientWidth={map.width} bind:clientHeight={map.height}>
         <span class="cursor-position"
-              style:top="{m.y}px"
-              style:left="{m.x}px"
-              style:display="{displayPosition}"
-        >lat: 732, long: -265</span>
+              style:top="{mouse?.y}px"
+              style:left="{mouse?.x}px"
+              style:display="{mouse!= null ? 'block' : 'none'}">
+            lat: {mouseCoordinates.lat}, long: {mouseCoordinates.long}
+        </span>
+        <div class="poi"
+             style:display="{currentPOI!=null?'block':'none'}"
+             style:left="{LatToX(currentPOI?.lat ?? 0, map.width)}px"
+             style:top="{LongToY(currentPOI?.long ?? 0, map.height)}px"
+             style:background="{currentPOI?.type === PointType.POI ? 'rgba(255,241,211,0.8)' : currentPOI?.type === PointType.Teleport ? 'rgba(227,185,185,0.8)' : 'rgba(172,191,224,0.8)'}"
+        >
+            <h2>{currentPOI?.name}</h2>
+            <h3>{PointType[currentPOI?.type ?? PointType.POI]}</h3>
+            <i>lat: {currentPOI?.lat}, long: {currentPOI?.long}</i>
+        </div>
         <picture data-map-name="v3" role="img"
-                 bind:clientWidth={map.w} bind:clientHeight={map.h}
-                 on:mousemove={(e) => {
-             (m = { x: e.offsetX, y: e.offsetY });
-             showPosition = true;}}
-                 on:mouseleave={(e) => showPosition = false}>
+                 on:mousemove={(e) => mouse = { x: e.offsetX, y: e.offsetY } }
+                 on:mouseleave={() => mouse = null}>
             <source media="(min-width:1200px)" srcset={bigMap}>
             <img src={smallMap} alt="map-v3">
         </picture>
         <ul class="map_markers">
-            <li class="map_marker" style="top: 62.5%; left: 51.9%">
-                <i class="mi-location"></i>
-            </li>
-            <li class="map_marker" style="top: 50%; left: 50%">
-                <i class="mi-pin"></i>
-            </li>
+            {#each filteredPoints as point}
+                <li class="map_marker"
+                    on:mouseenter={() => currentPOI = point }
+                    on:mouseleave={() => currentPOI = null }
+                    style:left="{LatToX(point.lat, map.width)}px"
+                    style:top="{LongToY(point.long, map.height)}px"
+                    style:color="{point.type === PointType.POI ? '#ffc802' : point.type === PointType.Teleport ? '#e74646' : '#2e84ea'}">
+                    <i class="mi-location"></i>
+                </li>
+            {/each}
         </ul>
-    </div>
-    <div class="sample">
-        The mouse position is {m.x} x {m.y}<br>
-        The Area size is {map.w} x {map.h}<br>
-        The mouse position is {ma.x}% x {ma.y}%
     </div>
 </section>
 
 <style>
-    .sample {
-        background: #ff3e00;
-    }
-
     section {
         width: 100%;
     }
@@ -66,15 +149,29 @@
         border: 1em solid #28282a;
         border-radius: 1.5em;
 
-        & .cursor-position {
+        & .poi, .cursor-position {
             position: absolute;
-            z-index: 1000;
-            pointer-events: none;
-            margin-top: 10px;
             padding: 0 5px;
             border-radius: 15px;
             background-color: rgba(255, 255, 255, 0.8);
             color: #212121;
+            white-space: nowrap;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        & .poi {
+            z-index: 10000;
+            min-width: 200px;
+            min-height: 50px;
+            margin-left: -100px;
+            padding: 5px;
+        }
+
+        & .cursor-position {
+            z-index: 1000;
+            pointer-events: none;
+            margin-top: 10px;
             white-space: nowrap;
             font-size: 12px;
             text-align: center;
@@ -121,7 +218,6 @@
 
         & .map_marker > i {
             position: absolute;
-            color: #ffc802;
             text-shadow: #000 1px 0 10px;
             bottom: 100%;
             left: 50%;
