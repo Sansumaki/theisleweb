@@ -159,3 +159,25 @@ button:focus:not(:focus-visible) {
 .toggle:checked + label:after {
 	transform: translate(1.5rem, 0);
 }
+
+.box {
+	box-sizing: border-box;
+	border-color: var(--color-bg-1);
+	border-width: 0 1em 0.5em 1em;
+	border-style: solid;
+	padding: 0.75em;
+	background: var(--color-bg-2);
+	width: 100%;
+	margin: 0;
+}
+
+.box:first-of-type {
+	border-top-width: 1em;
+	border-radius: 1em 1em 0 0;
+}
+
+
+.box:last-of-type {
+	border-bottom-width: 1em;
+	border-radius: 0 0 1em 1em;
+}

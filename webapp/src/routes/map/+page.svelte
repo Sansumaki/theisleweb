@@ -1,6 +1,7 @@
 <script lang="ts">
     import bigMap from '$lib/images/legacy-map-v3.jpg';
     import smallMap from '$lib/images/legacy-map-v3-small.jpg';
+    import HeadBox from "$lib/components/HeadBox.svelte";
 
     interface Point {
         type: PointType;
@@ -80,7 +81,8 @@
 </script>
 
 <section>
-    <h1>Map</h1>
+    <HeadBox background="{smallMap}">Map</HeadBox>
+
     <div class="toggle-buttons box">
         <div>
             <input type="checkbox" class="toggle" bind:checked={showTeleports} id="showTeleports"/>
@@ -132,30 +134,26 @@
 </section>
 
 <style>
+    .head {
+        display: grid;
+    }
+    .head-background {
+        position: absolute;
+        grid-row: 1;
+        grid-column: 1;
+        /*position: absolute;*/
+        /*display: table-cell;*/
+        /*align-items: center;*/
+        /*justify-content: center;*/
+        /*background-image: url('https://placekitten.com/1200/800');*/
+        /*background-size: cover;*/
+
+        /*background-position: center;*/
+        /*background-color: rgba(56, 56, 56, 0.65);*/
+    }
+
     section {
         width: 100%;
-    }
-
-    .box {
-        box-sizing: border-box;
-        border-color: var(--color-bg-1);
-        border-width: 0 1em 0.5em 1em;
-        border-style: solid;
-        padding: 0.75em;
-        background: var(--color-bg-2);
-        width: 100%;
-        margin: 0;
-    }
-
-    .box:first-of-type {
-        border-top-width: 1em;
-        border-radius: 1em 1em 0 0;
-    }
-
-
-    .box:last-of-type {
-        border-bottom-width: 1em;
-        border-radius: 0 0 1em 1em;
     }
 
     .map {
@@ -259,8 +257,9 @@
         flex-direction: row;
 
         & div {
-            margin:  0.25em 1em  0.25em 0;
+            margin: 0.25em 1em 0.25em 0;
         }
+
         & div:last-of-type {
             margin-right: 0;
         }

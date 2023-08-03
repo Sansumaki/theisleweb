@@ -1,7 +1,12 @@
 <script>
+	import icon from '$lib/images/ftr.ico'
 	import Header from './Header.svelte';
 	import './styles.css';
 </script>
+
+<svelte:head>
+	<link rel="icon" type="image/svg" href={icon} />
+</svelte:head>
 
 <div class="app">
 	<Header />

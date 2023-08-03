@@ -1,0 +1,18 @@
+<script lang="ts">
+    export let background: string;
+</script>
+
+<div class="box head"
+     style="background: radial-gradient(circle, transparent 40%, transparent 75%),linear-gradient(to right, grey, grey),url('{background}'); background-blend-mode: multiply; background-position: center">
+    <h1><slot /></h1>
+    <h3><slot name="subtitle" /></h3>
+</div>
+
+<style>
+    div {
+        text-transform: uppercase;
+    }
+    div > * {
+        text-align: center;
+    }
+</style>
