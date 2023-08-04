@@ -134,24 +134,6 @@
 </section>
 
 <style>
-    .head {
-        display: grid;
-    }
-    .head-background {
-        position: absolute;
-        grid-row: 1;
-        grid-column: 1;
-        /*position: absolute;*/
-        /*display: table-cell;*/
-        /*align-items: center;*/
-        /*justify-content: center;*/
-        /*background-image: url('https://placekitten.com/1200/800');*/
-        /*background-size: cover;*/
-
-        /*background-position: center;*/
-        /*background-color: rgba(56, 56, 56, 0.65);*/
-    }
-
     section {
         width: 100%;
     }

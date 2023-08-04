@@ -1,0 +1,191 @@
+@import '@fontsource/fira-mono';
+@import "./../lib/styles/app";
+
+:root {
+	--font-body: Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+		Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+	--font-mono: 'Fira Mono', monospace;
+	--color-bg-0: #0a0a0a;
+	--color-bg-1: #1f1f1f;
+	--color-bg-2: #383838;
+	--color-theme-1: #ff3e00;
+	--color-theme-2: #01d0d0;
+	--color-theme-3: #527682;
+	--color-text: #f2f2f2;
+	--column-width: 42rem;
+	--column-margin-top: 4rem;
+	font-family: var(--font-body);
+	color: var(--color-text);
+}
+
+body {
+	min-height: 100vh;
+	margin: 0;
+	overflow-x: hidden;
+	max-width: 100%;
+	background-attachment: fixed;
+	background-color: var(--color-bg-1);
+	background-size: 100vw 100vh;
+	background-image: radial-gradient(
+			50% 50% at 50% 50%,
+			rgba(105, 105, 105, 0.75) 0%,
+			rgba(255, 255, 255, 0) 100%
+		),
+		linear-gradient(180deg, var(--color-bg-0) 0%, var(--color-bg-1) 15%, var(--color-bg-2) 50%);
+}
+
+h1,
+h2,
+p {
+	font-weight: 400;
+}
+
+p {
+	line-height: 1.5;
+	text-align: justify;
+}
+
+a {
+	color: var(--color-theme-2);
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+h1 {
+	font-size: 2rem;
+	text-align: center;
+}
+
+h2 {
+	font-size: 1.5rem;
+}
+
+pre {
+	font-size: 16px;
+	font-family: var(--font-mono);
+	background-color: rgba(255, 255, 255, 0.45);
+	border-radius: 3px;
+	box-shadow: 2px 2px 6px rgb(255 255 255 / 25%);
+	padding: 0.5em;
+	overflow-x: auto;
+	color: var(--color-text);
+}
+
+.text-column {
+	display: flex;
+	max-width: 48rem;
+	flex: 0.6;
+	flex-direction: column;
+	justify-content: center;
+	margin: 0 auto;
+}
+
+input,
+button {
+	font-size: inherit;
+	font-family: inherit;
+}
+
+button:focus:not(:focus-visible) {
+	outline: none;
+}
+
+.visually-hidden {
+	border: 0;
+	clip: rect(0 0 0 0);
+	height: auto;
+	margin: 0;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	width: 1px;
+	white-space: nowrap;
+}
+
+.toggle {
+	position: absolute;
+	cursor: pointer;
+	opacity: 0;
+}
+
+.toggle + label {
+	--toggle-color: var(--color-text);
+	--toggle-bg-color: var(--color-bg-2);
+	position: relative;
+	padding-left: 4rem;
+	line-height: 2rem;
+	cursor: pointer;
+}
+
+/* The toggle container */
+.toggle + label:before {
+	content: "";
+	box-sizing: border-box;
+	position: absolute;
+	left: 0;
+	width: 3.5rem;
+	height: 2rem;
+	border: 1px solid var(--toggle-color);
+	border-radius: 1.25rem;
+	background-color: var(--toggle-bg-color);
+	transition: background-color 200ms;
+}
+
+/* The toggle ball */
+.toggle + label:after {
+	content: "";
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0.25rem;
+	width: 1.5rem;
+	height: 1.5rem;
+	margin: auto;
+	transform: translate(0, 0);
+	border-radius: 50%;
+	background-color: var(--toggle-color);
+	cursor: pointer;
+	transition: transform 200ms;
+}
+
+/* The active styling */
+.toggle:checked + label {
+	--toggle-color: #fff;
+	--toggle-bg-color: var(--color-theme-3);
+}
+
+.toggle:checked + label:after {
+	transform: translate(1.5rem, 0);
+}
+
+.box {
+	box-sizing: border-box;
+	border-color: var(--color-bg-1);
+	border-width: 0 1em 0.5em 1em;
+	border-style: solid;
+	padding: 0.75em;
+	background: var(--color-bg-2);
+	width: 100%;
+	margin: 0;
+}
+
+.box:first-of-type {
+	border-top-width: 1em;
+	border-radius: 1em 1em 0 0;
+}
+
+
+.box:last-of-type {
+	border-bottom-width: 1em;
+	border-radius: 0 0 1em 1em;
+}
+
+@media (max-width: $small-width) {
+	.box {
+		border-left: 0;
+		border-right: 0;
+	}
+}

@@ -1,13 +1,13 @@
 <script>
     import {page} from '$app/stores';
-    import logo from '$lib/images/ftr.ico';
+    import discord from '$lib/images/discord.ico';
     import github from '$lib/images/github.svg';
 </script>
 
 <header>
     <div class="corner">
-        <a href="https://fucktherevolution.xyz">
-            <img src={logo} alt="Fuck the revolution"/>
+        <a href="https://discord.gg/theisleftr">
+            <img src={discord} alt="Fuck the revolution Discord"/>
         </a>
     </div>
 
@@ -49,114 +49,116 @@
     </div>
 </header>
 
-<style>
-    header {
-        position: sticky;
-        top: 0;
-        z-index: 999;
-        display: flex;
-        justify-content: space-between;
-    }
+<style lang="scss">
 
-    .corner {
-        width: 3em;
-        height: 3em;
-    }
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    display: flex;
+    justify-content: space-between;
+  }
 
-    .corner a {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        height: 100%;
-    }
+  .corner {
+    width: 3em;
+    height: 3em;
+  }
 
-    .corner img {
-        width: 2em;
-        height: 2em;
-        object-fit: contain;
-    }
+  .corner a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
 
-    nav {
-        display: flex;
-        justify-content: center;
-        --background: rgb(0, 255, 255);
-        --color-text: #0a0a0a;
-    }
+  .corner img {
+    width: 2em;
+    height: 2em;
+    object-fit: contain;
+    z-index: 10;
+  }
 
-    svg {
-        width: 2em;
-        height: 3em;
-        display: block;
-    }
+  nav {
+    display: flex;
+    justify-content: center;
+    --background: var(--color-theme-2);
+    --color-text: #0a0a0a;
+  }
 
-    path {
-        fill: var(--background);
-    }
+  svg {
+    width: 2em;
+    height: 3em;
+    display: block;
+  }
 
-    ul {
-        position: relative;
-        padding: 0;
-        margin: 0 -1px 0 -1px;
-        height: 3em;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        list-style: none;
-        background: var(--background);
-        background-size: contain;
-    }
+  path {
+    fill: var(--background);
+  }
 
+  ul {
+    position: relative;
+    padding: 0;
+    margin: 0 -1px 0 -1px;
+    height: 3em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    background: var(--background);
+    background-size: contain;
+  }
+
+  ul:first-of-type {
+    display: none;
+  }
+
+  @media (max-width: $small-width) {
     ul:first-of-type {
-        display: none;
+      display: block;
     }
 
-    @media (max-width: 600px) {
-        ul:first-of-type {
-            display: block;
-        }
-
-        ul:last-of-type {
-            display: none;
-        }
+    ul:last-of-type {
+      display: none;
     }
+  }
 
-    li {
-        position: relative;
-        height: 100%;
-    }
+  li {
+    position: relative;
+    height: 100%;
+  }
 
-    li[aria-current='page']::before {
-        --size: 6px;
-        content: '';
-        width: 0;
-        height: 0;
-        position: absolute;
-        top: 0;
-        left: calc(50% - var(--size));
-        border: var(--size) solid transparent;
-        border-top: var(--size) solid var(--color-theme-1);
-    }
+  li[aria-current='page']::before {
+    --size: 6px;
+    content: '';
+    width: 0;
+    height: 0;
+    position: absolute;
+    top: 0;
+    left: calc(50% - var(--size));
+    border: var(--size) solid transparent;
+    border-top: var(--size) solid var(--color-theme-1);
+  }
 
-    nav a, i {
-        display: flex;
-        height: 100%;
-        align-items: center;
-        padding: 0 0.5rem;
-        color: var(--color-text);
-        font-weight: 700;
-        font-size: 0.8rem;
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        text-decoration: none;
-        transition: color 0.2s linear;
-    }
+  nav a, i {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    padding: 0 0.5rem;
+    color: var(--color-text);
+    font-weight: 700;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-decoration: none;
+    transition: color 0.2s linear;
+  }
 
-    nav i {
-        font-size: 2em;
-    }
+  nav i {
+    font-size: 2em;
+  }
 
-    a:hover {
-        color: var(--color-theme-1);
-    }
+  a:hover {
+    color: var(--color-theme-1);
+  }
 </style>
