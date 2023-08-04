@@ -2,16 +2,26 @@
     import icon from '$lib/images/ftr.ico'
     import Header from './Header.svelte';
     import './styles.scss'
+    import { page } from '$app/stores';
+    import HeadBox from "$lib/components/HeadBox.svelte";
+    import defaultBackground from '$lib/images/FTR_Pro.gif';
+
+    $:title = $page.data.page?.title ?? "FTR The Isle";
+    $:description = $page.data.page?.content ?? 'FTR The Isle Website';
+    $:background = $page.data.page?.image ?? defaultBackground;
 </script>
 
 <svelte:head>
     <link rel="icon" type="image/svg" href={icon}/>
+    <title>{title}</title>
+    <meta name="description" content="{description}" />
 </svelte:head>
 
 <div class="app">
     <Header/>
 
     <main>
+        <HeadBox background="{background}">{title}</HeadBox>
         <slot/>
     </main>
 

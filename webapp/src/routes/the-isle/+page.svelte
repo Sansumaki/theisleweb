@@ -1,18 +1,3 @@
-<script>
-    import background from '$lib/images/Hintergrundstartseite.gif';
-    import HeadBox from "$lib/components/HeadBox.svelte";
-</script>
-
-<svelte:head>
-    <title>The Isle</title>
-    <meta name="description" content="Svelte demo app"/>
-</svelte:head>
-
-<HeadBox background="{background}">
-    The Isle
-    <!--        <span slot="subtitle">HUNT. GROW. SURVIVE!</span>-->
-</HeadBox>
-
 <div class="box">
     <h1>The Isle: A World Designed to Kill You</h1>
 </div>

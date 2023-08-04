@@ -7,3 +7,16 @@ export const csr = dev;
 // since there's no dynamic data here, we can prerender
 // it so that it gets served as a static asset in production
 export const prerender = true;
+
+import type {PageLoad} from "./$types";
+import background from '$lib/images/FTR_Pro.gif';
+
+export const load = (() => {
+    return {
+        page:{
+            title: "About",
+            content: "About the creator of this page",
+            image: background
+        }
+    }
+}) satisfies PageLoad;

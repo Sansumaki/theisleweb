@@ -1,7 +1,6 @@
 <script lang="ts">
     import bigMap from '$lib/images/legacy-map-v3.jpg';
     import smallMap from '$lib/images/legacy-map-v3-small.jpg';
-    import HeadBox from "$lib/components/HeadBox.svelte";
 
     interface Point {
         type: PointType;
@@ -23,8 +22,8 @@
     }
     const locale = "de-DE";
 
-    let showTeleports: boolean = true;
-    let showPointOfInterest: boolean = true;
+    let showTeleports = true;
+    let showPointOfInterest = true;
 
     let map = {width: 0, height: 0};
     let mouse: { x: number; y: number } | null = null;
@@ -57,6 +56,7 @@
         {type: PointType.Teleport, name: "Canyon Pond", lat: -40, long: 165},
         {type: PointType.Player, name: "Player", lat: -204, long: 118},
     ]
+    let player: Point | null = null;
 
     $: filteredPoints = points.filter(x => x.type == PointType.Teleport && showTeleports || x.type == PointType.POI && showPointOfInterest);
 
@@ -80,63 +80,60 @@
     }
 </script>
 
-<section>
-    <HeadBox background="{smallMap}">Map</HeadBox>
+<div class="box">
+    Point
+</div>
 
-    <div class="toggle-buttons box">
-        <div>
-            <input type="checkbox" class="toggle" bind:checked={showTeleports} id="showTeleports"/>
-            <label for="showTeleports">Show Teleports</label>
-        </div>
-
-        <div>
-            <input type="checkbox" class="toggle" bind:checked={showPointOfInterest} id="showPointOfInterest"/>
-            <label for="showPointOfInterest">Show Point of Interest</label>
-        </div>
+<div class="toggle-buttons box">
+    <div>
+        <input type="checkbox" class="toggle" bind:checked={showTeleports} id="showTeleports"/>
+        <label for="showTeleports">Show Teleports</label>
     </div>
-    <div role="img" class="map box"
-         bind:clientWidth={map.width} bind:clientHeight={map.height}>
+
+    <div>
+        <input type="checkbox" class="toggle" bind:checked={showPointOfInterest} id="showPointOfInterest"/>
+        <label for="showPointOfInterest">Show Point of Interest</label>
+    </div>
+</div>
+<div role="img" class="map box"
+     bind:clientWidth={map.width} bind:clientHeight={map.height}>
         <span class="cursor-position"
               style:top="{mouse?.y}px"
               style:left="{mouse?.x}px"
               style:display="{mouse!= null ? 'block' : 'none'}">
             lat: {mouseCoordinates.lat}, long: {mouseCoordinates.long}
         </span>
-        <div class="poi"
-             style:display="{currentPOI!=null?'block':'none'}"
-             style:left="{LatToX(currentPOI?.lat ?? 0, map.width)}px"
-             style:top="{LongToY(currentPOI?.long ?? 0, map.height)}px"
-             style:background="{currentPOI?.type === PointType.POI ? 'rgba(255,241,211,0.8)' : currentPOI?.type === PointType.Teleport ? 'rgba(227,185,185,0.8)' : 'rgba(172,191,224,0.8)'}"
-        >
-            <h2>{currentPOI?.name}</h2>
-            <h3>{PointType[currentPOI?.type ?? PointType.POI]}</h3>
-            <i>lat: {currentPOI?.lat}, long: {currentPOI?.long}</i>
-        </div>
-        <picture data-map-name="v3" role="img"
-                 on:mousemove={(e) => mouse = { x: e.offsetX, y: e.offsetY } }
-                 on:mouseleave={() => mouse = null}>
-            <source media="(min-width:1200px)" srcset={bigMap}>
-            <img src={smallMap} alt="map-v3">
-        </picture>
-        <ul class="map_markers">
-            {#each filteredPoints as point}
-                <li class="map_marker"
-                    on:mouseenter={() => currentPOI = point }
-                    on:mouseleave={() => currentPOI = null }
-                    style:left="{LatToX(point.lat, map.width)}px"
-                    style:top="{LongToY(point.long, map.height)}px"
-                    style:color="{point.type === PointType.POI ? '#ffc802' : point.type === PointType.Teleport ? '#e74646' : '#2e84ea'}">
-                    <i class="mi-location"></i>
-                </li>
-            {/each}
-        </ul>
+    <div class="poi"
+         style:display="{currentPOI!=null?'block':'none'}"
+         style:left="{LatToX(currentPOI?.lat ?? 0, map.width)}px"
+         style:top="{LongToY(currentPOI?.long ?? 0, map.height)}px"
+         style:background="{currentPOI?.type === PointType.POI ? 'rgba(255,241,211,0.8)' : currentPOI?.type === PointType.Teleport ? 'rgba(227,185,185,0.8)' : 'rgba(172,191,224,0.8)'}"
+    >
+        <h2>{currentPOI?.name}</h2>
+        <h3>{PointType[currentPOI?.type ?? PointType.POI]}</h3>
+        <i>lat: {currentPOI?.lat}, long: {currentPOI?.long}</i>
     </div>
-</section>
+    <picture data-map-name="v3" role="img"
+             on:mousemove={(e) => mouse = { x: e.offsetX, y: e.offsetY } }
+             on:mouseleave={() => mouse = null}>
+        <source media="(min-width:1200px)" srcset={bigMap}>
+        <img src={smallMap} alt="map-v3">
+    </picture>
+    <ul class="map_markers">
+        {#each filteredPoints as point}
+            <li class="map_marker"
+                on:mouseenter={() => currentPOI = point }
+                on:mouseleave={() => currentPOI = null }
+                style:left="{LatToX(point.lat, map.width)}px"
+                style:top="{LongToY(point.long, map.height)}px"
+                style:color="{point.type === PointType.POI ? '#ffc802' : point.type === PointType.Teleport ? '#e74646' : '#2e84ea'}">
+                <i class="mi-location"></i>
+            </li>
+        {/each}
+    </ul>
+</div>
 
 <style>
-    section {
-        width: 100%;
-    }
 
     .map {
         position: relative;
