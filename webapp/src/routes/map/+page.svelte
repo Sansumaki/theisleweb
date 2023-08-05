@@ -1,19 +1,16 @@
 <script lang="ts">
     import bigMap from '$lib/images/legacy-map-v3.jpg';
     import smallMap from '$lib/images/legacy-map-v3-small.jpg';
+    import {page} from '$app/stores';
+    import {afterNavigate, goto} from '$app/navigation';
+    import type {_Point} from "./MapPoints";
+    import {_PointType} from "./MapPoints";
+    import {enhance} from '$app/forms';
 
-    interface Point {
-        type: PointType;
-        name: string;
-        lat: number;
-        long: number;
-    }
-
-    enum PointType {
-        POI,
-        Teleport,
-        Player
-    }
+    export let data;
+    let showTeleports = data.showTeleport;
+    let showPointOfInterest = data.showPoi;
+    const {points} = data;
 
     const borders = {latMin: -844, latMax: 753, longMin: -724, longMax: 873}
     const borderSize = {
@@ -22,43 +19,28 @@
     }
     const locale = "de-DE";
 
-    let showTeleports = true;
-    let showPointOfInterest = true;
+    afterNavigate(() => {
+        if ($page.url.searchParams.has('lat') && $page.url.searchParams.has('long')) {
+            let lat = Number($page.url.searchParams.get('lat'));
+            let long = Number($page.url.searchParams.get('long'));
+            player = {type: _PointType.Player, name: "Player", lat, long};
+            input = {lat, long};
+        } else {
+            player = null;
+            input = {lat: null, long: null};
+        }
+    })
 
     let map = {width: 0, height: 0};
     let mouse: { x: number; y: number } | null = null;
-    let currentPOI: Point | null = null;
+    let currentPOI: _Point | null = null;
 
-    let points: Point[] = [
-        {type: PointType.POI, name: "Center", lat: 0, long: 0},
-        {type: PointType.POI, name: "Aviary", lat: -25, long: 280},
-        {type: PointType.Teleport, name: "Great Falls", lat: -234, long: 527},
-        {type: PointType.Teleport, name: "North Twins", lat: -468, long: -232},
-        {type: PointType.Teleport, name: "South Twins", lat: -489, long: -137},
-        {type: PointType.Teleport, name: "Ports", lat: 446, long: 204},
-        {type: PointType.Teleport, name: "Hidden", lat: 393, long: 55},
-        {type: PointType.Teleport, name: "Murky Pond", lat: 319, long: -111},
-        {type: PointType.Teleport, name: "Hot Springs", lat: 131, long: -353},
-        {type: PointType.Teleport, name: "Ocean Falls", lat: 23, long: -485},
-        {type: PointType.Teleport, name: "Northernmost", lat: -134, long: -463},
-        {type: PointType.Teleport, name: "The Damn", lat: 26, long: -158},
-        {type: PointType.Teleport, name: "Dump/Ravine", lat: -286, long: -252},
-        {type: PointType.Teleport, name: "Cargo Pond", lat: -507, long: -48},
-        {type: PointType.Teleport, name: "Gulf Pond", lat: -493, long: 208},
-        {type: PointType.Teleport, name: "Western Pond", lat: -694, long: 249},
-        {type: PointType.Teleport, name: "Puddle Pond", lat: -457, long: 387},
-        {type: PointType.Teleport, name: "The Wash", lat: -359, long: 328},
-        {type: PointType.Teleport, name: "Sewer Pond", lat: -261, long: 299},
-        {type: PointType.Teleport, name: "Lazy River", lat: -151, long: 470},
-        {type: PointType.Teleport, name: "East Swamp", lat: 178, long: 66},
-        {type: PointType.Teleport, name: "Middle Swamp", lat: -16, long: 76},
-        {type: PointType.Teleport, name: "West Swamp", lat: -113, long: 39},
-        {type: PointType.Teleport, name: "Canyon Pond", lat: -40, long: 165},
-        {type: PointType.Player, name: "Player", lat: -204, long: 118},
-    ]
-    let player: Point | null = null;
+    let player: _Point | null = null;
+    let input: { lat: number | null, long: number | null } = {lat: null, long: null};
+    $: setPossible = (player?.lat != input.lat || player?.long != input.long) && input.lat != null && input.long != null;
+    $: sharePossible = !setPossible && input.lat != null && input.long != null;
 
-    $: filteredPoints = points.filter(x => x.type == PointType.Teleport && showTeleports || x.type == PointType.POI && showPointOfInterest);
+    $: filteredPoints = points.filter(x => x.type == _PointType.Teleport && showTeleports || x.type == _PointType.POI && showPointOfInterest);
 
     $: mouseCoordinates = {
         lat: ((mouse?.x ?? 20) / map.width * borderSize.width + borders.latMin).toLocaleString(locale, {
@@ -78,21 +60,77 @@
     function LongToY(long: number, mapHeight: number): number {
         return mapHeight * (long - borders.longMin) / borderSize.height;
     }
+
+    function enterInput(e: KeyboardEvent) {
+        if (e.key === 'Enter') {
+            gotoMap(null);
+        }
+    }
+
+    function gotoMap(_: any) {
+        if (input.lat != null && input.long != null) {
+            goto("./map?lat=" + input.lat + "&long=" + input.long, {noScroll: true, keepFocus: true});
+        }
+    }
+
+    function clearMap(_: any) {
+        goto("./map", {noScroll: true});
+    }
+
+    function copyMapUrlToClipboard(_: any) {
+        navigator.clipboard.writeText($page.url.href);
+    }
+
+    function showForm() {
+        let formData = new FormData();
+        formData.append('showTeleport', showTeleports ? 'on' : 'off');
+        formData.append('showPoi', showPointOfInterest ? 'on' : 'off');
+        fetch('?/saveShowFlags', {method: 'POST', body: formData});
+    }
+
 </script>
 
 <div class="box">
-    Point
+    <div class="toggle-buttons">
+        <div>
+            <label for="lat">Lat:</label>
+            <input type="number" id="lat" name="lat" placeholder="-21" bind:value="{input.lat}" on:keydown={enterInput}
+                   required>
+        </div>
+        <div>
+            <label for="long">Long:</label>
+            <input type="number" id="long" name="long" placeholder="134" bind:value="{input.long}"
+                   on:keydown={enterInput} required>
+        </div>
+        <div>
+            <button type="reset" on:click={clearMap}>Clear</button>
+        </div>
+        <div>
+            <button type="submit" style:display="{setPossible ? 'block' : 'none'}" on:click={gotoMap}>Set the Point
+            </button>
+            <button type="button" style:display="{sharePossible ? 'block' : 'none'}" on:click={copyMapUrlToClipboard}>
+                Share
+            </button>
+        </div>
+        <div>
+            <button>Ctrl + V</button>
+        </div>
+    </div>
 </div>
 
 <div class="toggle-buttons box">
     <div>
-        <input type="checkbox" class="toggle" bind:checked={showTeleports} id="showTeleports"/>
-        <label for="showTeleports">Show Teleports</label>
+        <input type="checkbox" id="showTeleport" name="showTeleport" class="toggle"
+               bind:checked={showTeleports}
+               on:change={() => showForm()}/>
+        <label for="showTeleport">Show Teleports</label>
     </div>
 
     <div>
-        <input type="checkbox" class="toggle" bind:checked={showPointOfInterest} id="showPointOfInterest"/>
-        <label for="showPointOfInterest">Show Point of Interest</label>
+        <input type="checkbox" id="showPoi" name="showPoi" class="toggle"
+               bind:checked={showPointOfInterest}
+               on:change={() => showForm()}/>
+        <label for="showPoi">Show Point of Interest</label>
     </div>
 </div>
 <div role="img" class="map box"
@@ -107,10 +145,10 @@
          style:display="{currentPOI!=null?'block':'none'}"
          style:left="{LatToX(currentPOI?.lat ?? 0, map.width)}px"
          style:top="{LongToY(currentPOI?.long ?? 0, map.height)}px"
-         style:background="{currentPOI?.type === PointType.POI ? 'rgba(255,241,211,0.8)' : currentPOI?.type === PointType.Teleport ? 'rgba(227,185,185,0.8)' : 'rgba(172,191,224,0.8)'}"
+         style:background="{currentPOI?.type === _PointType.POI ? 'rgba(255,241,211,0.8)' : currentPOI?.type === _PointType.Teleport ? 'rgba(227,185,185,0.8)' : 'rgba(172,191,224,0.8)'}"
     >
         <h2>{currentPOI?.name}</h2>
-        <h3>{PointType[currentPOI?.type ?? PointType.POI]}</h3>
+        <h3>{_PointType[currentPOI?.type ?? _PointType.POI]}</h3>
         <i>lat: {currentPOI?.lat}, long: {currentPOI?.long}</i>
     </div>
     <picture data-map-name="v3" role="img"
@@ -119,18 +157,30 @@
         <source media="(min-width:1200px)" srcset={bigMap}>
         <img src={smallMap} alt="map-v3">
     </picture>
-    <ul class="map_markers">
-        {#each filteredPoints as point}
-            <li class="map_marker"
-                on:mouseenter={() => currentPOI = point }
-                on:mouseleave={() => currentPOI = null }
-                style:left="{LatToX(point.lat, map.width)}px"
-                style:top="{LongToY(point.long, map.height)}px"
-                style:color="{point.type === PointType.POI ? '#ffc802' : point.type === PointType.Teleport ? '#e74646' : '#2e84ea'}">
-                <i class="mi-location"></i>
-            </li>
-        {/each}
-    </ul>
+    {#if map.height > 0 && map.width > 0}
+        <ul class="map_markers">
+            {#each filteredPoints as point}
+                <li class="map_marker"
+                    on:mouseenter={() => currentPOI = point }
+                    on:mouseleave={() => currentPOI = null }
+                    style:left="{LatToX(point.lat, map.width)}px"
+                    style:top="{LongToY(point.long, map.height)}px"
+                    style:color="{point.type === _PointType.POI ? '#ffc802' : point.type === _PointType.Teleport ? '#e74646' : '#2e84ea'}">
+                    <i class="mi-location"></i>
+                </li>
+            {/each}
+            {#if player != null}
+                <li class="map_marker"
+                    on:mouseenter={() => currentPOI = player }
+                    on:mouseleave={() => currentPOI = null }
+                    style:left="{LatToX(player.lat, map.width)}px"
+                    style:top="{LongToY(player.long, map.height)}px"
+                    style:color="{player.type === _PointType.POI ? '#ffc802' : player.type === _PointType.Teleport ? '#e74646' : '#2e84ea'}">
+                    <i class="mi-location"></i>
+                </li>
+            {/if}
+        </ul>
+    {/if}
 </div>
 
 <style>
