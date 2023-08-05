@@ -91,31 +91,31 @@
 </script>
 
 <div class="box">
-    <div class="toggle-buttons">
+    <form action="./map" method="get" class="coordinates" data-sveltekit-noscroll data-sveltekit-keepfocus>
+        <div>
+            <button>Ctrl + V</button>
+        </div>
         <div>
             <label for="lat">Lat:</label>
-            <input type="number" id="lat" name="lat" placeholder="-21" bind:value="{input.lat}" on:keydown={enterInput}
-                   required>
+            <input type="number" id="lat" name="lat" placeholder="-21" bind:value="{input.lat}"
+                   required min="{borders.latMin}" max="{borders.latMax}">
         </div>
         <div>
             <label for="long">Long:</label>
             <input type="number" id="long" name="long" placeholder="134" bind:value="{input.long}"
-                   on:keydown={enterInput} required>
+                   required min="{borders.longMin}" max="{borders.longMax}">
         </div>
         <div>
             <button type="reset" on:click={clearMap}>Clear</button>
         </div>
         <div>
-            <button type="submit" style:display="{setPossible ? 'block' : 'none'}" on:click={gotoMap}>Set the Point
+            <button type="submit" style:display="{setPossible ? 'block' : 'none'}">Set the Point
             </button>
             <button type="button" style:display="{sharePossible ? 'block' : 'none'}" on:click={copyMapUrlToClipboard}>
                 Share
             </button>
         </div>
-        <div>
-            <button>Ctrl + V</button>
-        </div>
-    </div>
+    </form>
 </div>
 
 <div class="toggle-buttons box">
@@ -183,120 +183,132 @@
     {/if}
 </div>
 
-<style>
+<style lang="scss">
 
-    .map {
-        position: relative;
-        display: block;
-        z-index: 1;
-        padding: 0;
+  .map {
+    position: relative;
+    display: block;
+    z-index: 1;
+    padding: 0;
 
-        & .poi, .cursor-position {
-            position: absolute;
-            padding: 0 5px;
-            border-radius: 15px;
-            background-color: rgba(255, 255, 255, 0.8);
-            color: #212121;
-            white-space: nowrap;
-            font-size: 12px;
-            text-align: center;
-        }
+    & .poi, .cursor-position {
+      position: absolute;
+      padding: 0 5px;
+      border-radius: 15px;
+      background-color: rgba(255, 255, 255, 0.8);
+      color: #212121;
+      white-space: nowrap;
+      font-size: 12px;
+      text-align: center;
+    }
 
-        & .poi {
-            z-index: 10000;
-            min-width: 200px;
-            min-height: 50px;
-            margin-left: -100px;
-            padding: 5px;
-        }
+    & .poi {
+      z-index: 10000;
+      min-width: 200px;
+      min-height: 50px;
+      margin-left: -100px;
+      padding: 5px;
+    }
 
-        & .cursor-position {
-            z-index: 1000;
-            pointer-events: none;
-            margin-top: 10px;
-            white-space: nowrap;
-            font-size: 12px;
-            text-align: center;
-            min-width: 115px;
-            margin-left: -58px;
-        }
+    & .cursor-position {
+      z-index: 1000;
+      pointer-events: none;
+      margin-top: 10px;
+      white-space: nowrap;
+      font-size: 12px;
+      text-align: center;
+      min-width: 115px;
+      margin-left: -58px;
+    }
 
-        & .cursor-position:after {
-            content: '';
-            position: absolute;
-            bottom: 100%;
-            left: 50%;
-            margin-left: -10px;
-            width: 0;
-            height: 0;
-            border-style: solid;
-            border-width: 0 5px 6px 5px;
-            border-color: transparent transparent rgba(255, 255, 255, 0.8) transparent;
-        }
+    & .cursor-position:after {
+      content: '';
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      margin-left: -10px;
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 0 5px 6px 5px;
+      border-color: transparent transparent rgba(255, 255, 255, 0.8) transparent;
+    }
 
-        & picture {
-            position: relative;
-            width: 100%;
+    & picture {
+      position: relative;
+      width: 100%;
 
-            & img, & source {
-                width: 100%;
-            }
-        }
+      & img, & source {
+        width: 100%;
+      }
+    }
 
-        & ul, & li {
-            margin: 0;
-            padding: 0;
-        }
+    & ul, & li {
+      margin: 0;
+      padding: 0;
+    }
 
-        & .map_markers {
-            list-style: none;
-        }
+    & .map_markers {
+      list-style: none;
+    }
 
-        & .map_marker {
-            position: absolute;
-            cursor: pointer;
-            background: red;
-        }
+    & .map_marker {
+      position: absolute;
+      cursor: pointer;
+      background: red;
+    }
 
-        & .map_marker > i {
-            position: absolute;
-            text-shadow: #000 1px 0 10px;
-            bottom: 100%;
-            left: 50%;
-            font-size: 2.5em;
-            width: 1em;
-            height: 1em;
-            margin-left: -0.5em;
-        }
+    & .map_marker > i {
+      position: absolute;
+      text-shadow: #000 1px 0 10px;
+      bottom: 100%;
+      left: 50%;
+      font-size: 2.5em;
+      width: 1em;
+      height: 1em;
+      margin-left: -0.5em;
     }
 
     @media (max-width: 600px) {
-        .box {
-            border-left: 0;
-            border-right: 0;
-        }
+      .map_marker > i {
+        font-size: 1.5em !important;
+      }
+    }
+  }
 
-        .map_marker > i {
-            font-size: 1.5em !important;
-        }
+
+  .toggle-buttons {
+    display: flex;
+    flex-direction: row;
+
+    & div {
+      margin: 0.25em 1em 0.25em 0;
     }
 
+    & div:last-of-type {
+      margin-right: 0;
+    }
+  }
+
+  @media (max-width: 600px) {
     .toggle-buttons {
-        display: flex;
-        flex-direction: row;
-
-        & div {
-            margin: 0.25em 1em 0.25em 0;
-        }
-
-        & div:last-of-type {
-            margin-right: 0;
-        }
+      flex-direction: column;
     }
+  }
 
-    @media (max-width: 600px) {
-        .toggle-buttons {
-            flex-direction: column;
-        }
+  form.coordinates {
+    display: flex;
+    flex-wrap: wrap;
+
+    div {
+      align-items: center !important;
+      display: flex;
+      flex: 0 0 auto;
+      width: auto;
+      max-width: 100%;
     }
+    div:first-of-type {
+      margin-right: auto !important;
+    }
+  }
 </style>
