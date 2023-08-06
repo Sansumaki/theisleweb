@@ -2,75 +2,98 @@
     import {page} from '$app/stores';
     import discord from '$lib/images/discord.ico';
     import github from '$lib/images/github.svg';
+    import {Anchor, Button, ActionIcon, Group, Tooltip, Flex, colorScheme} from "@svelteuidev/core";
+    import {Sun, Moon} from 'radix-icons-svelte';
 
     let showMenu = false;
 
     let menuItems = [
-        { name: "FTR", link: "/" },
-        { name: "The Isle", link: "/the-isle" },
-        { name: "Dinosaur", link: "/dino" },
-        { name: "Map", link: "/map" },
+        {name: "FTR", link: "/"},
+        {name: "The Isle", link: "/the-isle"},
+        {name: "Dinosaur", link: "/dino"},
+        {name: "Map", link: "/map"},
         //{ name: "About", link: "/about" },
     ];
 
+    function toggleTheme() {
+        colorScheme.update((v) => (v === 'light' ? 'dark' : 'light'));
+    }
+
+    var currentScheme;
+    colorScheme.subscribe((value) => currentScheme = value);
 </script>
 
-<header>
-    <div class="menu">
-        <div class="corner">
-            <a href="https://discord.gg/theisleftr">
-                <img src={discord} alt="Fuck the revolution Discord"/>
-            </a>
-        </div>
+<Flex justify="space-between">
+    <Anchor href="./"></Anchor>
 
-        <nav class:showMenu>
-            <svg viewBox="0 0 2 3" aria-hidden="true">
-                <path d="M0,0 L1,2 C1.5,3 1.5,3 2,3 L2,0 Z"/>
-            </svg>
-            <ul class:showMenu class="item">
-                {#each menuItems as item}
-                <li aria-current={$page.url.pathname === item.link ? 'page' : undefined} on:click={() => showMenu = false}>
-                    <a href="{item.link}">{item.name}</a>
-                </li>
-                {/each}
-            </ul>
-            <svg viewBox="0 0 2 3" aria-hidden="true">
-                <path d="M0,0 L0,3 C0.5,3 0.5,3 1,2 L2,0 Z"/>
-            </svg>
-        </nav>
+    <Tooltip label="Toggle Theme" align="right">
+        <ActionIcon variant="outline" color="gray" on:click={toggleTheme}>
+            {#if currentScheme === 'dark'}
+                <Sun></Sun>
+            {:else }
+                <Moon></Moon>
+            {/if}
+        </ActionIcon>
+    </Tooltip>
+</Flex>
 
-        <div class="corner">
-            <a href="https://github.com/Sansumaki/theisleweb">
-                <img src={github} alt="GitHub"/>
-            </a>
-        </div>
-    </div>
-    <div class="selector" class:showMenu>
-        <div class="corner" class:showMenu>
-            <a href="https://discord.gg/theisleftr">
-                <img src={discord} alt="Fuck the revolution Discord"/>
-            </a>
-        </div>
-        <div class="button">
-            <svg viewBox="0 0 2 3" aria-hidden="true">
-                <path d="M0,0 L1,2 C1.5,3 1.5,3 2,3 L2,0 Z"/>
-            </svg>
-            <div class="item">
-                <a on:click={() => showMenu = !showMenu}>
-                    <i class="mi-menu"></i>
-                </a>
-            </div>
-            <svg viewBox="0 0 2 3" aria-hidden="true">
-                <path d="M0,0 L0,3 C0.5,3 0.5,3 1,2 L2,0 Z"/>
-            </svg>
-        </div>
-        <div class="corner">
-            <a href="https://github.com/Sansumaki/theisleweb">
-                <img src={github} alt="GitHub"/>
-            </a>
-        </div>
-    </div>
-</header>
+<!--<header>-->
+<!--    <div class="menu">-->
+<!--        <div class="corner">-->
+<!--            <a href="https://discord.gg/theisleftr">-->
+<!--                <img src={discord} alt="Fuck the revolution Discord"/>-->
+<!--            </a>-->
+<!--        </div>-->
+
+<!--        <nav class:showMenu>-->
+<!--            <svg viewBox="0 0 2 3" aria-hidden="true">-->
+<!--                <path d="M0,0 L1,2 C1.5,3 1.5,3 2,3 L2,0 Z"/>-->
+<!--            </svg>-->
+<!--            <ul class:showMenu class="item">-->
+<!--                {#each menuItems as item}-->
+<!--                    <li aria-current={$page.url.pathname === item.link ? 'page' : undefined}-->
+<!--                        on:click={() => showMenu = false}>-->
+<!--                        <a href="{item.link}">{item.name}</a>-->
+<!--                    </li>-->
+<!--                {/each}-->
+<!--            </ul>-->
+<!--            <svg viewBox="0 0 2 3" aria-hidden="true">-->
+<!--                <path d="M0,0 L0,3 C0.5,3 0.5,3 1,2 L2,0 Z"/>-->
+<!--            </svg>-->
+<!--        </nav>-->
+
+<!--        <div class="corner">-->
+<!--            <a href="https://github.com/Sansumaki/theisleweb">-->
+<!--                <img src={github} alt="GitHub"/>-->
+<!--            </a>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <div class="selector" class:showMenu>-->
+<!--        <div class="corner" class:showMenu>-->
+<!--            <a href="https://discord.gg/theisleftr">-->
+<!--                <img src={discord} alt="Fuck the revolution Discord"/>-->
+<!--            </a>-->
+<!--        </div>-->
+<!--        <div class="button">-->
+<!--            <svg viewBox="0 0 2 3" aria-hidden="true">-->
+<!--                <path d="M0,0 L1,2 C1.5,3 1.5,3 2,3 L2,0 Z"/>-->
+<!--            </svg>-->
+<!--            <div class="item">-->
+<!--                <a on:click={() => showMenu = !showMenu}>-->
+<!--                    <i class="mi-menu"></i>-->
+<!--                </a>-->
+<!--            </div>-->
+<!--            <svg viewBox="0 0 2 3" aria-hidden="true">-->
+<!--                <path d="M0,0 L0,3 C0.5,3 0.5,3 1,2 L2,0 Z"/>-->
+<!--            </svg>-->
+<!--        </div>-->
+<!--        <div class="corner">-->
+<!--            <a href="https://github.com/Sansumaki/theisleweb">-->
+<!--                <img src={github} alt="GitHub"/>-->
+<!--            </a>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</header>-->
 
 <style lang="scss">
   header {
