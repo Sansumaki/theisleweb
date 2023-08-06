@@ -30,7 +30,7 @@
         <slot/>
     </main>
 
-    <footer class="container my-5 mx-auto">
+    <footer class="container my-5 mx-auto drop-shadow-2">
         <Footer>
             <FooterCopyright href="/" by="Santasia™" year={2023}/>
             <FooterLinkGroup
