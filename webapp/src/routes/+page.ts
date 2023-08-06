@@ -1,9 +1,8 @@
-// since there's no dynamic data here, we can prerender
-// it so that it gets served as a static asset in production
 import background from "$lib/images/FTR_Pro.gif";
-import type {PageLoad} from "./$types";
+import type {PageLoad} from "./$types.js";
 
 export const prerender = true;
+
 export const load = (() => {
     return {
         page:{

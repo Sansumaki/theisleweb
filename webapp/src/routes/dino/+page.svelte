@@ -1,5 +1,9 @@
+<script>
+import Text from "$lib/components/Text.svelte";
+import {Card} from "flowbite-svelte";
+</script>
 
-<div class="box">
-    <h1>Alle Dinosaurier</h1>
-    Hier listen wir alle Dinos auf.
-</div>
+<Card class="text-center card" size="xl" padding="xl">
+    <Text elementName="h1">Alle Dinosaurier</Text>
+    <Text>Hier listen wir alle Dinos auf.</Text>
+</Card>

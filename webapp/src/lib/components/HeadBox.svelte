@@ -1,20 +1,35 @@
 <script lang="ts">
-    export let background: string;
+    import { Carousel } from 'flowbite-svelte';
+
+    const images = [
+        {
+            id: 0,
+            name: "The Isle Dinos",
+            imgurl: "/images/CarniSur.jpg",
+            attribution: "The Isle Dinos",
+        },
+        {
+            id: 0,
+            name: "The Isle V3 Map",
+            imgurl: "/images/legacy-map-v3-small.jpg",
+            attribution: "The Isle V3 Map",
+        }
+    ];
+
+    let showThumbs=false
+    let showCaptions=false
 </script>
 
-<div class="box head"
-     style="background: radial-gradient(circle, transparent 40%, transparent 75%),linear-gradient(to right, grey, grey),url('{background}');">
-    <h1><slot /></h1>
-    <h3><slot name="subtitle" /></h3>
-</div>
+<Carousel {images} loop {showCaptions} {showThumbs} slideClass="slider" class="class" duration="3000"/>
 
-<style>
-    div {
-        background-blend-mode: multiply !important;
-        background-position: center !important;
-        text-transform: uppercase;
-    }
-    div > * {
-        text-align: center;
+<style lang="scss">
+    :global(.slider) {
+      height: 100%;
+      :global(img) {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: 50% 50%;
+      }
     }
 </style>

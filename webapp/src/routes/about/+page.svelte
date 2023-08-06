@@ -1,7 +1,9 @@
-<div class="text-column">
-	<h1>About this app</h1>
+<script>
+    import Text from "$lib/components/Text.svelte";
+    import {Card} from "flowbite-svelte";
+</script>
 
-	<p>
-		Work in progress.
-	</p>
-</div>
+<Card class="text-center card" size="xl" padding="xl">
+    <Text elementName="h1">About</Text>
+    <Text>Wer ist hinter dieser Seite?</Text>
+</Card>
