@@ -5,7 +5,9 @@
     import {afterNavigate, goto} from '$app/navigation';
     import type {_Point} from "./MapPoints";
     import {_PointType} from "./MapPoints";
-    import {enhance} from '$app/forms';
+    import Text from "$lib/components/Text.svelte";
+    import {Button, Card, FloatingLabelInput, Heading, Hr, Kbd, Label, Range, Toggle} from "flowbite-svelte";
+    import {Icon} from "flowbite-svelte-icons";
 
     export let data;
     let showTeleports = data.showTeleport;
@@ -88,52 +90,82 @@
         fetch('?/saveShowFlags', {method: 'POST', body: formData});
     }
 
+    function pasteCoordinates(event: mouseEvent) {
+        navigator.clipboard.readText().then((value: string) => {
+            let match = value.match('Lat: ([\-0-9]+)\..+Long: ([\-0-9]+)\.');
+            if (match?.length === 3) {
+                input = {lat: match[1], long: match[2]};
+                gotoMap(null);
+            } else {
+                console.log("no coordinates found to paste");
+            }
+        });
+    }
+
+    function handleKeydown(event: KeyboardEvent) {
+        if (event.ctrlKey && event.key === "v" || event.key === "V") {
+            pasteCoordinates(null);
+        }
+    }
+
+    function mapMouseWheel(event: WheelEvent){
+        if (event.deltaY > 0 && mapWidth > 20)
+        {
+            mapWidth = Math.max(mapWidth - 5, 20);
+            event.preventDefault();
+        }
+        if (event.deltaY < 0 && mapWidth < 100)
+        {
+            mapWidth = Math.min(mapWidth + 5, 100);
+            event.preventDefault();
+        }
+    }
+
+    let form;
+    let mapWidth = 100;
+
 </script>
 
-<div class="box">
-    <form action="./map" method="get" class="coordinates" data-sveltekit-noscroll data-sveltekit-keepfocus>
-        <div>
-            <button>Ctrl + V</button>
+<svelte:window on:keydown={handleKeydown}/>
+
+<Card class="text-center" size="xl">
+    <Heading>The Isle V3 Map</Heading>
+    <Text elementName="h1">The Isle V3 Map</Text>
+
+    <form action="./map" method="get" class="grid gap-4 items-end md:grid-cols-8" data-sveltekit-noscroll
+          data-sveltekit-keepfocus>
+        <Button color="green" class="p-1.5" on:click={pasteCoordinates}>
+            <Kbd class='px-2 py-1.5'>ctrl</Kbd> + <Kbd class='px-2 py-1.5'>V</Kbd>
+        </Button>
+        <div class="col-span-2 text-left">
+            <FloatingLabelInput id="lat" name="lat" type="number" label="Lat" required min="{borders.latMin}"
+                                max="{borders.latMax}" bind:value={input.lat}/>
         </div>
-        <div>
-            <label for="lat">Lat:</label>
-            <input type="number" id="lat" name="lat" placeholder="-21" bind:value="{input.lat}"
-                   required min="{borders.latMin}" max="{borders.latMax}">
+        <div class="col-span-2 text-left">
+            <FloatingLabelInput id="long" name="long" type="number" label="Long" required min="{borders.longMin}"
+                                max="{borders.longMax}" bind:value={input.long}/>
         </div>
-        <div>
-            <label for="long">Long:</label>
-            <input type="number" id="long" name="long" placeholder="134" bind:value="{input.long}"
-                   required min="{borders.longMin}" max="{borders.longMax}">
-        </div>
-        <div>
-            <button type="reset" on:click={clearMap}>Clear</button>
-        </div>
-        <div>
-            <button type="submit" style:display="{setPossible ? 'block' : 'none'}">Set the Point
-            </button>
-            <button type="button" style:display="{sharePossible ? 'block' : 'none'}" on:click={copyMapUrlToClipboard}>
-                Share
-            </button>
-        </div>
+
+        <Button color="green" type="submit">Show</Button>
+        <Button color="green" on:click={copyMapUrlToClipboard}>Share</Button>
+
+        <Button outline color="red" on:click={clearMap}>
+            <Icon name="close-solid"/>
+        </Button>
     </form>
-</div>
+    <Hr divClass="my-4 md:my-4"></Hr>
+    <form action="./map" method="post" bind:this={form} class="grid gap-4 items-end mb-6 md:grid-cols-2"
+          data-sveltekit-noscroll
+          data-sveltekit-keepfocus>
+        <Toggle bind:checked={showTeleports} on:change={() => showForm()}>Show Teleports</Toggle>
+        <Toggle bind:checked={showPointOfInterest} on:change={() => showForm()}>Show Point of Interest</Toggle>
+    </form>
+    <Label>Map Size {mapWidth}%</Label>
+    <Range id="range1" bind:value={mapWidth} min="20" max="100" />
+</Card>
 
-<div class="toggle-buttons box">
-    <div>
-        <input type="checkbox" id="showTeleport" name="showTeleport" class="toggle"
-               bind:checked={showTeleports}
-               on:change={() => showForm()}/>
-        <label for="showTeleport">Show Teleports</label>
-    </div>
-
-    <div>
-        <input type="checkbox" id="showPoi" name="showPoi" class="toggle"
-               bind:checked={showPointOfInterest}
-               on:change={() => showForm()}/>
-        <label for="showPoi">Show Point of Interest</label>
-    </div>
-</div>
-<div role="img" class="map box"
+<Card class="text-center" size="xl">
+<div role="img" class="map box" style:width="{mapWidth}%" on:mousewheel={mapMouseWheel}
      bind:clientWidth={map.width} bind:clientHeight={map.height}>
         <span class="cursor-position"
               style:top="{mouse?.y}px"
@@ -182,11 +214,14 @@
         </ul>
     {/if}
 </div>
+</Card>
 
 <style lang="scss">
 
   .map {
+
     position: relative;
+    margin: auto;
     display: block;
     z-index: 1;
     padding: 0;
@@ -307,6 +342,7 @@
       width: auto;
       max-width: 100%;
     }
+
     div:first-of-type {
       margin-right: auto !important;
     }
