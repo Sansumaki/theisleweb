@@ -132,22 +132,22 @@
     <Heading>The Isle V3 Map</Heading>
     <Text elementName="h1">The Isle V3 Map</Text>
 
-    <form action="./map" method="get" class="grid gap-4 items-end md:grid-cols-8" data-sveltekit-noscroll
+    <form action="./map" method="get" class="grid gap-4 items-end md:grid-cols-12" data-sveltekit-noscroll
           data-sveltekit-keepfocus>
-        <Button color="green" class="p-1.5" on:click={pasteCoordinates}>
+        <Button color="primary" class="p-1.5" on:click={pasteCoordinates}>
             <Kbd class='px-2 py-1.5'>ctrl</Kbd> + <Kbd class='px-2 py-1.5'>V</Kbd>
         </Button>
-        <div class="col-span-2 text-left">
+        <div class="col-span-4 text-left">
             <FloatingLabelInput id="lat" name="lat" type="number" label="Lat" required min="{borders.latMin}"
                                 max="{borders.latMax}" bind:value={input.lat}/>
         </div>
-        <div class="col-span-2 text-left">
+        <div class="col-span-4 text-left">
             <FloatingLabelInput id="long" name="long" type="number" label="Long" required min="{borders.longMin}"
                                 max="{borders.longMax}" bind:value={input.long}/>
         </div>
 
-        <Button color="green" type="submit">Show</Button>
-        <Button color="green" on:click={copyMapUrlToClipboard}>Share</Button>
+        <Button color="primary" type="submit">Show</Button>
+        <Button color="primary" on:click={copyMapUrlToClipboard}>Share</Button>
 
         <Button outline color="red" on:click={clearMap}>
             <Icon name="close-solid"/>
@@ -311,40 +311,4 @@
     }
   }
 
-
-  .toggle-buttons {
-    display: flex;
-    flex-direction: row;
-
-    & div {
-      margin: 0.25em 1em 0.25em 0;
-    }
-
-    & div:last-of-type {
-      margin-right: 0;
-    }
-  }
-
-  @media (max-width: 600px) {
-    .toggle-buttons {
-      flex-direction: column;
-    }
-  }
-
-  form.coordinates {
-    display: flex;
-    flex-wrap: wrap;
-
-    div {
-      align-items: center !important;
-      display: flex;
-      flex: 0 0 auto;
-      width: auto;
-      max-width: 100%;
-    }
-
-    div:first-of-type {
-      margin-right: auto !important;
-    }
-  }
 </style>
