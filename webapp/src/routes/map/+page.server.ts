@@ -1,6 +1,6 @@
-import type {PageServerLoad, Actions} from './$types';
-import type {_Point} from "./MapPoints";
-import {_PointType} from "./MapPoints";
+import type {PageServerLoad, Actions} from './$types.js';
+import type {_Point} from "./MapPoints.ts";
+import {_PointType} from "./MapPoints.ts";
 
 const showTeleportPath = 'ftr.map.showTeleports';
 const showPoiPath = 'ftr.map.showPoi';
@@ -44,14 +44,20 @@ export const load = (async ({cookies}) => {
     };
 }) satisfies PageServerLoad;
 
+function addYears(date: Date, years: number) {
+    const dateCopy = new Date(date);
+    dateCopy.setFullYear(dateCopy.getFullYear() + years);
+    return dateCopy;
+}
+
 export const actions = {
     saveShowFlags: async ({cookies, request}) => {
         const data = await request.formData();
         const showTeleport = data.get('showTeleport') === 'on';
         const showPoi = data.get('showPoi') === 'on';
-
-        cookies.set(showTeleportPath, String(showTeleport), {path: '/'});
-        cookies.set(showPoiPath, String(showPoi), {path: '/'});
+        const expireDate: Date = addYears(new Date(), 10);
+        cookies.set(showTeleportPath, String(showTeleport), {path: '/', expires: expireDate});
+        cookies.set(showPoiPath, String(showPoi), {path: '/', expires: expireDate});
 
         return { success: true };
     }
