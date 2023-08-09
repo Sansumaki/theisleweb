@@ -7,6 +7,7 @@
     import {_PointType} from "./MapPoints";
     import {Button, Card, FloatingLabelInput, Heading, Hr, Popover, Toggle} from "flowbite-svelte";
     import {Icon} from "flowbite-svelte-icons";
+    import Map from "./Map.svelte";
 
     export let data;
     let showTeleports = data.showTeleport;
@@ -191,6 +192,7 @@
     </div>
 </Card>
 
+<Map {points}></Map>
 <style lang="scss">
   :global(.marker_img) {
     filter: drop-shadow(5px 2px 10px rgb(0 0 0 / 1)) drop-shadow(0px -5px 5px rgb(0 0 0/ 0.5));
