@@ -17,7 +17,6 @@
         {name: "The Isle", link: "/the-isle"},
         {name: "Dinosaur", link: "/dino"},
         {name: "Map", link: "/map"},
-        {name: "Map2", link: "/map2"},
         { name: "About", link: "/about" },
     ];
 

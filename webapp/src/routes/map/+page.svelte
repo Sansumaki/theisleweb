@@ -7,7 +7,6 @@
     import {_PointType} from "./MapPoints";
     import {Button, Card, FloatingLabelInput, Heading, Hr, Popover, Toggle} from "flowbite-svelte";
     import {Icon} from "flowbite-svelte-icons";
-    import Map from "./Map.svelte";
 
     export let data;
     let showTeleports = data.showTeleport;
@@ -109,7 +108,7 @@
 
 <svelte:window on:keydown={handleKeydown}/>
 
-<Card class="text-center" size="xl">
+<Card class="text-center" size="2xl">
     <Heading tag="h1" class="mb-4">The Isle V3 Map</Heading>
 
     <form action="./map" method="get" class="grid gap-4 items-end md:grid-cols-10" data-sveltekit-noscroll
@@ -144,7 +143,7 @@
     </div>
 </Card>
 
-<Card class="text-center" size="xl">
+<Card class="text-center" size="2xl">
     <div role="img" class="m-auto p-0 block" id="map_area"
          style:width="{mapWidth}%"
          bind:clientWidth={map.width} bind:clientHeight={map.height}>
@@ -163,7 +162,7 @@
             <source class="w-full" media="(min-width:1200px)" srcset={bigMap}>
             <img class="w-full" src={smallMap} alt="map-v3">
         </picture>
-        {#if map.height > 0 && map.width > 0}
+        {#if map?.height > 0 && map?.width > 0}
             {#each filteredPoints as point, index}
                 <button id="marker_{index}" class="-ml-3 -mt-6 absolute" size="lg"
                         style:left="{LatToX(point.lat, map.width)}px"
@@ -192,7 +191,6 @@
     </div>
 </Card>
 
-<Map {points}></Map>
 <style lang="scss">
   :global(.marker_img) {
     filter: drop-shadow(5px 2px 10px rgb(0 0 0 / 1)) drop-shadow(0px -5px 5px rgb(0 0 0/ 0.5));

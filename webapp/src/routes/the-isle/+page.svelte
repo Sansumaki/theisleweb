@@ -3,7 +3,7 @@
     import Text from "$lib/components/Text.svelte";
 </script>
 
-<Card class="text-center card" size="xl" padding="xl">
+<Card class="text-center card" size="2xl" padding="xl">
     <Text elementName="h1">The Isle: A World Designed to Kill You</Text>
     <Text elementName="h2">Auf der Insel heißt es fressen oder gefressen werden</Text>
     <Text>

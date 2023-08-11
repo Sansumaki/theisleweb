@@ -1,7 +1,13 @@
 <script lang="ts">
-    import { Carousel } from 'flowbite-svelte';
+    import {Card, Carousel, Heading} from 'flowbite-svelte';
+    import image from '$lib/images/Hintergrundstartseite.gif'
 
-    const images = [
+    export let data;
+    export let title = "Fuck the Revolution"
+
+    //const {images} = data;
+
+    let images = [
         {
             id: 0,
             name: "The Isle Dinos",
@@ -13,23 +19,25 @@
             name: "The Isle V3 Map",
             imgurl: "/images/legacy-map-v3-small.jpg",
             attribution: "The Isle V3 Map",
+        },
+        {
+            id: 0,
+            name: "The Isle V3 Map",
+            imgurl: image,
+            attribution: "The Isle V3 Map",
         }
     ];
-
-    let showThumbs=false
-    let showCaptions=false
 </script>
 
-<Carousel {images} loop {showCaptions} {showThumbs} slideClass="slider" class="class" duration="3000"/>
-
-<style lang="scss">
-    :global(.slider) {
-      height: 100%;
-      :global(img) {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: 50% 50%;
-      }
-    }
-</style>
+<Card size="2xl" class="text-center sm:hidden">
+    <Heading tag="h1" class="self-center">{title}</Heading>
+</Card>
+<div class="hidden sm:block">
+    <Carousel {images} loop showCaptions={false} showThumbs={false} showIndicators={false} slideControls={false}
+              slideClass="h-full [&>img]:w-full [&>img]:h-full [&>img]:object-cover [&>img]:object-center [&>img]:saturate-50 [&>img]:blur-[3px] [&>img]:brightness-150 [&>img]:dark:brightness-100"
+              divClass="overflow-hidden relative h-32 hidden sm:block rounded-lg xl:h-48 2xl:h-64"
+              duration="3000"/>
+</div>
+<div class="sm:h-32 sm:-mt-32 pb-4 xl:h-48 xl:-mt-48 2xl:h-64 2xl:-mt-64 w-full relative justify-center items-center hidden sm:flex">
+    <Heading tag="h1" class="w-auto drop-shadow-lg text-white dark:text-white xl:text-7xl 2xl:text-8xl">{title}</Heading>
+</div>

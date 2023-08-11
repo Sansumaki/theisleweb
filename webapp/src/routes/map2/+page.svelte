@@ -109,7 +109,7 @@
 
 <svelte:window on:keydown={handleKeydown}/>
 
-<Card class="text-center" size="xl">
+<Card class="text-center" size="2xl">
     <Heading tag="h1" class="mb-4">The Isle V3 Map</Heading>
 
     <form action="./map" method="get" class="grid gap-4 items-end md:grid-cols-10" data-sveltekit-noscroll
@@ -144,7 +144,7 @@
     </div>
 </Card>
 
-<Card class="text-center hidden" size="xl">
+<Card class="text-center hidden" size="2xl">
     <div role="img" class="m-auto p-0 block" id="map_area"
          style:width="{mapWidth}%"
          bind:clientWidth={map.width} bind:clientHeight={map.height}>

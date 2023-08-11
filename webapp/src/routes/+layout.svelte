@@ -25,7 +25,7 @@
 <div class="px-4 mx-auto w-full">
     <main class="container my-5 mx-auto"> <!-- lg:ml-72 for drawer -->
         <div class="mb-3">
-            <HeadBox></HeadBox>
+            <HeadBox {title}></HeadBox>
         </div>
         <slot/>
     </main>
