@@ -63,12 +63,12 @@
 
     function gotoMap(_: any) {
         if (input.lat != null && input.long != null) {
-            goto("./map?lat=" + input.lat + "&long=" + input.long, {noScroll: true, keepFocus: true});
+            goto($page.url.pathname + "?lat=" + input.lat + "&long=" + input.long, {noScroll: true, keepFocus: true});
         }
     }
 
     function clearMap(_: any) {
-        goto("./map", {noScroll: true});
+        goto($page.url.pathname, {noScroll: true});
     }
 
     function copyMapUrlToClipboard(_: any) {
@@ -111,7 +111,7 @@
 
 <Heading tag="h4" class="mb-4">The Isle V3 Map</Heading>
 
-<form action="./map" method="get" class="grid gap-4 items-end md:grid-cols-8" data-sveltekit-noscroll
+<form action="{$page.url.pathname}" method="get" class="grid gap-4 items-end md:grid-cols-8" data-sveltekit-noscroll
       data-sveltekit-keepfocus>
     <Button color="green" class="col-span-2" on:click={pasteCoordinates}>
         <Icon name="map-pin-outline"/>
