@@ -3,15 +3,12 @@
     import {page} from '$app/stores';
     import Header from '$lib/components/Header.svelte';
     import HeadBox from '$lib/components/HeadBox.svelte';
-    import defaultBackground from '$lib/images/FTR_Pro.gif';
+    import { showDrawer } from '$lib/stores/nav-store.ts'
 
 
     $: title = $page.data.page?.title ?? 'FTR The Isle';
     $: description = $page.data.page?.content ?? 'FTR The Isle Website';
-    $: background = $page.data.page?.image ?? defaultBackground;
-    $: activeUrl = $page.url.pathname;
 
-    import image1 from '$lib/images/fuck-the-revolution.png'
     import {Footer, FooterCopyright, FooterLink, FooterLinkGroup} from "flowbite-svelte";
 </script>
 
@@ -23,14 +20,14 @@
 <Header/>
 
 <div class="px-4 mx-auto w-full">
-    <main class="container my-5 mx-auto"> <!-- lg:ml-72 for drawer -->
+    <main class="container my-5 mx-auto {$showDrawer ? 'lg:pl-72':''}"> <!-- lg:ml-72 for drawer -->
         <div class="mb-3">
             <HeadBox {title}></HeadBox>
         </div>
         <slot/>
     </main>
 
-    <footer class="container my-5 mx-auto drop-shadow-2">
+    <footer class="container my-5 mx-auto drop-shadow-2 {$showDrawer ? 'lg:pl--72':''}">
         <Footer>
             <FooterCopyright href="/" by="Santasia™" year={2023}/>
             <FooterLinkGroup

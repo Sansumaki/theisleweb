@@ -1,31 +1,23 @@
 <script lang="ts">
     import {Card, Carousel, Heading} from 'flowbite-svelte';
     import image from '$lib/images/Hintergrundstartseite.gif'
+    import mapImage from '$lib/images/legacy-map-v3-small.jpg'
 
-    export let data;
     export let title = "Fuck the Revolution"
-
-    //const {images} = data;
 
     let images = [
         {
             id: 0,
             name: "The Isle Dinos",
-            imgurl: "/images/CarniSur.jpg",
+            imgurl: image,
             attribution: "The Isle Dinos",
         },
         {
             id: 0,
             name: "The Isle V3 Map",
-            imgurl: "/images/legacy-map-v3-small.jpg",
+            imgurl: mapImage,
             attribution: "The Isle V3 Map",
         },
-        {
-            id: 0,
-            name: "The Isle V3 Map",
-            imgurl: image,
-            attribution: "The Isle V3 Map",
-        }
     ];
 </script>
 
