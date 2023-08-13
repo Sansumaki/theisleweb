@@ -18,6 +18,8 @@
 
     let breakPoint: number = 1024;
     let width: number;
+    let height: number;
+    $: topMargin = width >= breakPoint ? 80 : 60;
     $: if (drawerHidden) {
         showDrawer.set(false);
     } else {
@@ -46,14 +48,7 @@
         showDrawer.set(false);
     })
 
-    let currentpathname;
-    $: currdentpathname = $page.url.pathname;
-//const currdentpathname = "a";
-    //page.subscribe(i => {
-        //currentpathname = i.route.id;
-        //let a = i;
-        //currentpathname = i.url.pathname;
-    //})
+    $: currentpathname = $page.url.pathname;
 
     toggleDrawer.subscribe(i => {
         drawerHidden = false;
@@ -69,66 +64,42 @@
             drawerHidden = !drawerHidden;
         }
     };
-
-    let data = {
-        pages: [
-            {meta: "hallo page", path: "/the-isle"}
-        ],
-        articles: [
-            {meta: "hallo art", path: "/the-isle"}
-        ]
-    };
-
-    let spanClass = 'pl-2 self-center text-md text-gray-900 whitespace-nowrap dark:text-white';
 </script>
 
 
-<svelte:window bind:innerWidth={width}/>
+<svelte:window bind:innerWidth={width} bind:innerHeight={height}/>
 
 <Drawer
-        leftOffset="top-[{width >= breakPoint ? '59': '79'}px] h-screen left-0"
+        leftOffset="top-0 h-screen left-0"
         transitionType="fly"
         backdrop={false}
-        {transitionParams}
+        transitionParams={{x: -320, duration: 200, easing: sineIn}}
         bind:hidden={drawerHidden}
         bind:activateClickOutside
         width="w-64"
-        style="top:{width >= breakPoint ? '79': '59'}px"
+        style="top:{topMargin}px; height: {height - topMargin}px"
         id="sidebar"
+        class=" bg-slate-100 dark:bg-slate-800"
 >
     <div class="flex items-center">
         <CloseButton on:click={() => (drawerHidden = true)} class="mb-4 dark:text-white lg:hidden"/>
     </div>
     <Sidebar asideClass="w-54">
-        <SidebarWrapper divClass="overflow-y-auto py-4 px-3 rounded dark:bg-gray-800">
+        <SidebarWrapper divClass="overflow-y-auto py-4 px-3 rounded">
             <SidebarGroup>
-                <SidebarItem label="Home" href="/the-isle" on:click={toggleSide} active={currentpathname === `/the-isle`}/>
-                <SidebarItem label="Dinosaur" href="/the-isle/dino" on:click={toggleSide} active={currentpathname === `/the-isle/dino`}/>
-                {#each data.pages as {meta, path}}
-                    <SidebarItem
-                            label={meta.title}
-                            href={`/pages/${path}`}
-                            {spanClass}
-                            activeClass="flex items-center p-2 text-base font-normal text-gray-900 bg-primary-200 dark:bg-primary-700 rounded-lg dark:text-white hover:bg-primary-100 dark:hover:bg-primary-700"
-                            on:click={toggleSide}
-                            active={currentpathname === `/pages/${path}`}
-                    />
-                {/each}
-                <SidebarDropdownWrapper label="Articles">
-                    {#each data.articles as {meta, path}}
-                        <SidebarItem
-                                label={meta.title}
-                                href={`/blog/${path}`}
-                                {spanClass}
-                                activeClass="flex items-center p-2 text-base font-normal text-gray-900 bg-primary-200 dark:bg-primary-700 rounded-lg dark:text-white hover:bg-primary-100 dark:hover:bg-primary-700"
-                                on:click={toggleSide}
-                                active={currentpathname === `/blog/${path}`}
-                        />
-                    {/each}
+                <SidebarItem label="The Isle" href="/the-isle" on:click={toggleSide}
+                             active={currentpathname === `/the-isle`}/>
+                <SidebarItem label="Dinosaur" href="/the-isle/dino" on:click={toggleSide}
+                             active={currentpathname === `/the-isle/dino`}/>
+                <SidebarDropdownWrapper label="Maps">
+                    <SidebarItem label="Legacy V3" href="/the-isle/maps/v3" on:click={toggleSide}
+                                 active={currentpathname === `/the-isle/maps/v3`}/>
                 </SidebarDropdownWrapper>
             </SidebarGroup>
         </SidebarWrapper>
     </Sidebar>
 </Drawer>
 
-<slot></slot>
+<div>
+    <slot/>
+</div>

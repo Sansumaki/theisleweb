@@ -14,8 +14,6 @@
     let menuItems = [
         {name: "FTR", link: "/", group: true},
         {name: "The Isle", link: "/the-isle", group: true},
-        //{name: "Dinosaur", link: "/dino", group: true},
-        {name: "Map", link: "/map", group: true},
         {name: "About", link: "/about", group: true},
     ];
 
@@ -34,13 +32,12 @@
 </script>
 
 <svelte:window bind:innerWidth={width}/>
-<header class="sticky z-50 top-0 left-0 flex-none w-full mx-auto bg-white dark:bg-slate-950 drop-shadow-2xl">
-    <Navbar let:hidden let:toggle color="primary">
+<header class="sticky z-50 top-0 left-0 flex-none w-full mx-auto">
+    <Navbar navClass="px-2 sm:px-4 py-2.5 w-full bg-slate-200 dark:bg-slate-950" let:hidden let:toggle color="primary">
         <NavHamburger
                 on:click={toggleDrawerUi}
                 btnClass="focus:outline-none whitespace-normal rounded-lg focus:ring-2 p-1.5 focus:ring-gray-400 hover:bg-gray-100 dark:hover:bg-gray-600 m-0 mr-3 lg:hidden {!$drawerEnabled ? 'hidden':''}"
         />
-        {$drawerEnabled}
         <NavBrand bind:clientWidth={navBrand} href="/" class="lg:fixed lg:left-5">
             <img
                     src="{ftr_logo}"

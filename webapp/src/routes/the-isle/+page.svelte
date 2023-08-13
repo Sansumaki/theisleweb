@@ -1,8 +1,7 @@
 <script lang="ts">
-    import {Card, Heading, P} from "flowbite-svelte";
+    import {Card, Heading, Hr, P} from "flowbite-svelte";
 </script>
 
-<Card size="2xl" padding="xl">
     <Heading tag="h4">The Isle: A World Designed to Kill You</Heading>
     <Heading tag="h5">Auf der Insel heißt es fressen oder gefressen werden</Heading>
     <P class="my-4" justify>
@@ -36,8 +35,9 @@
         <img src="https://cdn.akamai.steamstatic.com/steam/apps/376210/header.jpg?t=1653237914" height="90" alt="logo"/>
     </a>
     <P class="my-4" justify><b>Zum kaufen auf das Icon klicken!</b></P>
-</Card>
-<Card class="text-center" size="xl" padding="xl">
+
+    <Hr />
+
     <Heading tag="h4">FAQ's</Heading>
     <Heading tag="h5">Wer entwickelt das Spiel "The Isle"?</Heading>
     <P class="my-4" justify>The Isle wird von einem kleinen unabhängigen Entwicklerstudio namens Afterthought LLC (in Nordamerika)
@@ -47,4 +47,3 @@
     <P class="my-4" justify>Ja, den gibt es und Discord ist auch der Hauptkommunikationskanal der Entwickler. Hier kannst du dem The Isle
         Discord beitreten.
     </P>
-</Card>

@@ -2,8 +2,8 @@ import type {PageServerLoad, Actions} from './$types.js';
 import type {_Point} from "./MapPoints.ts";
 import {_PointType} from "./MapPoints.ts";
 
-const showTeleportPath = 'ftr.map.showTeleports';
-const showPoiPath = 'ftr.map.showPoi';
+const showTeleportPath = 'ftr.v3.showTeleports';
+const showPoiPath = 'ftr.v3.showPoi';
 
 let points: _Point[] = [
     {type: _PointType.POI, name: "Center", lat: 0, long: 0},

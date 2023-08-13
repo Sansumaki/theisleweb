@@ -1,9 +1,6 @@
 <script>
-import Text from "$lib/components/Text.svelte";
-import {Card} from "flowbite-svelte";
+    import {Heading, P} from "flowbite-svelte";
 </script>
 
-<Card class="text-center card" size="2xl" padding="xl">
-    <Text elementName="h1">Alle Dinosaurier</Text>
-    <Text>Hier listen wir alle Dinos auf.</Text>
-</Card>
+<Heading tag="h4">Alle Dinosaurier</Heading>
+<P class="my-4" justify>Hier listen wir alle Dinos auf.</P>

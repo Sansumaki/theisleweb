@@ -69,7 +69,7 @@
     //     toolbarComponent.$on('click-eye', ({ detail }) => eye = detail);
     //     toolbarComponent.$on('click-lines', ({ detail }) => lines = detail);
     //     toolbarComponent.$on('click-reset', () => {
-    //         map.setView(initialView, 5, { animate: true })
+    //         v3.setView(initialView, 5, { animate: true })
     //     })
     //
          return div;
@@ -92,8 +92,8 @@
         toolbar.addTo(map);
         map.fitBounds(bounds);
 
-        //teleports.addTo(map);
-        //pois.addTo(map);
+        //teleports.addTo(v3);
+        //pois.addTo(v3);
 
         return {
             destroy: () => {
@@ -104,7 +104,7 @@
     }
 
     // We could do these in the toolbar's click handler but this is an example
-    // of modifying the map with reactive syntax.
+    // of modifying the v3 with reactive syntax.
     $: if(teleports && map) {
         if(showTeleports) {
             teleports.addTo(map);
