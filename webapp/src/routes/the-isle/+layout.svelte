@@ -12,6 +12,7 @@
     import {page} from "$app/stores";
     import {onDestroy, onMount} from "svelte";
     import {showDrawer, toggleDrawer, drawerEnabled} from '$lib/stores/nav-store.ts'
+    import {i} from "@inlang/sdk-js";
 
     let drawerHidden: boolean = false;
     let activateClickOutside = true;
@@ -54,11 +55,6 @@
         drawerHidden = false;
     });
 
-    let transitionParams = {
-        x: -320,
-        duration: 200,
-        easing: sineIn
-    };
     const toggleSide = () => {
         if (width < breakPoint) {
             drawerHidden = !drawerHidden;
@@ -87,11 +83,11 @@
     <Sidebar asideClass="w-54">
         <SidebarWrapper divClass="overflow-y-auto py-4 px-3 rounded">
             <SidebarGroup>
-                <SidebarItem label="The Isle" href="/the-isle" on:click={toggleSide}
+                <SidebarItem label="{i('theIsle.menu')}" href="/the-isle" on:click={toggleSide}
                              active={currentpathname === `/the-isle`}/>
-                <SidebarItem label="Dinosaur" href="/the-isle/dino" on:click={toggleSide}
+                <SidebarItem label="{i('theIsle.dino.menu')}" href="/the-isle/dino" on:click={toggleSide}
                              active={currentpathname === `/the-isle/dino`}/>
-                <SidebarDropdownWrapper label="Maps">
+                <SidebarDropdownWrapper label="{i('theIsle.maps.menu')}">
                     <SidebarItem label="Legacy V3" href="/the-isle/maps/v3" on:click={toggleSide}
                                  active={currentpathname === `/the-isle/maps/v3`}/>
                 </SidebarDropdownWrapper>

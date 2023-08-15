@@ -13,10 +13,11 @@
 
     import {Footer, FooterCopyright, FooterIcon, FooterLink, FooterLinkGroup} from "flowbite-svelte";
     import {Icon} from "flowbite-svelte-icons";
+    import {i} from "@inlang/sdk-js";
 </script>
 
 <svelte:head>
-    <title>{title} | The Isle Info</title>
+    <title>{title} | {i('main.title')}</title>
     <meta name="description" content={description}/>
 </svelte:head>
 
@@ -26,7 +27,7 @@
     <main class="container my-5 mx-auto" style="padding-left: {drawerWidth}px">
         {#if !hideHeading}
             <div class="mb-3">
-                <HeadBox></HeadBox>
+                <HeadBox title={title}></HeadBox>
             </div>
         {/if}
         <slot/>
@@ -39,16 +40,16 @@
             <div>
                 <h2 class="mb-6 text-sm font-semibold uppercase text-primary-600 dark:text-primary-200">FTR</h2>
                 <FooterLinkGroup ulClass="text-gray-900 dark:text-gray-300">
-                    <FooterLink liClass="mb-4" href="/about">FTR</FooterLink>
-                    <FooterLink liClass="mb-4" href="/about">About</FooterLink>
+                    <FooterLink liClass="mb-4" href="/about">{i('ftr.menu')}</FooterLink>
+                    <FooterLink liClass="mb-4" href="/about">{i('about.menu')}</FooterLink>
                 </FooterLinkGroup>
             </div>
             <div>
                 <h2 class="mb-6 text-sm font-semibold uppercase text-primary-600 dark:text-primary-200">The Isle</h2>
                 <FooterLinkGroup ulClass="text-gray-900 dark:text-gray-300">
-                    <FooterLink liClass="mb-4" href="/the-isle">The Isle</FooterLink>
-                    <FooterLink liClass="mb-4" href="/the-isle/dino">Dinosaur</FooterLink>
-                    <FooterLink liClass="mb-4" href="/map">Maps</FooterLink>
+                    <FooterLink liClass="mb-4" href="/the-isle">{i('theIsle.menu')}</FooterLink>
+                    <FooterLink liClass="mb-4" href="/the-isle/dino">{i('theIsle.dino.menu')}</FooterLink>
+                    <FooterLink liClass="mb-4" href="/map">{i('theIsle.maps.menu')}</FooterLink>
                 </FooterLinkGroup>
             </div>
             <div>

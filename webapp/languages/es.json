@@ -1,0 +1,79 @@
+{
+  "main": {
+    "title": "❌",
+    "joinDiscord": "❌",
+    "error404": "❌",
+    "error500": "❌",
+    "backToHome": "❌"
+  },
+  "ftr": {
+    "title": "❌",
+    "description": "❌",
+    "menu": "❌",
+    "content": {
+      "heading": "❌",
+      "content1": "❌",
+      "content2": "❌",
+      "content3": "❌",
+      "content4": "❌",
+      "sitecontent": "❌",
+      "sitecontentdescription": "❌",
+      "map": {
+        "title": "❌",
+        "description": "❌"
+      },
+      "dino": {
+        "title": "❌",
+        "description": "❌"
+      }
+    }
+  },
+  "about": {
+    "title": "❌",
+    "description": "❌",
+    "menu": "❌",
+    "content": {
+      "heading": "❌",
+      "content1": "❌",
+      "content2": "❌",
+      "content3": "❌",
+      "content4": "❌"
+    }
+  },
+  "theIsle": {
+    "title": "❌",
+    "description": "❌",
+    "menu": "❌",
+    "content": {
+      "heading": "❌",
+      "content": "❌",
+      "headin2": "❌",
+      "content2": "❌",
+      "buyHeading": "❌",
+      "buyContent": "❌",
+      "buyLink": "❌"
+    },
+    "faq": {
+      "title": "❌",
+      "heading1": "❌",
+      "content1": "❌",
+      "heading2": "❌",
+      "content2": "❌"
+    },
+    "dino": {
+      "title": "❌",
+      "description": "❌",
+      "menu": "❌"
+    },
+    "maps": {
+      "title": "❌",
+      "description": "❌",
+      "menu": "❌",
+      "show": "❌",
+      "clear": "❌",
+      "share": "❌",
+      "showTeleports": "❌",
+      "showPointsOfInterest": "❌"
+    }
+  }
+}

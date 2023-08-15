@@ -1,10 +1,11 @@
 import type {PageLoad} from "./$types.ts";
+import {i} from "@inlang/sdk-js";
 
 export const load = (({data }) => {
 return {...{
     page:{
-        title: "Map",
-        content: "A v3 for the isle legacy v3 v3.",
+        title: i('theIsle.maps.title'),
+        content: i('theIsle.maps.description'),
         hideHeading: true
     }
 }, ...data}

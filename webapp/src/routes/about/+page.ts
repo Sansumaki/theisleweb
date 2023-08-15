@@ -1,12 +1,11 @@
 import type {PageLoad} from "./$types.js";
-import background from '$lib/images/FTR_Pro.gif';
+import {i} from "@inlang/sdk-js";
 
 export const load = (() => {
     return {
         page:{
-            title: "About",
-            content: "About the creator of this page",
-            image: background
+            title: i('about.title'),
+            content: i("about.description")
         }
     }
 }) satisfies PageLoad;

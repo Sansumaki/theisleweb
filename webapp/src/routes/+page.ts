@@ -1,12 +1,11 @@
-import background from "$lib/images/FTR_Pro.gif";
 import type {PageLoad} from "./$types.js";
+import {i } from "@inlang/sdk-js";
 
 export const load = (() => {
     return {
         page:{
-            title: "Fuck the Revolution",
-            content: "FTR die the Isle Community",
-            image: background
+            title: i('ftr.title'),
+            content: i("ftr.description")
         }
     }
 }) satisfies PageLoad;

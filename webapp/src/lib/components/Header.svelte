@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { language, languages, switchLanguage  } from "@inlang/sdk-js"
+    import {i, language, languages, switchLanguage} from "@inlang/sdk-js"
     import {page} from '$app/stores';
     import ftr_logo from '$lib/images/FTR_EX.gif';
     import {
@@ -14,9 +14,9 @@
     import {drawerEnabled, toggleDrawer} from '$lib/stores/nav-store.ts'
 
     let menuItems = [
-        {name: "FTR", link: "/", group: true},
-        {name: "The Isle", link: "/the-isle", group: true},
-        {name: "About", link: "/about", group: true},
+        {name: i('ftr.menu'), link: "/", group: true},
+        {name: i('theIsle.menu'), link: "/the-isle", group: true},
+        {name: i('about.menu'), link: "/about", group: true},
     ];
 
     let width: number;
@@ -46,7 +46,7 @@
                     class="mr-3 h-6 sm:h-9 rounded-2xl"
                     alt="FTR Logo"
             />
-            <span class="self-center whitespace-nowrap text-xl font-semibold text-gray-700 dark:text-white">The Isle Info</span>
+            <span class="self-center whitespace-nowrap text-xl font-semibold text-gray-700 dark:text-white">{i('main.title')}</span>
         </NavBrand>
 
         <NavUl
@@ -66,8 +66,8 @@
 
         </NavUl>
         <div class="flex items-center ml-auto">
-        {#each languages.filter(i => i != language) as language}
-        <Button on:click={() => switchLanguage(language)}>{language}</Button>
+        {#each languages.filter(i => i !== language) as language}
+         <Button class="m-4 h-8 w-8" outline on:click={() => switchLanguage(language)}>{language}</Button>
         {/each}
             <DarkMode class="inline-block dark:hover:text-white hover:text-gray-900"/>
         </div>

@@ -7,6 +7,7 @@
     import {_PointType} from "./MapPoints.js";
     import {Button, FloatingLabelInput, Heading, Hr, Popover, Toggle} from "flowbite-svelte";
     import {Icon} from "flowbite-svelte-icons";
+    import {i} from "@inlang/sdk-js";
 
     export let data;
     let showTeleports = data.showTeleport;
@@ -128,22 +129,22 @@
 
     <Button color="primary" class="{!setPossible ? 'hidden' :''}" type="submit">
         <Icon name="map-pin-outline"/>
-        <p class="pl-2 text-xs">Show</p>
+        <p class="pl-2 text-xs">{i('theIsle.maps.show')}</p>
     </Button>
     <Button color="primary" class="{!sharePossible ? 'hidden' :''}" on:click={copyMapUrlToClipboard}>
         <Icon name="share-nodes-outline"/>
-        <p class="pl-2 text-xs">Share</p>
+        <p class="pl-2 text-xs">{i('theIsle.maps.share')}</p>
     </Button>
 
     <Button outline color="red" on:click={clearMap}>
         <Icon name="close-solid"/>
-        <p class="pl-2 text-xs">Clear</p>
+        <p class="pl-2 text-xs">{i('theIsle.maps.clear')}</p>
     </Button>
 </form>
 <Hr divClass="my-4 md:my-4"></Hr>
 <div class="grid gap-4 items-end mb-6 md:grid-cols-2">
-    <Toggle bind:checked={showTeleports} on:change={() => showForm()}>Show Teleports</Toggle>
-    <Toggle bind:checked={showPointOfInterest} on:change={() => showForm()}>Show Point of Interest</Toggle>
+    <Toggle bind:checked={showTeleports} on:change={() => showForm()}>{i('theIsle.maps.showTeleports')}</Toggle>
+    <Toggle bind:checked={showPointOfInterest} on:change={() => showForm()}>{i('theIsle.maps.showPointsOfInterest')}</Toggle>
 </div>
 
 <div role="img" class="m-auto p-0 block" id="map_area"
@@ -151,7 +152,7 @@
      bind:clientWidth={map.width} bind:clientHeight={map.height}>
     <div class:hidden={mouse == null}
          class="bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400 rounded-lg border border-gray-200
-                 divide-gray-200 dark:divide-gray-700 pointer-events-none
+                 divide-gray-200 dark:divide-gray-700 pointer-events-none text-center
                  shadow-md dark:!border-gray-600 w-32 -ml-16 mt-[5px] font-light z-20 text-xs absolute"
          style:top="{mouse?.y}px"
          style:left="{mouse?.x}px">
@@ -173,7 +174,7 @@
                     style:color="{point.type === _PointType.POI ? '#ffc802' : point.type === _PointType.Teleport ? '#e74646' : '#2e84ea'}">
                 <Icon name="map-pin-solid" class="marker_img !outline-none" size="lg" tabindex="-1"/>
             </button>
-            <Popover class="w-64 text-sm font-light z-20" triggeredBy="#marker_{index}" title="{point.name}"
+            <Popover class="w-64 text-sm font-light z-20 text-center" triggeredBy="#marker_{index}" title="{point.name}"
                      placement="bottom">
                 <h3>{_PointType[point.type]}</h3>
                 <i>lat: {point.lat}, long: {point.long}</i>
@@ -186,7 +187,7 @@
                     style:color="{'#2e84ea'}">
                 <Icon name="map-pin-outline" class="marker_img !outline-none" size="xl" tabindex="-1"/>
             </button>
-            <Popover class="w-64 text-sm font-light z-20" triggeredBy="#marker_p" title="Player" placement="bottom">
+            <Popover class="w-64 text-sm font-light z-20 text-center" triggeredBy="#marker_p" title="Player" placement="bottom">
                 <i>lat: {player.lat}, long: {player.long}</i>
             </Popover>
         {/if}

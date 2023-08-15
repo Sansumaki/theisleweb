@@ -1,12 +1,12 @@
-import background from '$lib/images/Hintergrundstartseite.gif';
-import type {PageLoad} from "./$types.js";
+// @ts-ignore
+import type {PageLoad} from "./$types";
+import {i} from "@inlang/sdk-js";
 
 export const load = (() => {
     return {
         page: {
-            title: "The Isle",
-            content: "Infos about the game the isle",
-            image: background
+            title: i('theIsle.title'),
+            content: i("theIsle.description")
         }
     }
 }) satisfies PageLoad;
