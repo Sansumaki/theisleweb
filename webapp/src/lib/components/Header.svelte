@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { language, languages, switchLanguage  } from "@inlang/sdk-js"
     import {page} from '$app/stores';
     import ftr_logo from '$lib/images/FTR_EX.gif';
     import {
@@ -7,7 +8,8 @@
         NavBrand,
         NavHamburger,
         NavLi,
-        NavUl
+        NavUl,
+        Button
     } from "flowbite-svelte";
     import {drawerEnabled, toggleDrawer} from '$lib/stores/nav-store.ts'
 
@@ -64,6 +66,9 @@
 
         </NavUl>
         <div class="flex items-center ml-auto">
+        {#each languages.filter(i => i != language) as language}
+        <Button on:click={() => switchLanguage(language)}>{language}</Button>
+        {/each}
             <DarkMode class="inline-block dark:hover:text-white hover:text-gray-900"/>
         </div>
         <NavHamburger on:click={toggle} btnClass="lg:hidden"/>

@@ -14,6 +14,7 @@
 	"devDependencies": {
 		"@floating-ui/dom": "^1.5.1",
 		"@fontsource/fira-mono": "^4.5.10",
+		"@inlang/sdk-js": "^0.11.8",
 		"@neoconfetti/svelte": "^1.0.0",
 		"@playwright/test": "^1.28.1",
 		"@sveltejs/adapter-auto": "^2.0.0",

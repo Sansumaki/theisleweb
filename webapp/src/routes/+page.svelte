@@ -1,4 +1,5 @@
 <script>
+    import { i } from '@inlang/sdk-js'
     import {Badge, Heading, P} from "flowbite-svelte";
     import DiscordLink from "$lib/components/DiscordLink.svelte";
     import {Icon} from "flowbite-svelte-icons";
@@ -29,6 +30,7 @@
     ]
 </script>
 
+    <Heading tag="h1">{i('welcome')}ee</Heading>
 {#each content as item}
     <Heading tag="h4">{item.title}</Heading>
 
