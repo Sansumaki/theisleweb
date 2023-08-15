@@ -1,3 +1,6 @@
 {
-  "welcome": "Welcome to inlang"
+  "welcome": "Welcome to inlang",
+  "index": {
+    "text": "our Seite text"
+  }
 }

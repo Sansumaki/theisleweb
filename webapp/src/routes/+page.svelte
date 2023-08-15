@@ -30,8 +30,10 @@
     ]
 </script>
 
-    <Heading tag="h1">{i('welcome')}ee</Heading>
+    <Heading tag="h1">{i('welcome')}</Heading>
 {#each content as item}
+    <Heading tag="h4">{i("index.title")}</Heading>
+    <Heading tag="h4">{i("index.text")}</Heading>
     <Heading tag="h4">{item.title}</Heading>
 
     {#each item.paragraphs as paragraph}
