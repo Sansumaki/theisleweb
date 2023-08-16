@@ -1,79 +1,79 @@
 {
   "main": {
-    "title": "❌",
-    "joinDiscord": "❌",
-    "error404": "❌",
-    "error500": "❌",
-    "backToHome": "❌"
+    "title": "Información de la isla",
+    "joinDiscord": "Únase a nuestra discordia",
+    "error404": "Lo sentimos, no podemos encontrar la página. Puede explorar más en la página de inicio.",
+    "error500": "Ya estamos trabajando para resolver el problema.",
+    "backToHome": "Volver a la página de inicio"
   },
   "ftr": {
-    "title": "❌",
-    "description": "❌",
-    "menu": "❌",
+    "title": "Fuck the Revolution",
+    "description": "FTR la comunidad de la isla",
+    "menu": "FTR",
     "content": {
-      "heading": "❌",
-      "content1": "❌",
-      "content2": "❌",
-      "content3": "❌",
-      "content4": "❌",
-      "sitecontent": "❌",
-      "sitecontentdescription": "❌",
+      "heading": "¡Bienvenido al sitio web oficial de Fuck The Revolution!",
+      "content1": "Sea parte de nuestra apasionada comunidad y experimente la última aventura de supervivencia en The Isle Game. Únete a nuestro servidor de discordia y forma parte de una comunidad dedicada a sobrevivir en un mundo lleno de dinosaurios.",
+      "content2": "En esta web encontrarás toda la información que necesitas para sumergirte en nuestro mundo. Obtenga más información sobre las reglas de nuestro servidor, conozca los diferentes modos de juego y manténgase actualizado con actualizaciones y eventos.",
+      "content3": "Únase a nosotros y encuentre un grupo amigable de jugadores dispuestos a compartir sus conocimientos y experiencia con usted. Juntos podemos mejorar nuestras habilidades de supervivencia y vivir emocionantes aventuras.",
+      "content4": "¡Así que no lo dudes, únete a nosotros y demuestra que estás listo para sobrevivir a la revolución de los dinosaurios!",
+      "sitecontent": "Contenido de página",
+      "sitecontentdescription": "Aquí hay una descripción general de lo que se puede encontrar en este sitio web.",
       "map": {
-        "title": "❌",
-        "description": "❌"
+        "title": "Los mapas de The Isle",
+        "description": "Aquí hay mapas interactivos del juego The Isle. Actualmente ofrecemos una tarjeta v3 heredada."
       },
       "dino": {
-        "title": "❌",
-        "description": "❌"
+        "title": "Dinosaurio",
+        "description": "Aquí hay mucha información sobre los dinosaurios presentes en The Isle."
       }
     }
   },
   "about": {
-    "title": "❌",
-    "description": "❌",
-    "menu": "❌",
+    "title": "About",
+    "description": "Acerca de este sitio",
+    "menu": "About",
     "content": {
-      "heading": "❌",
-      "content1": "❌",
-      "content2": "❌",
-      "content3": "❌",
-      "content4": "❌"
+      "heading": "Acerca de este sitio y [FTR] Fuck The Revolution",
+      "content1": "Nos hemos unido para crear una comunidad de juegos en la que podemos dejar atrás la vida cotidiana y sumergirnos por completo en un mundo de juegos increíble. Nuestro servidor comunitario le brinda la oportunidad de interactuar con personas de ideas afines, experimentar aventuras juntos y crear recuerdos.",
+      "content2": "Tanto si eres un jugador experimentado como si te estás iniciando en el mundo de los videojuegos, aquí encontrarás una comunidad amistosa y solidaria. Siempre estamos buscando nuevas perspectivas de jugadores y damos la bienvenida a cualquiera que fortalezca nuestras filas.",
+      "content3": "Nuestro entorno de servidor está diseñado para proporcionar una experiencia de juego equilibrada. Valoramos la equidad y el respeto y tenemos reglas claras para garantizar que todos los miembros tengan una experiencia agradable. Nuestros moderadores están activos y siempre disponibles para garantizar el cumplimiento y ayudar con cualquier pregunta o problema.",
+      "content4": "Este sitio fue creado y mantenido por el equipo de la comunidad FTR. Si tiene alguna inquietud, comuníquese con el equipo en Discord."
     }
   },
   "theIsle": {
-    "title": "❌",
-    "description": "❌",
-    "menu": "❌",
+    "title": "The Isle",
+    "description": "The Isle Game",
+    "menu": "The Isle",
     "content": {
-      "heading": "❌",
-      "content": "❌",
-      "headin2": "❌",
-      "content2": "❌",
-      "buyHeading": "❌",
-      "buyContent": "❌",
-      "buyLink": "❌"
+      "heading": "The Isle: Comer o ser comido",
+      "content": "The Isle es un juego de terror de supervivencia de mundo abierto inusual en el que juegas como carnívoro o herbívoro. Elige entre varios dinosaurios con diferentes fortalezas y debilidades, comienza como un cachorro e intenta sobrevivir el mayor tiempo posible. Tus oponentes son otros jugadores y la búsqueda constante de comida y agua. Compra \"The Isle\" ahora por 19,99 € y experimenta el mejor juego de supervivencia de dinosaurios actualmente en Steam.",
+      "headin2": "La supervivencia no es fácil",
+      "content2": "Como muchos juegos de supervivencia, The Isle se enorgullece de su alto nivel de dificultad y la falta de información disponible. Si es la primera vez que juegas, espera morir temprano y potencialmente a menudo a medida que aprendes lo que debes hacer para sobrevivir en un mundo donde casi todo está dispuesto a matarte. El mayor desafío a menudo es encontrar comida; después de todo, cuando estás en el papel de un dinosaurio carnívoro, cada comida proviene de la caza. Si puede soportar la frustración de un juego temprano, descubrirá una experiencia de juego única que pone a sus personajes de dinosaurios al frente y al centro. Los entornos de la isla de la jungla cuidadosamente representados y los modelos de dinosaurios crean un juego que no se parece a ningún otro.",
+      "buyHeading": "¿Dónde puedo comprar o descargar The Isle?",
+      "buyContent": "Actualmente puedes comprar The Isle por 19,99 € en Steam en Early Access y al instante\n    descargar.",
+      "buyLink": "¡Haz clic en el icono para comprar!"
     },
     "faq": {
-      "title": "❌",
-      "heading1": "❌",
-      "content1": "❌",
-      "heading2": "❌",
-      "content2": "❌"
+      "title": "FAQ's",
+      "heading1": "¿Quién está desarrollando el juego \"The Isle\"?",
+      "content1": "The Isle está siendo desarrollado por un pequeño estudio de desarrollo independiente llamado Afterthought LLC (en Norteamérica).",
+      "heading2": "Además, ¿hay un canal de discordia para The Isle?",
+      "content2": "Sí, la hay, y Discord también es el principal canal de comunicación para los desarrolladores. Puedes unirte a The Isle Discord aquí."
     },
     "dino": {
-      "title": "❌",
-      "description": "❌",
-      "menu": "❌"
+      "title": "Los dinosaurios de la isla",
+      "description": "Información sobre todos los dinosaurios existentes en la isla",
+      "menu": "Dinosaurios"
     },
     "maps": {
-      "title": "❌",
-      "description": "❌",
-      "menu": "❌",
-      "show": "❌",
-      "clear": "❌",
-      "share": "❌",
-      "showTeleports": "❌",
-      "showPointsOfInterest": "❌"
+      "title": "Los mapas de The Isle",
+      "description": "Los mapas de The Isle",
+      "menu": "Tarjetas",
+      "show": "Espectáculo",
+      "clear": "Borrar",
+      "share": "Dividir",
+      "showTeleports": "Mostrar teletransportes",
+      "showPointsOfInterest": "Mostrar lugares de interés"
     }
   }
 }
