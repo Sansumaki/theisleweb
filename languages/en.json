@@ -1,0 +1,79 @@
+{
+  "main": {
+    "title": "The Isle Info",
+    "joinDiscord": "Join our Discord",
+    "error404": "Sorry, we can't find that page. You'll find lots to explore on the home page.",
+    "error500": "We are already working to solve the problem.",
+    "backToHome": "Back to Startpage"
+  },
+  "ftr": {
+    "title": "Fuck the Revolution",
+    "description": "FTR an the Isle community",
+    "menu": "FTR",
+    "content": {
+      "heading": "❌Willkommen auf der offiziellen Webseite von [FTR] Fuck The Revolution!",
+      "content1": "❌Sei ein Teil unserer leidenschaftlichen Community und erlebe das ultimative Survival-Abenteuer im The Isle Game. Trete unserem Discord-Server bei und werde Teil einer Gemeinschaft, die sich auf das Überleben in einer Welt voller Dinosaurier spezialisiert hat.",
+      "content2": "❌Auf dieser Webseite findest du alle Informationen, die du brauchst, um dich in unsere Welt einzutauchen. Erfahre mehr über unsere Serverregeln, lerne die verschiedenen Spielmodi kennen und bleibe auf dem neuesten Stand der Updates und Events.",
+      "content3": "❌Komm zu uns und finde eine freundliche Gruppe von Spielern, die bereit sind, ihr Wissen und ihre Erfahrung mit dir zu teilen. Zusammen können wir unsere Überlebensfähigkeiten verbessern und spannende Abenteuer erleben.",
+      "content4": "❌Also zögere nicht, mach mit und zeig, dass du bereit bist, die Revolution der Dinosaurier zu überleben!",
+      "sitecontent": "Site Content",
+      "sitecontentdescription": "Here you see an overview what you can find on this site.",
+      "map": {
+        "title": "The Isle Maps",
+        "description": "Here you find interactive maps from the Isle game. Currently we serve the legacy v3 map."
+      },
+      "dino": {
+        "title": "Dinosaur",
+        "description": "Here you find a lot of information about all the isle dinosaur."
+      }
+    }
+  },
+  "about": {
+    "title": "About",
+    "description": "About this page",
+    "menu": "About",
+    "content": {
+      "heading": "About this site and [FTR] Fuck The Revolution",
+      "content1": "❌Wir haben uns zusammengetan, um eine Spielgemeinschaft zu gründen, in der wir den Alltag hinter uns lassen und voll und ganz in eine fantastische Spielwelt eintauchen können. Unser Community-Server bietet dir die Möglichkeit, mit Gleichgesinnten zu interagieren, gemeinsam Abenteuer zu erleben und Erinnerungen zu schaffen.",
+      "content2": "❌Egal, ob du ein erfahrener Spieler bist oder gerade erst in die Welt der Videospiele eintauchst, bei uns findest du eine freundliche und unterstützende Gemeinschaft. Wir sind ständig auf der Suche nach neuen Spielerperspektiven und freuen uns über jeden, der unsere Ränge verstärkt.",
+      "content3": "❌Unsere Serverumgebung ist darauf ausgerichtet, ein ausgewogenes Spielerlebnis zu bieten. Wir legen Wert auf Fairness und Respekt und haben klare Regeln, die sicherstellen, dass alle Mitglieder eine angenehme Erfahrung machen können. Unsere Moderatoren sind aktiv und stehen jederzeit zur Verfügung, um für die Einhaltung der Regeln zu sorgen und bei Fragen oder Problemen zu helfen.",
+      "content4": "❌Diese Seite wurde erstellt und wird unterhalten vom FTR Community Team. Bei Anliegen jeglicher Art, wendet euch ans Team in Discord."
+    }
+  },
+  "theIsle": {
+    "title": "The Isle",
+    "description": "The Isle Game",
+    "menu": "The Isle",
+    "content": {
+      "heading": "The Isle: A World Designed to Kill You",
+      "content": "❌The Isle ist ein ungewöhnliches Open-World-Survival-Horror Spiel, in dem Sie entweder einen Fleischfresser oder einen Pflanzenfresser spielen. Wähle aus mehreren Dinosauriern mit unterschiedlichen Stärken und Schwächen, starte als Jungtier, und versuche möglichst lange zu überleben. Deine Gegner sind andere Spieler und die ständige Suche nach Nahrung und Wasser. Kaufe dir \"The Isle\" jetzt für 19,99 € und erlebe das aktuell beste Dino-Survival-Spiel auf Steam.",
+      "headin2": "❌Überleben ist nicht einfach",
+      "content2": "❌Wie viele Survival-Spiele ist auch The Isle stolz auf seinen hohen Schwierigkeitsgrad und den Mangel an leicht verfügbaren Informationen. Wenn Sie das Spiel zum ersten Mal spielen, sollten Sie damit rechnen, dass Sie früh und möglicherweise oft sterben, während Sie lernen, was Sie tun müssen, um in einer Welt zu überleben, in der fast alles darauf aus ist, Sie zu töten. Die größte Herausforderung besteht oft einfach nur darin, Nahrung zu finden - wenn Sie sich in der Rolle eines fleischfressenden Dinosauriers befinden, stammt schließlich jede Mahlzeit von der Jagd. Wenn Sie die Frustration eines früh veröffentlichten Spiels ertragen können, werden Sie ein einzigartiges Spielerlebnis entdecken, das seine Dinosaurier-Charaktere in den Mittelpunkt stellt. Die liebevoll gerenderten Dschungel-Insel-Umgebungen und Dinosaurier-Modelle schaffen ein Spiel, das wie kein anderes aussieht.",
+      "buyHeading": "❌Wo kann ich The Isle kaufen oder herunterladen?",
+      "buyContent": "❌Du kannst The Isle aktuell für 19,99 € auf Steam im Early Access kaufen und sofort\n    herunterladen.",
+      "buyLink": "❌Zum kaufen auf das Icon klicken!"
+    },
+    "faq": {
+      "title": "FAQ's",
+      "heading1": "❌Wer entwickelt das Spiel \"The Isle\"?",
+      "content1": "❌The Isle wird von einem kleinen unabhängigen Entwicklerstudio namens Afterthought LLC (in Nordamerika) entwickelt.",
+      "heading2": "❌Gibt es auch einen Discord-Channel für The Isle?",
+      "content2": "❌Ja, den gibt es und Discord ist auch der Hauptkommunikationskanal der Entwickler. Hier kannst du dem The Isle Discord beitreten."
+    },
+    "dino": {
+      "title": "The Isle Dinosaur",
+      "description": "Infos about all the isle dinosaur",
+      "menu": "Dinosaur"
+    },
+    "maps": {
+      "title": "The Isle Maps",
+      "description": "The Isle in game maps",
+      "menu": "Maps",
+      "show": "Show",
+      "clear": "Clear",
+      "share": "Share",
+      "showTeleports": "Show Teleports",
+      "showPointsOfInterest": "Show Point of Interest"
+    }
+  }
+}
