@@ -21,8 +21,7 @@ export async function defineConfig(env) {
 			sdkPlugin({
 				languageNegotiation: {
 					strategies: [
-						{ type: "localStorage" },
-						{ type: "accept-language-header" }
+						{ type: "localStorage" }
 					]
 				}
 			}),

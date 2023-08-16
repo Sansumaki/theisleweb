@@ -10,53 +10,67 @@
     } from "flowbite-svelte";
     import {sineIn} from "svelte/easing";
     import {page} from "$app/stores";
-    import {onDestroy, onMount} from "svelte";
+    import {afterUpdate, onDestroy, onMount} from "svelte";
     import {showDrawer, toggleDrawer, drawerEnabled} from '$lib/stores/nav-store.ts'
     import {i} from "@inlang/sdk-js";
 
+    const breakPoint: number = 1024;
     let drawerHidden: boolean = false;
     let activateClickOutside = true;
 
-    let breakPoint: number = 1024;
     let width: number;
     let height: number;
     $: topMargin = width >= breakPoint ? 80 : 60;
-    $: if (drawerHidden) {
-        showDrawer.set(false);
+    $: breakPointReached = width < breakPoint;
+    $: if (!drawerHidden && !breakPointReached && drawerEnabled) {
+        showDrawer.set(true)
     } else {
-        showDrawer.set(true);
+        showDrawer.set(false)
     }
-
-    $: if (width >= breakPoint) {
-        drawerHidden = false;
-        activateClickOutside = false;
-    } else {
+    $: if (breakPointReached) {
         drawerHidden = true;
         activateClickOutside = true;
+    } else {
+        drawerHidden = false;
+        activateClickOutside = false;
     }
-    onMount(() => {
-        drawerEnabled.set(true);
-        if (width >= breakPoint) {
-            drawerHidden = false;
-            activateClickOutside = false;
-        } else {
+
+    function checkBreakPoint() {
+        if (breakPointReached) {
             drawerHidden = true;
             activateClickOutside = true;
+        } else {
+            drawerHidden = false;
+            activateClickOutside = false;
         }
+    }
+
+    onMount(() => {
+        $drawerEnabled = true;
+        checkBreakPoint();
     });
+
+    afterUpdate(() => {
+        $drawerEnabled = true;
+        $showDrawer = !drawerHidden && !breakPointReached && drawerEnabled;
+        //checkBreakPoint();
+    })
+
     onDestroy(() => {
-        drawerEnabled.set(false);
-        showDrawer.set(false);
+        console.log("onDestroy")
+        $drawerEnabled = false;
+        $showDrawer = false;
     })
 
     $: currentpathname = $page.url.pathname;
 
-    toggleDrawer.subscribe(i => {
-        drawerHidden = false;
+    toggleDrawer.subscribe(_ => {
+        console.log(drawerHidden)
+        drawerHidden = !drawerHidden;
     });
 
     const toggleSide = () => {
-        if (width < breakPoint) {
+        if (breakPointReached) {
             drawerHidden = !drawerHidden;
         }
     };

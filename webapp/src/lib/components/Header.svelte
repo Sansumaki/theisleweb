@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {i, language, languages, switchLanguage} from "@inlang/sdk-js"
+    import {i} from "@inlang/sdk-js"
     import {page} from '$app/stores';
     import ftr_logo from '$lib/images/FTR_EX.gif';
     import {
@@ -8,8 +8,7 @@
         NavBrand,
         NavHamburger,
         NavLi,
-        NavUl,
-        Button
+        NavUl
     } from "flowbite-svelte";
     import {drawerEnabled, toggleDrawer} from '$lib/stores/nav-store.ts'
 
@@ -21,7 +20,7 @@
 
     let width: number;
 
-    $: currentpathname = $page.url.pathname;
+    $: pathname = $page.url.pathname;
 
     const toggleDrawerUi = () => {
         toggleDrawer.update(i => !i);
@@ -30,7 +29,6 @@
     let divClass = 'w-full ml-auto lg:block lg:w-auto order-1 lg:order-none';
     let ulClass =
         'flex flex-col py-3 my-4 lg:flex-row lg:my-0 text-sm font-medium gap-4 lg:bg-transparent lg:border-0';
-    let navBrand;
 </script>
 
 <svelte:window bind:innerWidth={width}/>
@@ -40,7 +38,7 @@
                 on:click={toggleDrawerUi}
                 btnClass="focus:outline-none whitespace-normal rounded-lg focus:ring-2 p-1.5 focus:ring-gray-400 hover:bg-gray-100 dark:hover:bg-gray-600 m-0 mr-3 lg:hidden {!$drawerEnabled ? 'hidden':''}"
         />
-        <NavBrand bind:clientWidth={navBrand} href="/" class="lg:fixed lg:left-5">
+        <NavBrand href="/" class="lg:fixed lg:left-5">
             <img
                     src="{ftr_logo}"
                     class="mr-3 h-6 sm:h-9 rounded-2xl"
@@ -59,16 +57,13 @@
             {#each menuItems as item}
                 <NavLi class="lg:px-2 lg:mb-0"
                        href="{item.link}"
-                       active={$page.url.pathname === item.link}>
+                       active={pathname === item.link}>
                     {item.name}
                 </NavLi>
             {/each}
-
         </NavUl>
+
         <div class="flex items-center ml-auto">
-        {#each languages.filter(i => i !== language) as language}
-         <Button class="m-4 h-8 w-8" outline on:click={() => switchLanguage(language)}>{language}</Button>
-        {/each}
             <DarkMode class="inline-block dark:hover:text-white hover:text-gray-900"/>
         </div>
         <NavHamburger on:click={toggle} btnClass="lg:hidden"/>

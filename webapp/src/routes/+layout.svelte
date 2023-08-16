@@ -3,7 +3,11 @@
     import {page} from '$app/stores';
     import Header from '$lib/components/Header.svelte';
     import HeadBox from '$lib/components/HeadBox.svelte';
-    import {showDrawer} from '$lib/stores/nav-store.ts'
+    import {showDrawer} from '$lib/stores/nav-store.ts';
+    import {Footer, FooterCopyright, FooterIcon, FooterLink, FooterLinkGroup, Select} from "flowbite-svelte";
+    import {Icon} from "flowbite-svelte-icons";
+    import {i, language, switchLanguage} from "@inlang/sdk-js";
+    import {onMount} from "svelte";
 
 
     $: title = $page.data.page?.title ?? 'FTR The Isle';
@@ -11,9 +15,16 @@
     $: hideHeading = $page.data.page?.hideHeading ?? false;
     $: drawerWidth = $showDrawer ? 256 : 0;
 
-    import {Footer, FooterCopyright, FooterIcon, FooterLink, FooterLinkGroup} from "flowbite-svelte";
-    import {Icon} from "flowbite-svelte-icons";
-    import {i} from "@inlang/sdk-js";
+    let selectedLang;
+    let languageOptions;
+
+    onMount(() => {
+        selectedLang = language;
+        languageOptions = [
+            { value: "de", name: "Deutsch"},
+            { value: "en", name: "English"}
+        ]
+    })
 </script>
 
 <svelte:head>
@@ -72,7 +83,9 @@
         <div class="py-6 px-4 md:flex md:items-center md:justify-between bg-slate-200 dark:bg-slate-700">
             <FooterCopyright spanClass="text-sm text-gray-900 dark:text-gray-300 sm:text-center" href="/" by="Santasia™"
                              year={2023}/>
-            <div class="flex mt-4 space-x-6 sm:justify-center md:mt-0">
+            <div class="flex mt-4 space-x-6 sm:justify-center md:mt-0 items-center">
+                <Select items={languageOptions} bind:value={selectedLang} on:change={() => switchLanguage(selectedLang)} placeholder="">
+                </Select>
                 <FooterIcon target="_blank" href="https://discord.gg/ftr">
                     <Icon name="discord-solid"
                           class="w-4 h-4 text-gray-500 dark:text-gray-500 hover:text-gray-900 dark:hover:text-white"/>
