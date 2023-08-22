@@ -3,6 +3,7 @@
     import {page} from '$app/stores';
     import Header from '$lib/components/Header.svelte';
     import HeadBox from '$lib/components/HeadBox.svelte';
+    import headerImage from '$lib/images/FTR_EX.gif';
     import {showDrawer} from '$lib/stores/nav-store.ts';
     import {Footer, FooterCopyright, FooterIcon, FooterLink, FooterLinkGroup, Select} from "flowbite-svelte";
     import {Icon} from "flowbite-svelte-icons";
@@ -28,8 +29,16 @@
 </script>
 
 <svelte:head>
-    <title>{title} | {i('main.title')}</title>
-    <meta name="description" content={description}/>
+    <title>{title} | FTR; The Isle Info</title>
+    <meta name="description" content="{description}, A webpage about the game community FTR mainly focused on the isle."/>
+    <meta name="kaywords" content="FTR, Fuck the revolution, the isle, isle, dino, dinosaur, game, map, santasia" />
+    <meta name="author" content="Santasia, FTR">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="{title} | FTR; The Isle Info" />
+    <meta property="og:description" content="{description}, A webpage about the game community FTR mainly focused on the isle." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="{$page.url.href}" />
+    <meta property="og:image" content="{headerImage}" />
 </svelte:head>
 
 <Header/>
