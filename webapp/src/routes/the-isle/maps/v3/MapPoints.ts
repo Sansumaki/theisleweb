@@ -1,4 +1,5 @@
 export interface _Point {
+    map: string;
     type: _PointType;
     name: string;
     lat: number;
