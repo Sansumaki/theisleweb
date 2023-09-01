@@ -1,19 +1,12 @@
 import type { PageServerLoad } from "./$types.js";
 import type {Actions} from "@sveltejs/kit";
+import {find} from "$lib/database.js";
 
 const showTeleportPath = 'ftr.v3.showTeleports';
 const showPoiPath = 'ftr.v3.showPoi';
 
-const apiKey = "x1apTAWeCiF1NNDeU4UGSyRmlIKI9MfynwwhxoIkFS46F4m4yI0BxqqTf4mQwXBF";
-
 export const load = (async ({cookies}) => {
-    const pointResponse = await fetch("https://eu-central-1.aws.data.mongodb-api.com/app/application-ftr-jllam/endpoint/ftr/points", {
-        method:'GET',
-        headers: {
-            'Content-Type':'application/json',
-            ApiKey:apiKey
-        }
-    });
+    const mapPoints = await find("map_points", { "map": "legacy_v3" }, {"_id": 0, "map": 0});
 
     const showTeleport = cookies.get(showTeleportPath) === 'true';
     const showPoi = cookies.get(showPoiPath) === 'true';
@@ -21,7 +14,7 @@ export const load = (async ({cookies}) => {
     return {
         showTeleport,
         showPoi,
-        points: JSON.parse(JSON.stringify( await pointResponse.json()))
+        points: JSON.parse(JSON.stringify(mapPoints.documents))
     };
 }) satisfies PageServerLoad;
 
