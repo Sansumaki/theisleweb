@@ -15,5 +15,6 @@ export async function find(collection: string, filter:any, projection: any): Pro
             'projection': projection
         })
     });
+
     return await response.json();
 }
