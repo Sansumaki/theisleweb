@@ -1,11 +1,11 @@
 import { PrismaClient } from '@prisma/client'
 
-// @ts-ignore
-const prisma = global?.prisma || new PrismaClient();
-
-if (process.env.NODE_ENV === "development") {
-    // @ts-ignore
-    global.prisma = prisma;
-}
+const prisma = new PrismaClient();
+// Cloudflare can't handle global (global is not defined)
+// const prisma = global?.prisma || new PrismaClient();
+//
+// if (process.env.NODE_ENV === "development" && global) {
+//     global.prisma = prisma;
+// }
 
 export { prisma };
