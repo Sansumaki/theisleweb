@@ -3,8 +3,6 @@
     import smallMap from '$lib/images/legacy-map-v3-small.jpg';
     import {page} from '$app/stores';
     import {afterNavigate, goto} from '$app/navigation';
-    import type {_Point} from "./MapPoints.js";
-    import {_PointType} from "./MapPoints.js";
     import {Button, FloatingLabelInput, Heading, Hr, Popover, Toggle} from "flowbite-svelte";
     import {Icon} from "flowbite-svelte-icons";
     import {i} from "@inlang/sdk-js";
@@ -25,7 +23,7 @@
         if ($page.url.searchParams.has('lat') && $page.url.searchParams.has('long')) {
             let lat = Number($page.url.searchParams.get('lat'));
             let long = Number($page.url.searchParams.get('long'));
-            player = {type: _PointType.Player, name: "Player", lat, long};
+            player = {type: "Player", name: "Player", lat, long};
             input = {lat, long};
         } else {
             player = null;
@@ -36,12 +34,12 @@
     let map = {width: 0, height: 0};
     let mouse: { x: number; y: number } | null = null;
 
-    let player: _Point | null = null;
+    let player: any | null = null;
     let input: { lat: number | null, long: number | null } = {lat: null, long: null};
     $: setPossible = (player?.lat != input.lat || player?.long != input.long) && input.lat != null && input.long != null;
     $: sharePossible = !setPossible;
 
-    $: filteredPoints = points.filter(x => x.type == _PointType.Teleport && showTeleports || x.type == _PointType.POI && showPointOfInterest);
+    $: filteredPoints = points.filter(x => x.type == "Teleport" && showTeleports || x.type == "POI" && showPointOfInterest);
 
     $: mouseCoordinates = {
         lat: ((mouse?.x ?? 20) / map.width * borderSize.width + borders.latMin).toLocaleString(locale, {
@@ -171,12 +169,12 @@
             <button id="marker_{index}" class="-ml-3 -mt-6 absolute" size="lg"
                     style:left="{LatToX(point.lat, map.width)}px"
                     style:top="{LongToY(point.long, map.height)}px"
-                    style:color="{point.type === _PointType.POI ? '#ffc802' : point.type === _PointType.Teleport ? '#e74646' : '#2e84ea'}">
+                    style:color="{point.type === "POI" ? '#ffc802' : point.type === "Teleport" ? '#e74646' : '#2e84ea'}">
                 <Icon name="map-pin-solid" class="marker_img !outline-none" size="lg" tabindex="-1"/>
             </button>
             <Popover class="w-64 text-sm font-light z-20 text-center" triggeredBy="#marker_{index}" title="{point.name}"
                      placement="bottom">
-                <h3>{_PointType[point.type]}</h3>
+                <h3>{point.type}</h3>
                 <i>lat: {point.lat}, long: {point.long}</i>
             </Popover>
         {/each}

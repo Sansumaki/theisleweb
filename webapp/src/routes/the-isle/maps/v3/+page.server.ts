@@ -1,21 +1,30 @@
 import type { PageServerLoad } from "./$types.js";
 import type {Actions} from "@sveltejs/kit";
-import {find} from "$lib/database.js";
+import {prisma} from "$lib/server/prisma.js";
 
 const showTeleportPath = 'ftr.v3.showTeleports';
 const showPoiPath = 'ftr.v3.showPoi';
 
 export const load = (async ({cookies}) => {
-    const mapPoints = await find("map_points", { "map": "legacy_v3" }, {"_id": 0, "map": 0});
+    try {
+        const mapPoints = await prisma.mapPoints.findMany({
+            where: {map: "legacy_v3"},
+            select: {name: true, lat: true, long: true, type: true}
+        });
 
-    const showTeleport = cookies.get(showTeleportPath) === 'true';
-    const showPoi = cookies.get(showPoiPath) === 'true';
+        const showTeleport = cookies.get(showTeleportPath) === 'true';
+        const showPoi = cookies.get(showPoiPath) === 'true';
 
-    return {
-        showTeleport,
-        showPoi,
-        points: JSON.parse(JSON.stringify(mapPoints.documents))
-    };
+        return {
+            showTeleport,
+            showPoi,
+            points: JSON.parse(JSON.stringify(mapPoints))
+        };
+    }
+    catch (exception)
+    {
+        await prisma.log.create({ data: { level: "Error", message: "Error while load v3.server.load", meta: JSON.stringify(exception) }});
+    }
 }) satisfies PageServerLoad;
 
 function addYears(date: Date, years: number) {
