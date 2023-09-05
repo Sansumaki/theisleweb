@@ -1,4 +1,4 @@
-import type { PageServerLoad } from "./$types.js";
+import type {PageServerLoad} from "./$types.js";
 import type {Actions} from "@sveltejs/kit";
 import {prisma} from "$lib/server/prisma.js";
 
@@ -9,7 +9,8 @@ export const load = (async ({cookies}) => {
     try {
         const mapPoints = await prisma.mapPoints.findMany({
             where: {map: "legacy_v3"},
-            select: {name: true, lat: true, long: true, type: true}
+            select: {name: true, lat: true, long: true, type: true},
+            cacheStrategy: { swr: 60, ttl: 60 },
         });
 
         const showTeleport = cookies.get(showTeleportPath) === 'true';
@@ -20,10 +21,14 @@ export const load = (async ({cookies}) => {
             showPoi,
             points: JSON.parse(JSON.stringify(mapPoints))
         };
-    }
-    catch (exception)
-    {
-        await prisma.log.create({ data: { level: "Error", message: "Error while load v3.server.load", meta: JSON.stringify(exception) }});
+    } catch (exception) {
+        await prisma.log.create({
+            data: {
+                level: "Error",
+                message: "Error while load v3.server.load",
+                meta: JSON.stringify(exception)
+            }
+        });
     }
 }) satisfies PageServerLoad;
 
@@ -42,6 +47,6 @@ export const actions = {
         cookies.set(showTeleportPath, String(showTeleport), {path: '/', expires: expireDate});
         cookies.set(showPoiPath, String(showPoi), {path: '/', expires: expireDate});
 
-        return { success: true };
+        return {success: true};
     }
 } satisfies Actions;
