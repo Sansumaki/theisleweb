@@ -1,11 +1,6 @@
-import { PrismaClient } from '@prisma/client'
+import {PrismaClient} from '@prisma/client/edge.js'
+import {withAccelerate} from "@prisma/extension-accelerate";
 
-const prisma = new PrismaClient();
-// Cloudflare can't handle global (global is not defined)
-// const prisma = global?.prisma || new PrismaClient();
-//
-// if (process.env.NODE_ENV === "development" && global) {
-//     global.prisma = prisma;
-// }
+const prisma = new PrismaClient().$extends(withAccelerate());
 
-export { prisma };
+export {prisma};
