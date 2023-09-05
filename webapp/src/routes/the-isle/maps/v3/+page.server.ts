@@ -1,12 +1,16 @@
 import type { PageServerLoad } from "./$types.js";
 import type {Actions} from "@sveltejs/kit";
 import {find} from "$lib/database.js";
+import {db} from "$lib/server/prisma.js";
 
 const showTeleportPath = 'ftr.v3.showTeleports';
 const showPoiPath = 'ftr.v3.showPoi';
 
 export const load = (async ({cookies}) => {
-    const mapPoints = await find("map_points", { "map": "legacy_v3" }, {"_id": 0, "map": 0});
+    const mapPoints = await db.mapPoints.findMany();
+    console.log(mapPoints)
+
+    //const mapPoints = await find("map_points", { "map": "legacy_v3" }, {"_id": 0, "map": 0});
 
     const showTeleport = cookies.get(showTeleportPath) === 'true';
     const showPoi = cookies.get(showPoiPath) === 'true';
@@ -14,7 +18,7 @@ export const load = (async ({cookies}) => {
     return {
         showTeleport,
         showPoi,
-        points: JSON.parse(JSON.stringify(mapPoints.documents))
+        points: JSON.parse(JSON.stringify(mapPoints))
     };
 }) satisfies PageServerLoad;
 
