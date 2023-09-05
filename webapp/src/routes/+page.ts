@@ -9,7 +9,3 @@ export const load = (() => {
         }
     }
 }) satisfies PageLoad;
-
-export const ssr = true;
-export const csr = true;
-export const prerender = true;

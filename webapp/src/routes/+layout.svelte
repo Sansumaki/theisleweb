@@ -18,6 +18,8 @@
     import {Icon} from "flowbite-svelte-icons";
     import {i, language, switchLanguage} from "@inlang/sdk-js";
     import {onMount} from "svelte";
+    import ftr_logo from '$lib/images/FTR_EX.gif';
+    import { toggleDrawer} from '$lib/stores/nav-store.ts'
 
 
     $: title = $page.data.page?.title ?? 'FTR The Isle';
@@ -35,9 +37,6 @@
             { value: "en", name: "English"}
         ]
     })
-
-    import ftr_logo from '$lib/images/FTR_EX.gif';
-    import { toggleDrawer} from '$lib/stores/nav-store.ts'
 
     let menuItems = [
         {name: i('ftr.menu'), link: "/", group: true},
@@ -100,8 +99,6 @@
                     {item.name}
                 </NavLi>
             {/each}
-
-            {$$slots.drawer}
         </NavUl>
 
         <div class="flex items-center ml-auto">
