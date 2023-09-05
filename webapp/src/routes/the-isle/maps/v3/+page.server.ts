@@ -1,16 +1,16 @@
 import type { PageServerLoad } from "./$types.js";
 import type {Actions} from "@sveltejs/kit";
-import {find} from "$lib/database.js";
 import {db} from "$lib/server/prisma.js";
 
 const showTeleportPath = 'ftr.v3.showTeleports';
 const showPoiPath = 'ftr.v3.showPoi';
 
 export const load = (async ({cookies}) => {
-    const mapPoints = await db.mapPoints.findMany();
+    const mapPoints = await db.mapPoints.findMany({
+        where: { map: "legacy_v3" },
+        select: { name: true, lat: true, long: true, type: true }
+    });
     console.log(mapPoints)
-
-    //const mapPoints = await find("map_points", { "map": "legacy_v3" }, {"_id": 0, "map": 0});
 
     const showTeleport = cookies.get(showTeleportPath) === 'true';
     const showPoi = cookies.get(showPoiPath) === 'true';
