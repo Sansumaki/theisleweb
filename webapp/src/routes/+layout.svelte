@@ -71,7 +71,7 @@
                 on:click={toggleDrawerUi}
                 btnClass="focus:outline-none whitespace-normal rounded-lg focus:ring-2 p-1.5 focus:ring-gray-400 hover:bg-gray-100 dark:hover:bg-gray-600 m-0 mr-3 lg:hidden {!$drawerEnabled ? 'hidden':''}"
         />
-        <NavBrand href="/" class="lg:fixed lg:left-5">
+        <NavBrand href="/" class="lg:left-5">
             <img
                     src="{ftr_logo}"
                     class="mr-3 h-6 sm:h-9 rounded-2xl"

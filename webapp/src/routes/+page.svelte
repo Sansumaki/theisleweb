@@ -7,21 +7,21 @@
     const siteContent = [
         {
             icon: "map-pin-outline",
-            title: $t("ftr.content.map.title"),
-            text: $t("ftr.content.map.description")
+            title: "ftr.sitecontent.items.0.title",
+            text: "ftr.sitecontent.items.0.description"
         },
         {
             icon: "bug-outline",
-            title: $t("ftr.content.dino.title"),
-            text: $t("ftr.content.dino.description"),
+            title: "ftr.sitecontent.items.1.title",
+            text: "ftr.sitecontent.items.1.description",
             comingSoon: true
         }
     ]
 </script>
 
 <Heading tag="h4">{$t('ftr.content.heading')}</Heading>
-{#each ["ftr.content.content1", "ftr.content.content2", "ftr.content.content3", "ftr.content.content4"] as item}
-    <P class="my-4 sm:text-xl text-gray-500 dark:text-gray-400" justify>{$t(item)}</P>
+{#each [0,1,2,3] as item}
+    <P class="my-4 sm:text-xl text-gray-500 dark:text-gray-400" justify>{$t("ftr.content.contents."+item+".value")}</P>
 {/each}
 
 <div class="text-center w-full">
@@ -29,8 +29,8 @@
 </div>
 
 <div class="py-4 mx-auto max-w-screen-xl">
-    <Heading tag="h4">{$t('ftr.content.sitecontent')}</Heading>
-    <P class="sm:text-xl text-gray-500 dark:text-gray-400" justify>{$t('ftr.content.sitecontentdescription')}</P>
+    <Heading tag="h4">{$t('ftr.sitecontent.title')}</Heading>
+    <P class="sm:text-xl text-gray-500 dark:text-gray-400" justify>{$t('ftr.sitecontent.description')}</P>
 </div>
 <div class="space-y-8 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-8 md:space-y-0 mb-12">
     {#each siteContent as item}
@@ -39,8 +39,8 @@
                 <Icon name="{item.icon}"
                       class="text-primary-600 dark:text-primary-300"/>
             </div>
-            <Heading tag="h5" class="mb-2">{item.title}</Heading>
-            <P class="sm:text-xl text-gray-500 dark:text-gray-400">{item.text}</P>
+            <Heading tag="h5" class="mb-2">{$t(item.title)}</Heading>
+            <P class="sm:text-xl text-gray-500 dark:text-gray-400">{$t(item.text)}</P>
             {#if item.comingSoon}
                 <Badge color="yellow">Coming soon</Badge>
             {/if}

@@ -4,19 +4,33 @@
   "menu": "FTR",
   "content": {
     "heading": "Welcome to the official website of Fuck The Revolution!",
-    "content1": "Be a part of our passionate community and experience the ultimate survival adventure in The Isle Game. Join our discord server and become part of a community dedicated to surviving in a world full of dinosaurs.",
-    "content2": "On this website you will find all the information you need to immerse yourself in our world. Learn more about our server rules, learn about the different game modes and stay up to date with updates and events.",
-    "content3": "Join us and find a friendly group of players willing to share their knowledge and experience with you. Together we can improve our survival skills and experience exciting adventures.",
-    "content4": "So don't hesitate, join us and show that you are ready to survive the dinosaur revolution!",
-    "sitecontent": "Site Content",
-    "sitecontentdescription": "Here you see an overview what you can find on this site.",
-    "map": {
-      "title": "The Isle Maps",
-      "description": "Here you find interactive maps from the Isle game. Currently we serve the legacy v3 map."
-    },
-    "dino": {
-      "title": "Dinosaur",
-      "description": "Here you find a lot of information about all the isle dinosaur."
-    }
+    "contents": [
+      {
+        "value": "Be a part of our passionate community and experience the ultimate survival adventure in The Isle Game. Join our discord server and become part of a community dedicated to surviving in a world full of dinosaurs."
+      },
+      {
+        "value": "On this website you will find all the information you need to immerse yourself in our world. Learn more about our server rules, learn about the different game modes and stay up to date with updates and events."
+      },
+      {
+        "value": "Join us and find a friendly group of players willing to share their knowledge and experience with you. Together we can improve our survival skills and experience exciting adventures."
+      },
+      {
+        "value": "So don't hesitate, join us and show that you are ready to survive the dinosaur revolution!"
+      }
+    ]
+  },
+  "sitecontent": {
+    "title": "Site Content",
+    "description": "Here you see an overview what you can find on this site.",
+    "items": [
+      {
+        "title": "The Isle Maps",
+        "description": "Here you find interactive maps from the Isle game. Currently we serve the legacy v3 map."
+      },
+      {
+        "title": "Dinosaur",
+        "description": "Here you find a lot of information about all the isle dinosaur."
+      }
+    ]
   }
 }
