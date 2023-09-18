@@ -1,6 +1,6 @@
 <script lang="ts">
     import {Heading, Hr, P} from "flowbite-svelte";
-    import {t} from "$lib/translations";
+    import {t} from '$lib/translations';
 </script>
 
 <Heading tag="h4">{$t('theIsle.content.heading')}</Heading>

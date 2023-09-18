@@ -12,7 +12,7 @@
     import {page} from "$app/stores";
     import {afterUpdate, onDestroy, onMount} from "svelte";
     import {showDrawer, toggleDrawer, drawerEnabled} from '$lib/stores/nav-store.ts'
-    import {t} from "$lib/translations";
+    import {t} from '$lib/translations';
 
     const breakPoint: number = 1024;
     let drawerHidden: boolean = false;
@@ -52,7 +52,7 @@
 
     afterUpdate(() => {
         $drawerEnabled = true;
-        $showDrawer = !drawerHidden && !breakPointReached && drawerEnabled;
+        showDrawer.set(!drawerHidden && !breakPointReached && drawerEnabled);
         //checkBreakPoint();
     })
 
