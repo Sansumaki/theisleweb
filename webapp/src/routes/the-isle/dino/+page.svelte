@@ -1,7 +1,7 @@
 <script>
     import {Heading, P} from "flowbite-svelte";
-    import {i} from "@inlang/sdk-js";
+    import {t} from "$lib/translations";
 </script>
 
-<Heading tag="h4">{i('theIsle.dino.title')}</Heading>
-<P class="my-4" justify>{i('theIsle.dino.description')}</P>
+<Heading tag="h4">{$t('theIsle.dino.title')}</Heading>
+<P class="my-4" justify>{$t('theIsle.dino.description')}</P>

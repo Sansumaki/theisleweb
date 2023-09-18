@@ -2,6 +2,8 @@
     import '../app.postcss';
     import {page} from '$app/stores';
     import HeadBox from '$lib/components/HeadBox.svelte';
+    // @ts-ignore
+    import {t, locale, locales} from '$lib/translations';
     import headerImage from '$lib/images/FTR_EX.gif';
     import {drawerEnabled, showDrawer} from '$lib/stores/nav-store.ts';
     import {
@@ -13,35 +15,26 @@
         FooterLinkGroup, Navbar,
         NavBrand,
         NavHamburger, NavLi, NavUl,
-        Select
     } from "flowbite-svelte";
     import {Icon} from "flowbite-svelte-icons";
-    import {i, language, switchLanguage} from "@inlang/sdk-js";
-    import {onMount} from "svelte";
     import ftr_logo from '$lib/images/FTR_EX.gif';
-    import { toggleDrawer} from '$lib/stores/nav-store.ts'
+    import {toggleDrawer} from '$lib/stores/nav-store.ts';
 
+    const handleChange = ({currentTarget}: { currentTarget: any }) => {
+        const {value} = currentTarget;
 
-    $: title = $page.data.page?.title ?? 'FTR The Isle';
-    $: description = $page.data.page?.content ?? 'FTR The Isle Website';
+        document.cookie = `lang=${value} ;`;
+    };
+
+    $: title = t.get($page.data.page?.title) ?? 'FTR The Isle';
+    $: description = t.get($page.data.page?.content) ?? 'FTR The Isle Website';
     $: hideHeading = $page.data.page?.hideHeading ?? false;
     $: drawerWidth = $showDrawer ? 256 : 0;
 
-    let selectedLang;
-    let languageOptions;
-
-    onMount(() => {
-        selectedLang = language;
-        languageOptions = [
-            { value: "de", name: "Deutsch"},
-            { value: "en", name: "English"}
-        ]
-    })
-
     let menuItems = [
-        {name: i('ftr.menu'), link: "/", group: true},
-        {name: i('theIsle.menu'), link: "/the-isle", group: true},
-        {name: i('about.menu'), link: "/about", group: true},
+        {name: 'ftr.menu', link: "/", group: true},
+        {name: 'theIsle.menu', link: "/the-isle", group: true},
+        {name: 'about.menu', link: "/about", group: true},
     ];
 
     let width: number;
@@ -59,15 +52,17 @@
 
 <svelte:head>
     <title>{title} | FTR; The Isle Info</title>
-    <meta name="description" content="{description}, A webpage about the game community FTR mainly focused on the isle."/>
-    <meta name="kaywords" content="FTR, Fuck the revolution, the isle, isle, dino, dinosaur, game, map, santasia" />
+    <meta name="description"
+          content="{description}, A webpage about the game community FTR mainly focused on the isle."/>
+    <meta name="kaywords" content="FTR, Fuck the revolution, the isle, isle, dino, dinosaur, game, map, santasia"/>
     <meta name="author" content="Santasia, FTR">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta property="og:title" content="{title} | FTR; The Isle Info" />
-    <meta property="og:description" content="{description}, A webpage about the game community FTR mainly focused on the isle." />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="{$page.url.href}" />
-    <meta property="og:image" content="{headerImage}" />
+    <meta property="og:title" content="{title} | FTR; The Isle Info"/>
+    <meta property="og:description"
+          content="{description}, A webpage about the game community FTR mainly focused on the isle."/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:url" content="{$page.url.href}"/>
+    <meta property="og:image" content="{headerImage}"/>
 </svelte:head>
 
 <header class="sticky z-50 top-0 left-0 flex-none w-full mx-auto">
@@ -76,13 +71,13 @@
                 on:click={toggleDrawerUi}
                 btnClass="focus:outline-none whitespace-normal rounded-lg focus:ring-2 p-1.5 focus:ring-gray-400 hover:bg-gray-100 dark:hover:bg-gray-600 m-0 mr-3 lg:hidden {!$drawerEnabled ? 'hidden':''}"
         />
-        <NavBrand href="/" class="lg:fixed lg:left-5">
+        <NavBrand href="/" class="lg:left-5">
             <img
                     src="{ftr_logo}"
                     class="mr-3 h-6 sm:h-9 rounded-2xl"
                     alt="FTR Logo"
             />
-            <span class="self-center whitespace-nowrap text-xl font-semibold text-gray-700 dark:text-white">{i('main.title')}</span>
+            <span class="self-center whitespace-nowrap text-xl font-semibold text-gray-700 dark:text-white">{$t('common.title')}</span>
         </NavBrand>
 
         <NavUl
@@ -96,7 +91,7 @@
                 <NavLi class="lg:px-2 lg:mb-0"
                        href="{item.link}"
                        active={pathname === item.link}>
-                    {item.name}
+                    {$t(item.name)}
                 </NavLi>
             {/each}
         </NavUl>
@@ -125,16 +120,16 @@
             <div>
                 <h2 class="mb-6 text-sm font-semibold uppercase text-primary-600 dark:text-primary-200">FTR</h2>
                 <FooterLinkGroup ulClass="text-gray-900 dark:text-gray-300">
-                    <FooterLink liClass="mb-4" href="/about">{i('ftr.menu')}</FooterLink>
-                    <FooterLink liClass="mb-4" href="/about">{i('about.menu')}</FooterLink>
+                    <FooterLink liClass="mb-4" href="/about">{$t('ftr.menu')}</FooterLink>
+                    <FooterLink liClass="mb-4" href="/about">{$t('about.menu')}</FooterLink>
                 </FooterLinkGroup>
             </div>
             <div>
                 <h2 class="mb-6 text-sm font-semibold uppercase text-primary-600 dark:text-primary-200">The Isle</h2>
                 <FooterLinkGroup ulClass="text-gray-900 dark:text-gray-300">
-                    <FooterLink liClass="mb-4" href="/the-isle">{i('theIsle.menu')}</FooterLink>
-                    <FooterLink liClass="mb-4" href="/the-isle/dino">{i('theIsle.dino.menu')}</FooterLink>
-                    <FooterLink liClass="mb-4" href="/map">{i('theIsle.maps.menu')}</FooterLink>
+                    <FooterLink liClass="mb-4" href="/the-isle">{$t('theIsle.menu')}</FooterLink>
+                    <FooterLink liClass="mb-4" href="/the-isle/dino">{$t('theIsle.dino.menu')}</FooterLink>
+                    <FooterLink liClass="mb-4" href="/map">{$t('theIsle.maps.menu')}</FooterLink>
                 </FooterLinkGroup>
             </div>
             <div>
@@ -158,8 +153,11 @@
             <FooterCopyright spanClass="text-sm text-gray-900 dark:text-gray-300 sm:text-center" href="/" by="Santasia™"
                              year={2023}/>
             <div class="flex mt-4 space-x-6 sm:justify-center md:mt-0 items-center">
-                <Select items={languageOptions} bind:value={selectedLang} on:change={() => switchLanguage(selectedLang)} placeholder="">
-                </Select>
+                <select bind:value="{$locale}" on:change={handleChange}>
+                    {#each $locales as value}
+                        <option value="{value}">{$t(`lang.${value}`)}</option>
+                    {/each}
+                </select>
                 <FooterIcon target="_blank" href="https://discord.gg/ftr">
                     <Icon name="discord-solid"
                           class="w-4 h-4 text-gray-500 dark:text-gray-500 hover:text-gray-900 dark:hover:text-white"/>
