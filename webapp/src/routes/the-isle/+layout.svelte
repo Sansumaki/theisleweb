@@ -12,7 +12,7 @@
     import {page} from "$app/stores";
     import {afterUpdate, onDestroy, onMount} from "svelte";
     import {showDrawer, toggleDrawer, drawerEnabled} from '$lib/stores/nav-store.ts'
-    import {i} from "@inlang/sdk-js";
+    import {t} from "$lib/translations";
 
     const breakPoint: number = 1024;
     let drawerHidden: boolean = false;
@@ -97,11 +97,11 @@
     <Sidebar asideClass="w-54">
         <SidebarWrapper divClass="overflow-y-auto py-4 px-3 rounded">
             <SidebarGroup>
-                <SidebarItem label="{i('theIsle.menu')}" href="/the-isle" on:click={toggleSide}
+                <SidebarItem label="{$t('theIsle.menu')}" href="/the-isle" on:click={toggleSide}
                              active={currentpathname === `/the-isle`}/>
-                <SidebarItem label="{i('theIsle.dino.menu')}" href="/the-isle/dino" on:click={toggleSide}
+                <SidebarItem label="{$t('theIsle.dino.menu')}" href="/the-isle/dino" on:click={toggleSide}
                              active={currentpathname === `/the-isle/dino`}/>
-                <SidebarDropdownWrapper label="{i('theIsle.maps.menu')}">
+                <SidebarDropdownWrapper label="{$t('theIsle.maps.menu')}">
                     <SidebarItem label="Legacy V3" href="/the-isle/maps/v3" on:click={toggleSide}
                                  active={currentpathname === `/the-isle/maps/v3`}/>
                 </SidebarDropdownWrapper>

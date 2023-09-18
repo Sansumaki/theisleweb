@@ -5,7 +5,7 @@
     import {afterNavigate, goto} from '$app/navigation';
     import {Button, FloatingLabelInput, Heading, Hr, Popover, Toggle} from "flowbite-svelte";
     import {Icon} from "flowbite-svelte-icons";
-    import {i} from "@inlang/sdk-js";
+    import {t} from "$lib/translations";
 
     export let data;
     let showTeleports = data.showTeleport;
@@ -127,22 +127,22 @@
 
     <Button color="primary" class="{!setPossible ? 'hidden' :''}" type="submit">
         <Icon name="map-pin-outline"/>
-        <p class="pl-2 text-xs">{i('theIsle.maps.show')}</p>
+        <p class="pl-2 text-xs">{$t('theIsle.maps.show')}</p>
     </Button>
     <Button color="primary" class="{!sharePossible ? 'hidden' :''}" on:click={copyMapUrlToClipboard}>
         <Icon name="share-nodes-outline"/>
-        <p class="pl-2 text-xs">{i('theIsle.maps.share')}</p>
+        <p class="pl-2 text-xs">{$t('theIsle.maps.share')}</p>
     </Button>
 
     <Button outline color="red" on:click={clearMap}>
         <Icon name="close-solid"/>
-        <p class="pl-2 text-xs">{i('theIsle.maps.clear')}</p>
+        <p class="pl-2 text-xs">{$t('theIsle.maps.clear')}</p>
     </Button>
 </form>
 <Hr divClass="my-4 md:my-4"></Hr>
 <div class="grid gap-4 items-end mb-6 md:grid-cols-2">
-    <Toggle bind:checked={showTeleports} on:change={() => showForm()}>{i('theIsle.maps.showTeleports')}</Toggle>
-    <Toggle bind:checked={showPointOfInterest} on:change={() => showForm()}>{i('theIsle.maps.showPointsOfInterest')}</Toggle>
+    <Toggle bind:checked={showTeleports} on:change={() => showForm()}>{$t('theIsle.maps.showTeleports')}</Toggle>
+    <Toggle bind:checked={showPointOfInterest} on:change={() => showForm()}>{$t('theIsle.maps.showPointsOfInterest')}</Toggle>
 </div>
 
 <div role="img" class="m-auto p-0 block" id="map_area"
