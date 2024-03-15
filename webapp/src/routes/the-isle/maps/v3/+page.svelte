@@ -6,11 +6,30 @@
     import {Button, FloatingLabelInput, Heading, Hr, Popover, Toggle} from "flowbite-svelte";
     import {Icon} from "flowbite-svelte-icons";
     import {t} from "$lib/translations";
+    import { onMount } from 'svelte';
+    import pandasiaStore from '$lib/stores/pandasia.store.js';
+    let message;
+    let messages = [];
+    let points = [];
+
+    onMount(() => {
+        pandasiaStore.subscribe(currentMessage => {
+            console.log(currentMessage)
+            messages = [...messages, currentMessage];
+        })
+        points = pandasiaStore.requestMapPoints("legacy_v3")
+    })
+
+    function onSendMessage() {
+        if (message.length > 0) {
+            pandasiaStore.sendMessage(message);
+            message = "";
+        }
+    }
 
     export let data;
     let showTeleports = data.showTeleport;
     let showPointOfInterest = data.showPoi;
-    const {points} = data;
 
     const borders = {latMin: -844, latMax: 753, longMin: -724, longMax: 873}
     const borderSize = {

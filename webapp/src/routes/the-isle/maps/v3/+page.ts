@@ -1,5 +1,7 @@
 import type {PageLoad} from "./$types.ts";
 
+export const ssr = false;
+
 export const load = (({data }) => {
 return {...{
     page:{
