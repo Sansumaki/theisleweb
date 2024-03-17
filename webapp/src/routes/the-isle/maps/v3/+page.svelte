@@ -8,24 +8,19 @@
     import {t} from "$lib/translations";
     import { onMount } from 'svelte';
     import pandasiaStore from '$lib/stores/pandasia.store.js';
-    let message;
-    let messages = [];
+    import type {_Point} from "./MapPoints.js";
     let points = [];
 
     onMount(() => {
         pandasiaStore.subscribe(currentMessage => {
-            console.log(currentMessage)
-            messages = [...messages, currentMessage];
+            if (currentMessage != null && currentMessage["response"] === "mapPoints") {
+                console.log(currentMessage.data)
+                points = currentMessage.data as _Point[]
+                console.log(points)
+            }
         })
-        points = pandasiaStore.requestMapPoints("legacy_v3")
+        pandasiaStore.requestMapPoints("legacy_v3")
     })
-
-    function onSendMessage() {
-        if (message.length > 0) {
-            pandasiaStore.sendMessage(message);
-            message = "";
-        }
-    }
 
     export let data;
     let showTeleports = data.showTeleport;
@@ -100,6 +95,10 @@
         fetch('?/saveShowFlags', {method: 'POST', body: formData});
     }
 
+    function test() {
+        pandasiaStore.requestMapPoints("legacy_v3")
+    }
+
     function pasteCoordinates() {
         navigator.clipboard.readText().then((value: string) => {
             let match = value.match('Lat: ([\-0-9]+)\..+Long: ([\-0-9]+)\.');
@@ -134,6 +133,10 @@
     <Button color="green" class="col-span-2" on:click={pasteCoordinates}>
         <Icon name="map-pin-outline"/>
         <p class="pl-2 text-xs">Ctrl + V</p>
+    </Button>
+    <Button color="green" class="col-span-2" on:click={test}>
+        <Icon name="map-pin-outline"/>
+        <p class="pl-2 text-xs">TT</p>
     </Button>
     <div class="col-span-2 text-left">
         <FloatingLabelInput id="lat" name="lat" type="number" label="Lat" required min="{borders.latMin}"
