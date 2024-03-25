@@ -6,25 +6,41 @@
     import {Button, FloatingLabelInput, Heading, Hr, Popover, Toggle} from "flowbite-svelte";
     import {Icon} from "flowbite-svelte-icons";
     import {t} from "$lib/translations";
-    import { onMount } from 'svelte';
-    import pandasiaStore from '$lib/stores/pandasia.store.js';
-    import type {_Point} from "./MapPoints.js";
-    let points = [];
+    import {onMount} from 'svelte';
+    import pandasiaStore, {type IsleMap, type PoiLocation, type TeleportLocation} from '$lib/stores/pandasia.store.js';
 
-    onMount(() => {
-        pandasiaStore.subscribe(currentMessage => {
-            if (currentMessage != null && currentMessage["response"] === "mapPoints") {
-                console.log(currentMessage.data)
-                points = currentMessage.data as _Point[]
-                console.log(points)
-            }
-        })
-        pandasiaStore.requestMapPoints("legacy_v3")
-    })
+    let _teleportLocations: TeleportLocation[] = [];
+    let _poiLocations: PoiLocation[] = [];
+    let _mapList: IsleMap[];
 
     export let data;
     let showTeleports = data.showTeleport;
     let showPointOfInterest = data.showPoi;
+    let selectedMap = data.selectedMap;
+
+    onMount(() => {
+        pandasiaStore.subscribeTeleportLocations(teleportLocations => {
+            _teleportLocations = teleportLocations;
+        });
+        pandasiaStore.subscribePoiLocations(poiLocations => {
+            _poiLocations = poiLocations;
+        });
+        pandasiaStore.subscribeMapList(maps => {
+            console.log(maps)
+            _mapList = maps;
+            if (selectedMap == undefined && _mapList.length > 0)
+            {
+                selectedMap = _mapList[0].Key;
+                pandasiaStore.requestMapData(selectedMap)
+            }
+        });
+
+        pandasiaStore.requestMapList()
+        if (selectedMap != undefined) {
+            pandasiaStore.requestMapData(selectedMap)
+        }
+    })
+
 
     const borders = {latMin: -844, latMax: 753, longMin: -724, longMax: 873}
     const borderSize = {
@@ -53,8 +69,6 @@
     $: setPossible = (player?.lat != input.lat || player?.long != input.long) && input.lat != null && input.long != null;
     $: sharePossible = !setPossible;
 
-    $: filteredPoints = points.filter(x => x.type == "Teleport" && showTeleports || x.type == "POI" && showPointOfInterest);
-
     $: mouseCoordinates = {
         lat: ((mouse?.x ?? 20) / map.width * borderSize.width + borders.latMin).toLocaleString(locale, {
             maximumFractionDigits: 0,
@@ -64,6 +78,13 @@
             maximumFractionDigits: 0,
             minimumFractionDigits: 0
         })
+    }
+
+    function XToLat(x: number) {
+        return Math.round(x / 1000)
+    }
+    function YToLong(y: number) {
+        return Math.round(y / 1000)
     }
 
     function LatToX(lat: number, mapWidth: number): number {
@@ -93,10 +114,6 @@
         formData.append('showTeleport', showTeleports ? 'on' : 'off');
         formData.append('showPoi', showPointOfInterest ? 'on' : 'off');
         fetch('?/saveShowFlags', {method: 'POST', body: formData});
-    }
-
-    function test() {
-        pandasiaStore.requestMapPoints("legacy_v3")
     }
 
     function pasteCoordinates() {
@@ -134,10 +151,6 @@
         <Icon name="map-pin-outline"/>
         <p class="pl-2 text-xs">Ctrl + V</p>
     </Button>
-    <Button color="green" class="col-span-2" on:click={test}>
-        <Icon name="map-pin-outline"/>
-        <p class="pl-2 text-xs">TT</p>
-    </Button>
     <div class="col-span-2 text-left">
         <FloatingLabelInput id="lat" name="lat" type="number" label="Lat" required min="{borders.latMin}"
                             max="{borders.latMax}" bind:value={input.lat}/>
@@ -164,7 +177,8 @@
 <Hr divClass="my-4 md:my-4"></Hr>
 <div class="grid gap-4 items-end mb-6 md:grid-cols-2">
     <Toggle bind:checked={showTeleports} on:change={() => showForm()}>{$t('theIsle.maps.showTeleports')}</Toggle>
-    <Toggle bind:checked={showPointOfInterest} on:change={() => showForm()}>{$t('theIsle.maps.showPointsOfInterest')}</Toggle>
+    <Toggle bind:checked={showPointOfInterest}
+            on:change={() => showForm()}>{$t('theIsle.maps.showPointsOfInterest')}</Toggle>
 </div>
 
 <div role="img" class="m-auto p-0 block" id="map_area"
@@ -187,19 +201,40 @@
         <img class="w-full" src={smallMap} alt="map-v3">
     </picture>
     {#if map?.height > 0 && map?.width > 0}
-        {#each filteredPoints as point, index}
-            <button id="marker_{index}" class="-ml-3 -mt-6 absolute" size="lg"
-                    style:left="{LatToX(point.lat, map.width)}px"
-                    style:top="{LongToY(point.long, map.height)}px"
-                    style:color="{point.type === "POI" ? '#ffc802' : point.type === "Teleport" ? '#e74646' : '#2e84ea'}">
-                <Icon name="map-pin-solid" class="marker_img !outline-none" size="lg" tabindex="-1"/>
-            </button>
-            <Popover class="w-64 text-sm font-light z-20 text-center" triggeredBy="#marker_{index}" title="{point.name}"
-                     placement="bottom">
-                <h3>{point.type}</h3>
-                <i>lat: {point.lat}, long: {point.long}</i>
-            </Popover>
-        {/each}
+        {#if _teleportLocations.length > 0 && showTeleports}
+            {#each _teleportLocations as location, index}
+                <button id="marker_t_{index}" class="-ml-3 -mt-6 absolute" size="lg"
+                        style:left="{LatToX(XToLat(location.Location_X), map.width)}px"
+                        style:top="{LongToY(YToLong(location.Location_Y), map.height)}px"
+                        style:color="#e74646">
+
+                    <Icon name="map-pin-solid" class="marker_img !outline-none" size="lg" tabindex="-1"/>
+                </button>
+                <Popover class="w-64 text-sm font-light z-20 text-center" triggeredBy="#marker_t_{index}"
+                         title="{location.Name}"
+                         placement="bottom">
+                    <h3>Teleport</h3>
+                    <i>lat: {XToLat(location.Location_X)}, long: {YToLong(location.Location_Y)}</i>
+                </Popover>
+            {/each}
+        {/if}
+        {#if _poiLocations.length > 0 && showPointOfInterest}
+            {#each _poiLocations as location, index}
+                <button id="marker_poi_{index}" class="-ml-3 -mt-6 absolute" size="lg"
+                        style:left="{LatToX(XToLat(location.Location_X), map.width)}px"
+                        style:top="{LongToY(YToLong(location.Location_Y), map.height)}px"
+                        style:color="#ffc802">
+
+                    <Icon name="map-pin-solid" class="marker_img !outline-none" size="lg" tabindex="-1"/>
+                </button>
+                <Popover class="w-64 text-sm font-light z-20 text-center" triggeredBy="#marker_poi_{index}"
+                         title="{location.Name}"
+                         placement="bottom">
+                    <h3>{location.Description}</h3>
+                    <i>lat: {XToLat(location.Location_X)}, long: {YToLong(location.Location_Y)}</i>
+                </Popover>
+            {/each}
+        {/if}
         {#if player != null}
             <button id="marker_p" class="-ml-4 -mt-8 absolute" size="lg"
                     style:left="{LatToX(player.lat, map.width)}px"
@@ -207,7 +242,8 @@
                     style:color="{'#2e84ea'}">
                 <Icon name="map-pin-outline" class="marker_img !outline-none" size="xl" tabindex="-1"/>
             </button>
-            <Popover class="w-64 text-sm font-light z-20 text-center" triggeredBy="#marker_p" title="Player" placement="bottom">
+            <Popover class="w-64 text-sm font-light z-20 text-center" triggeredBy="#marker_p" title="Player"
+                     placement="bottom">
                 <i>lat: {player.lat}, long: {player.long}</i>
             </Popover>
         {/if}

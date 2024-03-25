@@ -1,8 +1,9 @@
 import type {PageServerLoad} from "./$types.js";
 import type {Actions} from "@sveltejs/kit";
 
-const showTeleportPath = 'ftr.v3.showTeleports';
-const showPoiPath = 'ftr.v3.showPoi';
+const showTeleportPath = 'pandasia.isleMap.showTeleports';
+const showPoiPath = 'pandasia.isleMap.showPoi';
+const selectedMapPath = 'pandasia.isleMap.selectedMap';
 
 export const prerender = false;
 
@@ -11,10 +12,12 @@ export const load = (async ({cookies}) => {
 
         const showTeleport = cookies.get(showTeleportPath) === 'true';
         const showPoi = cookies.get(showPoiPath) === 'true';
+        const selectedMap = cookies.get(selectedMapPath);
 
         return {
             showTeleport,
-            showPoi
+            showPoi,
+            selectedMap
         };
     } catch (exception) {
         console.log(exception)
