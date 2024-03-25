@@ -9,6 +9,13 @@ interface Response {
 interface MapDataResponseData {
     teleportPoints: TeleportLocation[]
     POI: PoiLocation[]
+    meta: MapDataMeta
+}
+
+interface MapDataMeta {
+    Key: string,
+    Name: string,
+    Map_Key: string
 }
 
 export interface IsleMap {
@@ -38,6 +45,7 @@ export interface PoiLocation {
 const teleportStore: Writable<TeleportLocation[]> = writable(new Array<TeleportLocation>())
 const poiStore: Writable<PoiLocation[]> = writable(new Array<PoiLocation>())
 const mapListStore: Writable<IsleMap[]> = writable(new Array<IsleMap>())
+const mapDataStore: Writable<MapDataResponseData | undefined> = writable(undefined)
 
 const socket = new WebSocket('wss://api.pandasia.xyz/ws'); //new WebSocket("ws://localhost:8787/ws"); //
 
@@ -54,6 +62,7 @@ socket.addEventListener('message', function (event) {
             const mapDataResponse = response.data as MapDataResponseData;
             teleportStore.set(mapDataResponse.teleportPoints);
             poiStore.set(mapDataResponse.POI);
+            mapDataStore.set(mapDataResponse);
             return;
         }
         if (response.response === "mapList") {
@@ -102,6 +111,7 @@ export default {
     subscribeTeleportLocations: teleportStore.subscribe,
     subscribePoiLocations: poiStore.subscribe,
     subscribeMapList: mapListStore.subscribe,
+    subscribeMapData: mapDataStore.subscribe,
     requestMapData,
     requestMapList
 }
