@@ -3,6 +3,7 @@
     import L from 'leaflet';
     import 'leaflet/dist/leaflet.css';
     import bigMap from "$lib/images/legacy-map-v3.jpg";
+    import portMap from "$lib/images/port.png";
 
     export let bounds: L.LatLngBoundsExpression | undefined = undefined;
     export let view: L.LatLngExpression | undefined = undefined;
@@ -19,13 +20,17 @@
         }
 
         const mapLayer = L.imageOverlay(bigMap, bounds);
+        const portLayer = L.imageOverlay(portMap, [[-10,350],[-130,480]]);
 
         map = L.map(mapElement, {
             referCanvas: true,
             crs: L.CRS.Simple,
-            minZoom: -1,
-            maxZoom: 2,
-            layers: [ mapLayer ]
+            minZoom: -2,
+            maxZoom: 5,
+            zoomSnap: 0,
+            zoomDelta: 0.5,
+            maxBounds: bounds,
+            layers: [mapLayer, portLayer]
         })
             // example to expose map events to parent components:
             .on('zoom', (e) => dispatch('zoom', e))
@@ -55,8 +60,24 @@
     }
 </script>
 
-<div class="w-full h-full" bind:this={mapElement}>
+<div class="absolute w-full h-full backgroundDiv">.</div>
+<div class="absolute w-full h-full mapDiv" bind:this={mapElement}>
     {#if map}
-        <slot />
+        <slot/>
     {/if}
 </div>
+
+<style lang="scss">
+  $headerHeight: 80px;
+  .backgroundDiv {
+    background-image: url('$lib/images/water-background.png');
+    margin-top: $headerHeight;
+    height: calc(100% - $headerHeight);
+  }
+
+  .mapDiv {
+    background: rgba(74, 117, 124, 0.9);
+    margin-top: $headerHeight;
+    height: calc(100% - $headerHeight);
+  }
+</style>
