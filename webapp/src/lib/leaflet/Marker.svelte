@@ -1,16 +1,22 @@
 <script lang="ts">
-    import { onMount, onDestroy, getContext, setContext } from 'svelte';
+    import {onMount, onDestroy, getContext, setContext} from 'svelte';
     import L from 'leaflet';
 
     export let width: number;
     export let height: number;
     export let latLng: L.LatLngExpression;
+    export let isTeleport = false;
+    export let isPoi = false;
 
     let marker: L.Marker | undefined;
     let markerElement: HTMLElement;
 
-    const { getMap }: { getMap: () => L.Map | undefined } = getContext('map');
+    const {getMap}: { getMap: () => L.Map | undefined } = getContext('map');
     const map = getMap();
+    const {getTeleportLayer}: { getTeleportLayer: () => L.LayerGroup | undefined } = getContext('teleportLayer');
+    const teleportLayer = getTeleportLayer();
+    const {getPoiLayer}: { getPoiLayer: () => L.LayerGroup | undefined } = getContext('poiLayer');
+    const poiLayer = getPoiLayer();
 
     setContext('layer', {
         // L.Marker inherits from L.Layer
@@ -24,7 +30,16 @@
                 className: 'map-marker',
                 iconSize: L.point(width, height)
             });
-            marker = L.marker(xy(latLng), { icon }).addTo(map);
+            marker = L.marker(latLng, {icon})
+            if (isTeleport) {
+                marker.addTo(teleportLayer);
+            }
+            else if (isPoi) {
+                marker.addTo(poiLayer);
+            }
+            else {
+                marker.addTo(map);
+            }
         }
     });
 
@@ -33,14 +48,10 @@
         marker = undefined;
     });
 
-    function xy(latLng: L.LatLngExpression) {
-        return latLng;
-        return L.latLng(873-([0]-(-724)), latLng[1])
-    }
 </script>
 
 <div bind:this={markerElement}>
     {#if marker}
-        <slot />
+        <slot/>
     {/if}
 </div>
