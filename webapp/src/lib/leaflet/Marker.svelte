@@ -1,10 +1,10 @@
 <script lang="ts">
     import {onMount, onDestroy, getContext, setContext} from 'svelte';
-    import L from 'leaflet';
+    import L, {LatLng} from 'leaflet';
 
     export let width: number;
     export let height: number;
-    export let latLng: L.LatLngExpression;
+    export let latLng: LatLng;
     export let isTeleport = false;
     export let isPoi = false;
 

@@ -1,15 +1,14 @@
 <script lang="ts">
     import {onMount, onDestroy, setContext, createEventDispatcher, tick} from 'svelte';
-    import L from 'leaflet';
+    import L, {latLng} from 'leaflet';
     import 'leaflet/dist/leaflet.css';
-    import bigMap from "$lib/images/legacy-map-v3.jpg";
-    import portMap from "$lib/images/port.png";
 
     export let bounds: L.LatLngBoundsExpression | undefined = undefined;
     export let view: L.LatLngExpression | undefined = undefined;
     export let zoom: number | undefined = undefined;
     export let showTeleports: boolean | undefined = undefined;
     export let showPointOfInterest: boolean | undefined = undefined;
+    export let mapSources: string[] = [];
 
     const dispatch = createEventDispatcher();
 
@@ -20,12 +19,33 @@
     let menuElement: HTMLElement;
 
     onMount(() => {
-        if (!bounds && (!view || !zoom)) {
+        if (!bounds && (!view || !zoom) && !mapSources) {
             throw new Error('Must set either bounds, or view and zoom.');
         }
 
-        const mapLayer = L.imageOverlay(bigMap, bounds);
-        const portLayer = L.imageOverlay(portMap, [[-10, 350], [-130, 480]]);
+        let mapLayers = new Array<L.ImageOverlay>();
+        let baseLayers = {};
+        mapSources.forEach(m => {
+            let layer = L.imageOverlay(m[1], m[2]);
+            mapLayers.push(layer);
+            baseLayers[m[0]] = layer;
+
+            if (bounds === undefined) {
+                bounds = m[2];
+            }
+            if (bounds[0][0] < m[2][0][0]) {
+                bounds[0][0] = m[2][0][0];
+            }
+            if (bounds[1][0] < m[2][1][0]) {
+                bounds[1][0] = m[2][1][0];
+            }
+            if (bounds[0][1] > m[2][0][1]) {
+                bounds[0][1] = m[2][0][1];
+            }
+            if (bounds[1][1] > m[2][1][1]) {
+                bounds[1][1] = m[2][1][1];
+            }
+        })
 
         teleportLayer = L.layerGroup();
         poiLayer = L.layerGroup();
@@ -40,7 +60,7 @@
             maxBounds: bounds,
             attributionControl: false,
             zoomControl: false,
-            layers: [mapLayer, portLayer]
+            layers: [mapLayers[0]]
         })
             // example to expose map events to parent components:
             .on('zoom', (e) => dispatch('zoom', e))
@@ -62,7 +82,7 @@
             },
 
             updateHTML: function (lat, lng) {
-                this._latlng.innerHTML = "Latitude: " + Math.round(lng) + "   Longitiude: " + Math.round(149 - lat); // converted to isle coordinates
+                this._latlng.innerHTML = "Latitude: " + lng + "   Longitiude: " + lat; // converted to isle coordinates
             }
         });
 
@@ -80,14 +100,16 @@
         map.addControl(position);
 
         map.addEventListener('mousemove', (event) => {
-            let lat = Math.round(event.latlng.lat * 100000) / 100000;
-            let lng = Math.round(event.latlng.lng * 100000) / 100000;
+            let lat = Math.round(event.latlng.lat);
+            let lng = Math.round(event.latlng.lng);
             position.updateHTML(lat, lng);
         });
 
         map.addControl(new Menu())
         map.addControl(new L.control.zoom())
         map.addControl(new L.control.scale())
+
+        L.control.layers(baseLayers).addTo(map);
 
         ajustLayers()
     });
@@ -219,6 +241,7 @@
     color: #000000;
     border-bottom: 1px solid black;
   }
+
   :global(.leaflet-bar) :global(a):hover,
   :global(.leaflet-bar) :global(a):focus {
     background-color: #aad07b;

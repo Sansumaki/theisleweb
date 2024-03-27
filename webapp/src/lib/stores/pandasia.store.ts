@@ -24,21 +24,21 @@ export interface IsleMap {
     Map_Key: string
 }
 
-export interface TeleportLocation {
-    Name: string;
+export interface Location2D {
     Location_X: number,
     Location_Y: number,
     Location_Z: number,
+}
+
+export interface TeleportLocation extends Location2D {
+    Name: string;
     Rotation_P: number,
     Rotation_Y: number,
     Rotation_R: number,
 }
 
-export interface PoiLocation {
+export interface PoiLocation extends Location2D{
     Name: string;
-    Location_X: number,
-    Location_Y: number,
-    Location_Z: number,
     Description: string;
 }
 
