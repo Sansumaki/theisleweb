@@ -1,14 +1,21 @@
 <script lang="ts">
     import {onMount, onDestroy, setContext, createEventDispatcher, tick} from 'svelte';
-    import L, {latLng} from 'leaflet';
+    import L from 'leaflet';
     import 'leaflet/dist/leaflet.css';
 
-    export let bounds: L.LatLngBoundsExpression | undefined = undefined;
+    export interface MapSource {
+        name: string;
+        url: string;
+        bounds: number[][];
+    }
+
+    let maxBounds: L.LatLngBoundsExpression | undefined = undefined;
     export let view: L.LatLngExpression | undefined = undefined;
     export let zoom: number | undefined = undefined;
+    export let bounds: L.LatLngBoundsExpression | undefined = undefined;
     export let showTeleports: boolean | undefined = undefined;
     export let showPointOfInterest: boolean | undefined = undefined;
-    export let mapSources: string[] = [];
+    export let mapSources: MapSource[] = [];
 
     const dispatch = createEventDispatcher();
 
@@ -19,32 +26,36 @@
     let menuElement: HTMLElement;
 
     onMount(() => {
-        if (!bounds && (!view || !zoom) && !mapSources) {
+        if ((!view || !zoom) && !mapSources) {
             throw new Error('Must set either bounds, or view and zoom.');
         }
+
+        const roundMax = function (sources: MapSource[], selector: (source: MapSource) => number) {
+            let values = sources.map(selector);
+            let sign = Math.sign(values[0])
+            let max = Math.max(...values.map(i => Math.abs(i)))
+            return Math.ceil(max / 100) * sign * 100;
+        }
+
+        const getMaxBounds = (sources: MapSource[]) => {
+            let bounds = sources[0].bounds.map((_, x) =>
+                sources[0].bounds[0].map((_, y) => roundMax(sources, i => i.bounds[x][y]))
+            );
+            return [
+                [-Math.max(...bounds.map(i => Math.abs(i[0]))),
+                    -Math.max(...bounds.map(i => Math.abs(i[1])))],
+                [Math.max(...bounds.map(i => Math.abs(i[0]))),
+                    Math.max(...bounds.map(i => Math.abs(i[1])))]]
+        }
+
+        let maxBounds = getMaxBounds(mapSources);
 
         let mapLayers = new Array<L.ImageOverlay>();
         let baseLayers = {};
         mapSources.forEach(m => {
-            let layer = L.imageOverlay(m[1], m[2]);
+            let layer = L.imageOverlay(m.url, m.bounds);
             mapLayers.push(layer);
-            baseLayers[m[0]] = layer;
-
-            if (bounds === undefined) {
-                bounds = m[2];
-            }
-            if (bounds[0][0] < m[2][0][0]) {
-                bounds[0][0] = m[2][0][0];
-            }
-            if (bounds[1][0] < m[2][1][0]) {
-                bounds[1][0] = m[2][1][0];
-            }
-            if (bounds[0][1] > m[2][0][1]) {
-                bounds[0][1] = m[2][0][1];
-            }
-            if (bounds[1][1] > m[2][1][1]) {
-                bounds[1][1] = m[2][1][1];
-            }
+            baseLayers[m.name] = layer;
         })
 
         teleportLayer = L.layerGroup();
@@ -57,7 +68,7 @@
             maxZoom: 5,
             zoomSnap: 0,
             zoomDelta: 0.5,
-            maxBounds: bounds,
+            maxBounds: maxBounds,
             attributionControl: false,
             zoomControl: false,
             layers: [mapLayers[0]]
@@ -68,7 +79,8 @@
                 await tick();
                 e.popup.update();
             });
-        map.fitBounds(bounds);
+
+        bounds = bounds ?? maxBounds;
 
         let Position = L.Control.extend({
             options: {
@@ -111,6 +123,19 @@
 
         L.control.layers(baseLayers).addTo(map);
 
+        let gridSize = 100;
+        let expandedBounds = [[Math.floor(maxBounds[0][0] / gridSize) * gridSize, Math.floor(maxBounds[0][1] / gridSize) * gridSize], [Math.ceil(maxBounds[1][0] / gridSize) * gridSize, Math.ceil(maxBounds[1][1] / gridSize) * gridSize]]
+
+        for (let i = expandedBounds[0][0] * 5; i <= expandedBounds[1][0] * 5; i += gridSize) {
+            let p = [[i, expandedBounds[0][1] * 5], [i, expandedBounds[1][1] * 5]]
+            L.polygon(p, {color: 'black', weight: (i == 0 ? 0.5 : 0.2), opacity: 0.5}).addTo(map);
+        }
+
+        for (let i = expandedBounds[0][1] * 5; i <= expandedBounds[1][1] * 5; i += gridSize) {
+            let p = [[expandedBounds[0][0] * 5, i], [expandedBounds[1][0] * 5, i]]
+            L.polygon(p, {color: 'black', weight: (i == 0 ? 0.5 : 0.2), opacity: 0.5}).addTo(map);
+        }
+
         ajustLayers()
     });
 
@@ -131,6 +156,7 @@
 
     $: if (map) {
         if (bounds) {
+            console.log(bounds)
             map.fitBounds(bounds);
         } else if (view && zoom) {
             map.setView(view, zoom);

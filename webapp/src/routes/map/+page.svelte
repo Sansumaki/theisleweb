@@ -48,10 +48,15 @@
         return "Lat: " + Math.round(location.Location_X / 1000) + ", Lng: " + Math.round(location.Location_Y / 1000);
     }
 
+    let mapSources = [
+        {name: "Community Map", url: bigMap, bounds: [[-873, -844], [724, 753]]},
+        {name: "InGame Map", url: realMap, bounds: [[-880, -1295], [740, 1005]]}
+    ];
+
 </script>
 
 <div class="w-full h-screen absolute left-0 top-0 mapDiv">
-    <Leaflet {showTeleports} {showPointOfInterest} mapSources={[["Community Map", bigMap, [[-873, -844], [724, 753]]], ["InGame Map",realMap, [[-880, -1295], [740, 1005]]]]}>
+    <Leaflet {showTeleports} {showPointOfInterest} mapSources={mapSources}>
         {#if _teleportLocations.length > 0}
             {#each _teleportLocations as location}
                 <Marker latLng={LocationToLatLng(location)} width={40} height={40} isTeleport>
