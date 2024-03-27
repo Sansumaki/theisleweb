@@ -34,6 +34,7 @@
     let menuItems = [
         {name: 'ftr.menu', link: "/", group: true},
         {name: 'theIsle.menu', link: "/the-isle", group: true},
+        {name: 'theIsle.maps.menu', link: "/map", group: true},
         {name: 'about.menu', link: "/about", group: true},
     ];
 
