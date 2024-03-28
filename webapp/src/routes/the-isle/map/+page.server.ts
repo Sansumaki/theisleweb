@@ -31,7 +31,7 @@ export const load = (async ({ cookies, platform }) => {
 			mapData
 		};
 	} catch (exception) {
-		console.log(exception);
+		return { exception: exception };
 	}
 }) satisfies PageServerLoad;
 
