@@ -2,38 +2,105 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
-  provider = "mongodb"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
-model Log {
-  id      String @id @default(auto()) @map("_id") @db.ObjectId
-  level   Level
-  message String
-  meta    Json
+model Users {
+  id              Int             @id @default(autoincrement())
+  discord_user_id String          @unique
+  steam_bindings  SteamBindings[]
+  isle_store      IsleStore[]
 }
 
-model MapPoints {
-  id   String  @id @default(auto()) @map("_id") @db.ObjectId
-  map  String
-  type MapType
-  name String
-  lat  Int
-  long Int
+model Guilds {
+  id                 Int             @id @default(autoincrement())
+  discord_guild_id   String          @unique
+  discord_guild_name String?
+  isle_servers       IsleServers[]
+  steam_bindings     SteamBindings[]
 }
 
-enum MapType {
-  POI
-  Teleport
-  Player
+model SteamBindings {
+  id       Int    @id @default(autoincrement())
+  user_id  Int // relation id
+  user     Users  @relation(fields: [user_id], references: [id])
+  guild_id Int // relation id
+  guild    Guilds @relation(fields: [guild_id], references: [id])
+  steam_id String
 }
 
-enum Level {
-  Info
-  Warn
-  Error
+model IsleServers {
+  id                 Int                 @id @default(autoincrement())
+  is_default         Boolean             @default(false)
+  key                String              @unique
+  name               String
+  map_key            String
+  guild_id           Int? // relation id
+  guild              Guilds?             @relation(fields: [guild_id], references: [id])
+  isle_store         IsleStore[]
+  teleport_locations TeleportLocations[]
+  poi_locations      PoiLocations[]
+}
+
+model IsleStore {
+  id        Int         @id @default(autoincrement())
+  user_id   Int // relation id
+  user      Users       @relation(fields: [user_id], references: [id])
+  server_id Int // relation id
+  server    IsleServers @relation(fields: [server_id], references: [id])
+  data      String
+}
+
+model TeleportLocations {
+  id         Int         @id @default(autoincrement())
+  name       String
+  location_x Float
+  location_y Float
+  location_z Float
+  rotation_p Float
+  rotation_y Float
+  rotation_r Float
+  server_id  Int // relation id
+  server     IsleServers @relation(fields: [server_id], references: [id])
+}
+
+model PoiLocations {
+  id          Int         @id @default(autoincrement())
+  name        String
+  description String?
+  location_x  Float
+  location_y  Float
+  location_z  Float
+  server_id   Int // relation id
+  server      IsleServers @relation(fields: [server_id], references: [id])
+}
+
+model Dinos {
+  id                   Int     @id @default(autoincrement())
+  name                 String
+  adult_class_name     String
+  sub_class_name       String?
+  juv_class_name       String?
+  hatch_class_name     String?
+  diet                 Int
+  is_sandbox           Int
+  default_price        Int
+  base_damage          Int?
+  alt_damage           Int?
+  health               Int?
+  weight               Int?
+  speed                Float?
+  ambush               Float?
+  sprint_seconds       Int?
+  base_bleed           Int?
+  growth_minutes_adult Int?
+  growth_minutes_sub   Int?
+  growth_minutes_juv   Int?
+  growth_minutes_hatch Int?
 }

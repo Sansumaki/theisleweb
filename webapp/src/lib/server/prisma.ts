@@ -1,9 +1,107 @@
-import {PrismaClient} from '@prisma/client/edge.js'
-import {withAccelerate} from "@prisma/extension-accelerate";
-import { DATABASE_URL } from '$env/static/private';
+import { PrismaClient } from '@prisma/client';
+import type { D1Database } from '@cloudflare/workers-types';
+import { PrismaD1 } from '@prisma/adapter-d1';
 
-const prisma = new PrismaClient({
-    datasourceUrl: DATABASE_URL
-}).$extends(withAccelerate());
+export default class PandasiaDatabase extends PrismaClient {
 
-export {prisma};
+	constructor(database: D1Database) {
+		const adapter = new PrismaD1(database);
+		super({ adapter });
+	}
+
+	async getMapList() {
+		return this.isleServers.findMany({
+			select: {
+				key: true,
+				name: true,
+				map_key: true
+			}
+		});
+	}
+
+	async getMapData(mapKey: string | undefined) {
+		if (mapKey == undefined) {
+			mapKey = (await this.isleServers.findFirst({ where: { is_default: true } }))?.key ?? '';
+		}
+
+		const mapData = await this.isleServers.findUnique({
+			where: { key: mapKey },
+			select: {
+				key: true,
+				name: true,
+				map_key: true,
+				teleport_locations: {
+					select: {
+						name: true,
+						location_x: true,
+						location_y: true,
+						location_z: true,
+						rotation_p: true,
+						rotation_y: true,
+						rotation_r: true
+					}
+				},
+				poi_locations: {
+					select: {
+						name: true,
+						description: true,
+						location_x: true,
+						location_y: true,
+						location_z: true,
+						server_id: true
+					}
+				}
+			}
+		});
+
+		if (mapData == undefined) throw '404 Map not found!';
+
+		if (mapData.teleport_locations.length == 0 || mapData.poi_locations.length == 0) {
+			const defaultServer = await this.isleServers.findFirst({
+				where: {
+					is_default: true,
+					map_key: mapData.map_key
+				},
+				select: {
+					id: true
+				}
+			});
+
+			if (defaultServer != undefined && mapData.teleport_locations.length == 0) {
+				mapData.teleport_locations = await this.teleportLocations.findMany({
+					where: {
+						server_id: defaultServer.id
+					},
+					select: {
+						name: true,
+						location_x: true,
+						location_y: true,
+						location_z: true,
+						rotation_p: true,
+						rotation_y: true,
+						rotation_r: true
+					}
+				});
+			}
+
+
+			if (defaultServer != undefined && mapData.poi_locations.length == 0) {
+				mapData.poi_locations = await this.poiLocations.findMany({
+					where: {
+						server_id: defaultServer.id
+					},
+					select: {
+						name: true,
+						description: true,
+						location_x: true,
+						location_y: true,
+						location_z: true,
+						server_id: true
+					}
+				});
+			}
+
+		}
+		return mapData;
+	}
+}

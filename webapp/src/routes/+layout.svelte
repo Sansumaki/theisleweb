@@ -2,10 +2,8 @@
     import '../app.postcss';
     import {page} from '$app/stores';
     import HeadBox from '$lib/components/HeadBox.svelte';
-    // @ts-ignore
     import {t, locale, locales} from '$lib/translations';
     import headerImage from '$lib/images/FTR_EX.gif';
-    import {drawerEnabled, showDrawer} from '$lib/stores/nav-store.ts';
     import {
         DarkMode,
         Footer,
@@ -18,7 +16,6 @@
     } from "flowbite-svelte";
     import {Icon} from "flowbite-svelte-icons";
     import ftr_logo from '$lib/images/FTR_EX.gif';
-    import {toggleDrawer} from '$lib/stores/nav-store.ts';
 
     const handleChange = ({currentTarget}: { currentTarget: any }) => {
         const {value} = currentTarget;
@@ -29,22 +26,16 @@
     $: title = t.get($page.data.page?.title) ?? 'FTR The Isle';
     $: description = t.get($page.data.page?.content) ?? 'FTR The Isle Website';
     $: hideHeading = $page.data.page?.hideHeading ?? false;
-    $: drawerWidth = $showDrawer ? 256 : 0;
 
     let menuItems = [
         {name: 'ftr.menu', link: "/", group: true},
         {name: 'theIsle.menu', link: "/the-isle", group: true},
-        {name: 'theIsle.maps.menu', link: "/map", group: true},
+        {name: 'theIsle.maps.menu', link: "/the-isle/map", group: true},
+        {name: 'theIsle.dino.menu', link: "/the-isle/dino", group: true},
         {name: 'about.menu', link: "/about", group: true},
     ];
 
-    let width: number;
-
     $: pathname = $page.url.pathname;
-
-    const toggleDrawerUi = () => {
-        toggleDrawer.update(i => !i);
-    };
 
     let divClass = 'w-full ml-auto lg:block lg:w-auto order-1 lg:order-none';
     let ulClass =
@@ -68,10 +59,6 @@
 
 <header class="sticky z-50 top-0 left-0 flex-none w-full mx-auto">
     <Navbar navClass="px-2 sm:px-4 py-2.5 w-full bg-slate-200 dark:bg-slate-950" let:hidden let:toggle color="primary">
-        <NavHamburger
-                on:click={toggleDrawerUi}
-                btnClass="focus:outline-none whitespace-normal rounded-lg focus:ring-2 p-1.5 focus:ring-gray-400 hover:bg-gray-100 dark:hover:bg-gray-600 m-0 mr-3 lg:hidden {!$drawerEnabled ? 'hidden':''}"
-        />
         <NavBrand href="/" class="lg:left-5">
             <img
                     src="{ftr_logo}"
@@ -105,7 +92,7 @@
 </header>
 
 <div class="px-4 mx-auto w-full">
-    <main class="container my-5 mx-auto" style="padding-left: {drawerWidth}px">
+    <main class="container my-5 mx-auto">
         {#if !hideHeading}
             <div class="mb-3">
                 <HeadBox title={title}></HeadBox>
@@ -116,7 +103,7 @@
 </div>
 
 <footer>
-    <Footer footerType="sitemap" style="padding-left: {drawerWidth}px">
+    <Footer footerType="sitemap" >
         <div class="grid grid-cols-2 gap-8 py-8 px-6 md:grid-cols-4 bg-slate-100 dark:bg-slate-800">
             <div>
                 <h2 class="mb-6 text-sm font-semibold uppercase text-primary-600 dark:text-primary-200">FTR</h2>
