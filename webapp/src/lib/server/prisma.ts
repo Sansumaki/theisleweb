@@ -10,8 +10,9 @@ export default class PandasiaDatabase extends PrismaClient {
 	}
 
 	async getMapList() {
+		console.log("try get maplist")
 		console.log(this.isleServers)
-		return this.isleServers.findMany({
+				return this.isleServers.findMany({
 			select: {
 				key: true,
 				name: true,
