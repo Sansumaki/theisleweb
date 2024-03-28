@@ -14,8 +14,6 @@ export const load = (async ({ cookies, platform }) => {
 		const showPoi = cookies.get(showPoiPath) === 'true';
 		const selectedMapKey = cookies.get(selectedMapKeyPath);
 
-		console.log(platform)
-		console.log(platform?.env)
 		if (platform?.env == undefined) {
 			 throw ("platform.env is not defined!")
 		}
