@@ -5,4 +5,4 @@ compatibility_date = "2024-03-12"
 [[d1_databases]]
 binding = "DB" # i.e. available in your Worker on env.DB
 database_name = "pandasia"
-database_id = "6fd23542-cc78-404c-9f70-aea267d98e89"
+database_id = "b03af315-3948-4a87-8993-1a8593be66dc"
