@@ -83,13 +83,13 @@ model PoiLocations {
 
 model Dinos {
   id                   Int     @id @default(autoincrement())
-  name                 String
+  name                 String  @unique
   adult_class_name     String
   sub_class_name       String?
   juv_class_name       String?
   hatch_class_name     String?
   diet                 Int
-  is_sandbox           Int
+  is_sandbox           Boolean @default(false)
   default_price        Int
   base_damage          Int?
   alt_damage           Int?

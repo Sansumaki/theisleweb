@@ -27,9 +27,17 @@ Create migration from prisma
 > npx prisma migrate diff --from-empty --to-schema-datamodel ./prisma/schema.prisma --script > migrations/0001_create_user_table.sql
 
 apply migration 
-> npx wrangler d1 migrations apply prisma-demo-db --local
+> npx wrangler d1 migrations apply pandasia --local
 
-> npx wrangler d1 migrations apply prisma-demo-db --remote
+> npx wrangler d1 migrations apply pandasia --remote
 
 generate prisma
 > npx prisma generate
+
+## Debug
+
+run local without wrangler
+> npm run dev
+
+run local with wrangler
+> npx wrangler pages dev -- npm run dev

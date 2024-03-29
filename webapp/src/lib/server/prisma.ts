@@ -104,4 +104,45 @@ export default class PandasiaDatabase extends PrismaClient {
 		}
 		return mapData;
 	}
+
+	async getDinoList() {
+		return this.dinos.findMany({
+			select: {
+				id: true,
+				name: true,
+				diet: true,
+				is_sandbox: true
+			}
+		})
+	}
+
+	async getDinoFullList() {
+		return this.dinos.findMany({
+			select: {
+				name: true,
+				diet: true,
+				is_sandbox: true,
+				base_damage: true,
+				alt_damage: true,
+				health: true,
+				weight: true,
+				speed: true,
+				ambush: true,
+				sprint_seconds: true,
+				base_bleed: true,
+				growth_minutes_adult: true,
+				growth_minutes_sub: true,
+				growth_minutes_juv: true,
+				growth_minutes_hatch: true
+			}
+		});
+	}
+
+	async getDinoData(name: string) {
+		return this.dinos.findUnique({
+			where: {
+				name: name
+			}
+		});
+	}
 }

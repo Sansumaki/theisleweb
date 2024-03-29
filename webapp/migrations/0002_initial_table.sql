@@ -77,7 +77,7 @@ CREATE TABLE "Dinos" (
     "juv_class_name" TEXT,
     "hatch_class_name" TEXT,
     "diet" INTEGER NOT NULL,
-    "is_sandbox" INTEGER NOT NULL,
+    "is_sandbox" BOOLEAN NOT NULL DEFAULT false,
     "default_price" INTEGER NOT NULL,
     "base_damage" INTEGER,
     "alt_damage" INTEGER,
@@ -101,4 +101,7 @@ CREATE UNIQUE INDEX "Guilds_discord_guild_id_key" ON "Guilds"("discord_guild_id"
 
 -- CreateIndex
 CREATE UNIQUE INDEX "IsleServers_key_key" ON "IsleServers"("key");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Dinos_name_key" ON "Dinos"("name");
 
