@@ -15,7 +15,7 @@ export const load = (async ({ cookies, platform }) => {
 		const selectedMapKey = cookies.get(selectedMapKeyPath);
 
 		if (platform?.env == undefined) {
-			 throw ("platform.env is not defined!")
+			 return {error: "platform is not defined!" }
 		}
 		const pandasiaDB = new PandasiaDatabase(platform.env.DB);
 
@@ -25,6 +25,7 @@ export const load = (async ({ cookies, platform }) => {
 		return {
 			showTeleport,
 			showPoi,
+			selectedMapKey,
 			mapList,
 			mapData
 		};
@@ -44,10 +45,13 @@ export const actions = {
 		const data = await request.formData();
 		const showTeleport = data.get('showTeleport') === 'on';
 		const showPoi = data.get('showPoi') === 'on';
+		const selectedMapKey = data.get('selectedMapKey');
 		const expireDate: Date = addYears(new Date(), 10);
-		cookies.set(showTeleportPath, String(showTeleport), { path: '/', expires: expireDate });
-		cookies.set(showPoiPath, String(showPoi), { path: '/', expires: expireDate });
-
+		cookies.set(showTeleportPath, String(showTeleport), { path: '/', expires: expireDate, secure: false });
+		cookies.set(showPoiPath, String(showPoi), { path: '/', expires: expireDate, secure: false });
+		if (selectedMapKey != undefined || selectedMapKey != null) {
+			cookies.set(selectedMapKeyPath, String(selectedMapKey), { path: '/', expires: expireDate, secure: false });
+		}
 		return { success: true };
 	}
 } satisfies Actions;

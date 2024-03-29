@@ -4,20 +4,30 @@
 	import Popup from '$lib/leaflet/Popup.svelte';
 	import bigMap from '$lib/images/legacy-map-v3.jpg';
 	import realMap from '$lib/images/real-v3-map.png';
+	import { setContext } from 'svelte';
+	import { invalidateAll } from '$app/navigation';
 
 	export let data;
 	let showTeleports = data.showTeleport;
 	let showPointOfInterest = data.showPoi;
-	let _mapList = data.mapList;
+	let selectedMapKey = data.selectedMapKey;
+	let _mapList = data.mapList ?? [];
 	let _mapData = data.mapData;
 
-	console.log(data)
-	function LocationToLatLng(location): number[] {
+	function LocationToLatLng(location: { location_x: number, location_y: number }): number[] {
 		return [-location.location_y / 1000, location.location_x / 1000];
 	}
 
-	function LocationToString(location): string {
+	function LocationToString(location: { location_x: number, location_y: number }): string {
 		return 'Lat: ' + Math.round(location.location_x / 1000) + ', Lng: ' + Math.round(location.location_y / 1000);
+	}
+
+	function showUpdate() {
+		let formData = new FormData();
+		formData.append('showTeleport', showTeleports ? 'on' : 'off');
+		formData.append('showPoi', showPointOfInterest ? 'on' : 'off');
+		if (selectedMapKey != undefined) formData.append('selectedMapKey', selectedMapKey);
+		fetch('?/saveShowFlags', { method: 'POST', body: formData });
 	}
 
 	let mapSources = [
@@ -25,16 +35,35 @@
 		{ name: 'InGame Map', url: realMap, bounds: [[-880, -1295], [740, 1005]] }
 	];
 
+	setContext('showFilters', {
+		'setShowTeleportLocations': (show: boolean) => {
+			showTeleports = show;
+			showUpdate();
+		},
+		'setShowPoiLocations': (show: boolean) => {
+			showPointOfInterest = show;
+			showUpdate();
+		}
+	});
+
+	$: if (selectedMapKey) {
+		showUpdate()
+		invalidateAll();
+	}
 </script>
 
 <div class="w-full h-screen absolute left-0 top-0 mapDiv">
 	<div class="absolute w-full flex items-center justify-center top-[85px]">
 		<div class="map-info z-[1000] bg-[#749053] rounded p-1 px-2 font-black border-solid border-black border-2">
-			<div>Map: {_mapData.name}</div>
+			<select bind:value={selectedMapKey}>
+				{#each _mapList as map}
+				<option value={map.key}>{map.name} [{map.map_key}]</option>
+					{/each}
+			</select>
 		</div>
 	</div>
 	<Leaflet {showTeleports} {showPointOfInterest} mapSources={mapSources}>
-		{#if _mapData.teleport_locations.length > 0}
+		{#if _mapData !== undefined && _mapData.teleport_locations.length > 0 && showTeleports}
 			{#each _mapData.teleport_locations as location}
 				<Marker latLng={LocationToLatLng(location)} width={40} height={40} isTeleport>
 					<svg width="40px" viewBox="0 0 512 512">
@@ -54,7 +83,7 @@
 				</Marker>
 			{/each}
 		{/if}
-		{#if _mapData.poi_locations.length > 0}
+		{#if _mapData !== undefined && _mapData.poi_locations.length > 0 && showPointOfInterest}
 			{#each _mapData.poi_locations as location}
 				<Marker latLng={LocationToLatLng(location)} width={40} height={40} isPoi>
 					<svg width="40px" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"

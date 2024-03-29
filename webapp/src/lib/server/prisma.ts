@@ -10,8 +10,6 @@ export default class PandasiaDatabase extends PrismaClient {
 	}
 
 	async getMapList() {
-		console.log("try get maplist")
-		console.log(this.isleServers)
 				return this.isleServers.findMany({
 			select: {
 				key: true,
@@ -22,7 +20,7 @@ export default class PandasiaDatabase extends PrismaClient {
 	}
 
 	async getMapData(mapKey: string | undefined) {
-		if (mapKey == undefined) {
+		if (mapKey == undefined || mapKey === "") {
 			mapKey = (await this.isleServers.findFirst({ where: { is_default: true } }))?.key ?? '';
 		}
 
@@ -56,7 +54,7 @@ export default class PandasiaDatabase extends PrismaClient {
 			}
 		});
 
-		if (mapData == undefined) throw '404 Map not found!';
+		if (mapData == undefined) return undefined;
 
 		if (mapData.teleport_locations.length == 0 || mapData.poi_locations.length == 0) {
 			const defaultServer = await this.isleServers.findFirst({
