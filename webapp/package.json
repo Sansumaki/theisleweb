@@ -3,7 +3,8 @@
 	"version": "0.0.1",
 	"scripts": {
 		"dev": "vite dev --host 0.0.0.0",
-		"build": "npx prisma generate && vite build",
+		"prisma-gen": "npx prisma generate --schema=../prisma/schema.prisma",
+		"build": "npx prisma generate --schema=../prisma/schema.prisma && vite build",
 		"preview": "vite preview",
 		"test": "playwright test",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",

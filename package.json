@@ -1,0 +1,12 @@
+{
+  "scripts": {
+    "webapp": " npx wrangler pages dev -- cd webapp && npm run dev",
+    "webapp-prisma": "npx wrangler d1 migrations apply pandasia --local --persist-to=\"webapp/.wrangler/state\""
+  },
+  "devDependencies": {
+    "prisma": "^5.11.0"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.11.0"
+  }
+}
