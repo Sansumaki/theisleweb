@@ -2,13 +2,14 @@
 	import Leaflet from '$lib/leaflet/Leaflet.svelte';
 	import Marker from '$lib/leaflet/Marker.svelte';
 	import Popup from '$lib/leaflet/Popup.svelte';
-	import bigMap from '$lib/images/legacy-map-v3.jpg';
-	import realMap from '$lib/images/real-v3-map.png';
 	import { getContext, onMount, setContext } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { type Writable } from 'svelte/store';
 	import { page } from '$app/stores';
 
+	import isleV3Map from '$lib/images/maps/Isle_V3_big.jpg';
+	import isleV3MapReal from '$lib/images/real-v3-map.png';
+	import thenyawMap from '$lib/images/maps/Thenyaw_big.jpg';
 	export let data;
 	let showTeleports = data.showTeleport;
 	let showPointOfInterest = data.showPoi;
@@ -38,10 +39,13 @@
 		fetch('?/saveShowFlags', { method: 'POST', body: formData });
 	}
 
-	let mapSources = [
-		{ name: 'Community Map', url: bigMap, bounds: [[-873, -844], [724, 753]] },
-		{ name: 'InGame Map', url: realMap, bounds: [[-880, -1295], [740, 1005]] }
-	];
+	let mapSources = {isle_v3: [
+		{ name: 'Community Map', url: isleV3Map, bounds: [[-873, -844], [724, 753]] },
+		{ name: 'InGame Map', url: isleV3MapReal, bounds: [[-880, -1295], [740, 1005]] }
+	],
+		thenyaw: [
+			{ name: 'Community Map', url: thenyawMap, bounds: [[-873, -844], [724, 753]] }
+		]};
 
 	setContext('showFilters', {
 		'setShowTeleportLocations': (show: boolean) => {
@@ -58,7 +62,6 @@
 		showTeleports = data.showTeleport;
 		showPointOfInterest = data.showPoi;
 		_mapData = data.mapData;
-		console.log(_mapData);
 	}
 
 	$: if (_player) {
@@ -108,9 +111,10 @@
 									bind:value={_player.lat} />
 			Lng: <input class="w-[60px] p-0 bg-inherit border-0 border-b-2 text-right" type="number"
 									bind:value={_player.lng} />
+			<button on:click={pasteCoordinates} class="border px-1 border-black hover:bg-[#afd97e]" >ctrl + v</button>
 		</div>
 	</div>
-	<Leaflet top={$headerHeightStore} {showTeleports} {showPointOfInterest} mapSources={mapSources}>
+	<Leaflet top={$headerHeightStore} {showTeleports} {showPointOfInterest} mapSources={_mapData.map_key === "Isle_V3" ? mapSources.isle_v3 : mapSources.thenyaw}>
 		{#if _mapData !== undefined && _mapData.teleport_locations.length > 0 && showTeleports}
 			{#each _mapData.teleport_locations as location}
 				<Marker latLng={LocationToLatLng(location)} width={40} height={40} isTeleport>

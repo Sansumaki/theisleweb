@@ -1,7 +1,7 @@
 <script lang="ts">
     import {Card, Carousel, Heading} from 'flowbite-svelte';
     import image from '$lib/images/Hintergrundstartseite.gif'
-    import mapImage from '$lib/images/legacy-map-v3-small.jpg'
+    import mapImage from '$lib/images/maps/Isle_V3.jpg'
 
     export let title = "Fuck the Revolution"
 

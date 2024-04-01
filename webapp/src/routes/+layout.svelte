@@ -5,18 +5,13 @@
 	import { t, locale, locales } from '$lib/translations';
 	import headerImage from '$lib/images/FTR_EX.gif';
 	import {
-		Button,
-		DarkMode,
 		Footer,
 		FooterCopyright,
 		FooterIcon,
 		FooterLink,
-		FooterLinkGroup, Navbar,
-		NavBrand,
-		NavHamburger, NavLi, NavUl
+		FooterLinkGroup
 	} from 'flowbite-svelte';
 	import { Icon } from 'flowbite-svelte-icons';
-	import ftr_logo from '$lib/images/FTR_EX.gif';
 	import { setContext } from 'svelte';
 	import { writable } from 'svelte/store';
 
@@ -56,7 +51,7 @@
 	}
 
 	$: pathname = $page.url.pathname;
-	$: short = windowHeight < 650 || isScrolled || pathname === "/the-isle/map";
+	$: short = windowHeight < 650 || isScrolled || pathname.startsWith("/the-isle/map/");
 
 	setContext("layout", {
 		headerHeightStore: headerHeight
@@ -86,13 +81,10 @@
 
 <header bind:clientHeight={$headerHeight}
 	class="sticky z-50 top-0 left-0 flex-none w-full mx-auto bg-[#000] text-[#fff] px-4 bg-gradient-to-b from-[#000009] via-[#001] via-15% to-[#242]">
-	<!--<div style={windowWidth > 1280 ? 'height: ' + (short? 0 : svgHeight) + 'px' : windowWidth > 768 ? 'height: ' + 70+'px' : 'height: ' + 49+'px'}-->
 	<div style={windowWidth > 1280 ? 'height: ' + (short? 0 : svgHeight) + 'px' : undefined}
 			 class="justify-center flex transition-height duration-500">
-		<!--class="transition-all duration-1000 max-md:h-[49px] max-xl:h-[70px] {short ? 'h-[49px] md:h-[70px]' : ''} max-xl:w-full items-center justify-center flex">-->
 		<a href="/"
 			 class="absolute transition-height duration-500 max-xl:mt-[0px] max-md:top-[16px] md:max-xl:top-[24px] {short ? 'mt-[0px] h-[22px] top-[33px]' : 'mt-[25px]'} max-xl:h-[17px] mx-[10px]">
-			<!--class="absolute transition-height duration-1000 w-full max-xl:mt-[0px] {short ? 'mt-[0px] h-[17px]' : ''} max-xl:h-[17px] mt-[25px] mx-[10px]">-->
 			<svg height={svgHeight} class="transition-height duration-500 md:max-xl:h-[22px] max-md:h-[17px]"
 					 viewBox="0 0 360 30" xmlns="http://www.w3.org/2000/svg" xml:space="preserve"
 					 style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
