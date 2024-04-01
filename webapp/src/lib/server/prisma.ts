@@ -21,7 +21,7 @@ export default class PandasiaDatabase extends PrismaClient {
 
 	async getMapData(mapKey: string | undefined) {
 		if (mapKey == undefined || mapKey === "") {
-			mapKey = (await this.isleServers.findFirst({ where: { is_default: true } }))?.key ?? '';
+			return undefined;
 		}
 
 		const mapData = await this.isleServers.findUnique({

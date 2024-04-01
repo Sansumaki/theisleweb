@@ -1,6 +1,6 @@
 <script lang="ts">
     import {onMount, onDestroy, getContext, setContext} from 'svelte';
-    import L from 'leaflet';
+    import L, { type LatLngExpression } from 'leaflet';
 
     export let width: number;
     export let height: number;
@@ -30,7 +30,7 @@
                 className: 'map-marker',
                 iconSize: L.point(width, height)
             });
-            marker = L.marker(latLng, {icon})
+            marker = L.marker(latLng as LatLngExpression, {icon})
             if (isTeleport) {
                 marker.addTo(teleportLayer);
             }
@@ -43,7 +43,12 @@
         }
     });
 
+    $: if (latLng) {
+        marker?.setLatLng(latLng as LatLngExpression)
+    }
+
     onDestroy(() => {
+        console.log("destroy")
         marker?.remove();
         marker = undefined;
     });

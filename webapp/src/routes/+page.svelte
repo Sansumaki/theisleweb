@@ -19,9 +19,9 @@
     ]
 </script>
 
-<Heading tag="h4">{$t('ftr.content.heading')}</Heading>
+<h4>{$t('ftr.content.heading')}</h4>
 {#each [0,1,2,3] as item}
-    <P class="my-4 sm:text-xl text-gray-500 dark:text-gray-400" justify>{$t("ftr.content.contents."+item+".value")}</P>
+    <p class="my-4 sm:text-xl" justify>{$t("ftr.content.contents."+item+".value")}</p>
 {/each}
 
 <div class="text-center w-full">
@@ -30,7 +30,7 @@
 
 <div class="py-4 mx-auto max-w-screen-xl">
     <Heading tag="h4">{$t('ftr.sitecontent.title')}</Heading>
-    <P class="sm:text-xl text-gray-500 dark:text-gray-400" justify>{$t('ftr.sitecontent.description')}</P>
+    <p class="sm:text-xl" justify>{$t('ftr.sitecontent.description')}</p>
 </div>
 <div class="space-y-8 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-8 md:space-y-0 mb-12">
     {#each siteContent as item}
@@ -39,17 +39,11 @@
                 <Icon name="{item.icon}"
                       class="text-primary-600 dark:text-primary-300"/>
             </div>
-            <Heading tag="h5" class="mb-2">{$t(item.title)}</Heading>
-            <P class="sm:text-xl text-gray-500 dark:text-gray-400">{$t(item.text)}</P>
+            <h5 class="mb-2">{$t(item.title)}</h5>
+            <p class="sm:text-xl">{$t(item.text)}</p>
             {#if item.comingSoon}
                 <Badge color="yellow">Coming soon</Badge>
             {/if}
         </div>
     {/each}
-</div>
-
-<div class="text-center w-full">
-    <iframe src="https://discord.com/widget?id=720714005529755769&theme=dark" width="400" height="400" class="mx-auto"
-            allowtransparency="true"
-            sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
 </div>

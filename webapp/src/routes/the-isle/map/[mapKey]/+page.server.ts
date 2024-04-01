@@ -1,35 +1,27 @@
 import type { PageServerLoad } from './$types.js';
-import type { Actions } from '@sveltejs/kit';
+import { type Actions } from '@sveltejs/kit';
 import PandasiaDatabase from '$lib/server/prisma.js';
 
 const showTeleportPath = 'pandasia.isleMap.showTeleports';
 const showPoiPath = 'pandasia.isleMap.showPoi';
-const selectedMapKeyPath = 'pandasia.isleMap.selectedMapKey';
 
 export const prerender = false;
 
-export const load = (async ({ cookies, platform, url }) => {
+export const load = (async ({ cookies, platform, url, params }) => {
 	try {
-		const selectedMap = url.searchParams.get("mapKey");
-
-		console.log(selectedMap)
+		const selectedMapKey = params.mapKey;
 		const showTeleport = cookies.get(showTeleportPath) === 'true';
 		const showPoi = cookies.get(showPoiPath) === 'true';
-		const selectedMapKey = selectedMap ?? cookies.get(selectedMapKeyPath);
-console.log(selectedMap)
+
 		if (platform?.env == undefined) {
 			 return {error: "platform is not defined!" }
 		}
 		const pandasiaDB = new PandasiaDatabase(platform.env.DB);
-
-		const mapList = await pandasiaDB.getMapList();
 		const mapData = await pandasiaDB.getMapData(selectedMapKey);
 
 		return {
 			showTeleport,
 			showPoi,
-			selectedMapKey,
-			mapList,
 			mapData
 		};
 	} catch (exception) {
@@ -48,13 +40,9 @@ export const actions = {
 		const data = await request.formData();
 		const showTeleport = data.get('showTeleport') === 'on';
 		const showPoi = data.get('showPoi') === 'on';
-		const selectedMapKey = data.get('selectedMapKey');
 		const expireDate: Date = addYears(new Date(), 10);
 		cookies.set(showTeleportPath, String(showTeleport), { path: '/', expires: expireDate, secure: false });
 		cookies.set(showPoiPath, String(showPoi), { path: '/', expires: expireDate, secure: false });
-		if (selectedMapKey != undefined || selectedMapKey != null) {
-			cookies.set(selectedMapKeyPath, String(selectedMapKey), { path: '/', expires: expireDate, secure: false });
-		}
 		return { success: true };
 	}
 } satisfies Actions;

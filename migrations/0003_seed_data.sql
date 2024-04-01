@@ -12,10 +12,10 @@ VALUES (1, 1, 1, "76561198018491395"),
        (3, 2, 1, "76561198037946800");
 
 INSERT INTO IsleServers (id, is_default, key, name, map_key, guild_Id)
-VALUES (1, true, "LEGACY_V3", "Default Legacy V3 Map", "Isle_V3", null),
-       (2, true, "LEGACY_THENYAW", "Default Thenyaw Map", "Thenyaw", null),
-       (3, false, "FTR_Survival", "[GER/ENG] FTR Survival NO RULES / LOW RULES", "Isle_V3", 1),
-       (4, false, "FTR_Thenyaw", "[GER/ENG] FTR Thenyaw", "Thenyaw", 1);
+VALUES (1, true, "legacy_v3", "Default Legacy V3 Map", "Isle_V3", null),
+       (2, true, "legacy_thenyaw", "Default Thenyaw Map", "Thenyaw", null),
+       (3, false, "ftr_survival", "[GER/ENG] FTR Survival NO RULES / LOW RULES", "Isle_V3", 1),
+       (4, false, "ftr_thenyaw", "[GER/ENG] FTR Thenyaw", "Thenyaw", 1);
 
 INSERT INTO TeleportLocations (name, location_x, location_y, location_z, rotation_p, rotation_y, rotation_r, server_id)
 VALUES ("Great Falls", -234074.938, 527362.688, -29331.482, 0.000000, -158.181305, 0.000000, 1),

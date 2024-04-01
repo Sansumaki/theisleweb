@@ -9,6 +9,8 @@
 		bounds: number[][];
 	}
 
+	export let top: number = 0;
+
 	export let view: L.LatLngExpression | undefined = undefined;
 	export let zoom: number | undefined = undefined;
 	export let bounds: LatLngBoundsExpression | undefined = undefined;
@@ -227,25 +229,25 @@
 	</button>
 </div>
 
-<div class="absolute w-full h-full backgroundDiv"></div>
-<div class="absolute w-full h-full mapDiv" bind:this={mapElement}>
+<div style='--top:{top}px;' class="absolute w-full h-full backgroundDiv"></div>
+<div style='--top:{top}px;' class="absolute w-full h-full mapDiv" bind:this={mapElement}>
 	{#if map}
 		<slot />
 	{/if}
 </div>
 
 <style lang="scss">
-  $headerHeight: 80px;
+  $headerHeight: var(--top);
   .backgroundDiv {
     background-image: url('$lib/images/water-background.png');
     margin-top: $headerHeight;
-    height: calc(100% - $headerHeight);
+    height: calc(100% - var(--top));
   }
 
   .mapDiv {
     background: rgba(74, 117, 124, 0.9);
     margin-top: $headerHeight;
-    height: calc(100% - $headerHeight);
+    height: calc(100% - var(--top));
   }
 
   :global(.mouseposition),

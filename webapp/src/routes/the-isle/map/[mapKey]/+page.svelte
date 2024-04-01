@@ -4,18 +4,16 @@
 	import Popup from '$lib/leaflet/Popup.svelte';
 	import bigMap from '$lib/images/legacy-map-v3.jpg';
 	import realMap from '$lib/images/real-v3-map.png';
-	import { getContext, setContext } from 'svelte';
-	import { goto, invalidateAll } from '$app/navigation';
+	import { getContext, onMount, setContext } from 'svelte';
+	import { goto } from '$app/navigation';
 	import { type Writable } from 'svelte/store';
 	import { page } from '$app/stores';
 
 	export let data;
 	let showTeleports = data.showTeleport;
 	let showPointOfInterest = data.showPoi;
-	let selectedMapKey = data.selectedMapKey;
-	let _mapList = data.mapList ?? [];
 	let _mapData = data.mapData;
-	let _player: { lat: number, lng: number } = { lat : 500, lng: 400};
+	let _player: { lat: number | undefined, lng: number | undefined } = { lat: undefined, lng: undefined };
 
 	function LocationToLatLng(location: { location_x: number, location_y: number }): number[] {
 		return [-location.location_y / 1000, location.location_x / 1000];
@@ -27,11 +25,16 @@
 
 	const { headerHeightStore }: { headerHeightStore: Writable<number> } = getContext('layout');
 
+	onMount(() => {
+		if (_mapData == undefined) {
+			goto('/the-isle/map');
+		}
+	});
+
 	function showUpdate() {
 		let formData = new FormData();
 		formData.append('showTeleport', showTeleports ? 'on' : 'off');
 		formData.append('showPoi', showPointOfInterest ? 'on' : 'off');
-		if (selectedMapKey != undefined) formData.append('selectedMapKey', selectedMapKey);
 		fetch('?/saveShowFlags', { method: 'POST', body: formData });
 	}
 
@@ -54,50 +57,57 @@
 	$: if (data) {
 		showTeleports = data.showTeleport;
 		showPointOfInterest = data.showPoi;
-		selectedMapKey = data.selectedMapKey;
-		_mapList = data.mapList ?? [];
 		_mapData = data.mapData;
-		console.log(_mapData)
+		console.log(_mapData);
 	}
 
-	$: if (selectedMapKey) {
-		console.log(selectedMapKey)
-		showUpdate();
+	$: if (_player) {
 		gotoMap();
-		invalidateAll();
-	}
-
-	$: if(_player) {
-		gotoMap()
 	}
 
 	function gotoMap() {
-		let valuesObj: { [key: string]: number|string } = {};
+		let valuesObj: { [key: string]: number | string } = {};
 		if (_player.lat != null && _player.lng != null) {
-			valuesObj["lat"] = _player.lat;
-			valuesObj["lng"] = _player.lng;
-		}
-		if (selectedMapKey != undefined){
-			valuesObj["mapKey"] = selectedMapKey;
+			valuesObj['lat'] = _player.lat;
+			valuesObj['lng'] = _player.lng;
 		}
 
-		let values = Object.keys(valuesObj)
+		let values = Object.keys(valuesObj);
 		if (values.length == 0) return;
 
-		goto($page.url.pathname + "?" + values.map(i => i + "=" + valuesObj[i]).join("&"), {noScroll: true, keepFocus: true});
+		goto($page.url.pathname + '?' + values.map(i => i + '=' + valuesObj[i]).join('&'), {
+			noScroll: true,
+			keepFocus: true
+		});
+	}
+
+	function pasteCoordinates() {
+		navigator.clipboard.readText().then((value: string) => {
+			let match = value.match('Lat: ([\-0-9]+)\..+Long: ([\-0-9]+)\.');
+			if (match?.length === 3) {
+				_player = { lat: Number(match[1]), lng: Number(match[2]) };
+			} else {
+				console.log('no coordinates found to paste');
+			}
+		});
+	}
+
+	function handleKeydown(event: KeyboardEvent) {
+		if (event.ctrlKey && event.key === 'v' || event.key === 'V') {
+			pasteCoordinates();
+		}
 	}
 </script>
+
+<svelte:window on:keydown={handleKeydown} />
 
 <div class="w-full h-screen absolute left-0 top-0 mapDiv">
 	<div style="top: {$headerHeightStore}px" class="absolute w-full flex items-center justify-center mt-[10px]">
 		<div class="map-info z-[1000] bg-[#749053] rounded text-black border-solid border-black border-2 p-1">
-			Lat: <input class="w-[60px] p-0 bg-inherit border-0 border-b-2 text-right" type="number" bind:value={_player.lat} />
-			Lng: <input class="w-[60px] p-0 bg-inherit border-0 border-b-2 text-right" type="number" bind:value={_player.lng} />
-			Map: <select bind:value={selectedMapKey} class="bg-inherit p-0 border-0 border-b-2">
-				{#each _mapList as map}
-					<option value={map.key} selected={map.key === selectedMapKey}>{map.name} [{map.map_key}]</option>
-				{/each}
-			</select>
+			Lat: <input class="w-[60px] p-0 bg-inherit border-0 border-b-2 text-right" type="number"
+									bind:value={_player.lat} />
+			Lng: <input class="w-[60px] p-0 bg-inherit border-0 border-b-2 text-right" type="number"
+									bind:value={_player.lng} />
 		</div>
 	</div>
 	<Leaflet top={$headerHeightStore} {showTeleports} {showPointOfInterest} mapSources={mapSources}>
@@ -141,9 +151,10 @@
 			{/each}
 		{/if}
 		{#if _player !== undefined && _player.lat !== undefined && _player.lng !== undefined}
-			<Marker latLng={[_player.lat, _player.lng]} width={40} height={40} isPoi>
+			<Marker latLng={[-_player.lng, _player.lat]} width={40} height={40} isPoi>
 
-				<svg class="animate-bounce fill-[#00ffd9]" xmlns="http://www.w3.org/2000/svg" width="40px" viewBox="0 0 485.213 485.212"
+				<svg class="animate-bounce fill-[#00ffd9]" xmlns="http://www.w3.org/2000/svg" width="40px"
+						 viewBox="0 0 485.213 485.212"
 						 style="enable-background:new 0 0 485.213 485.212;" xml:space="preserve">
 <g>
 	<path
@@ -153,7 +164,6 @@
 				<Popup>
 					<b class="text-lg">You</b><br>
 					<i class="text-xs">Your position</i><br>
-					<i class="text-xs">{_player.lng} - {_player.lat}</i><br>
 					<i>{LocationToString({ location_x: _player.lat * 1000, location_y: _player.lng * 1000 })}</i>
 				</Popup>
 			</Marker>
