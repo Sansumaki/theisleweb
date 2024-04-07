@@ -114,7 +114,7 @@
 			<button on:click={pasteCoordinates} class="border px-1 border-black hover:bg-[#afd97e]" >ctrl + v</button>
 		</div>
 	</div>
-	<Leaflet top={$headerHeightStore} {showTeleports} {showPointOfInterest} mapSources={_mapData.map_key === "Isle_V3" ? mapSources.isle_v3 : mapSources.thenyaw}>
+	<Leaflet top={$headerHeightStore} {showTeleports} {showPointOfInterest} mapSources={_mapData?.map_key === "Isle_V3" ? mapSources.isle_v3 : mapSources.thenyaw}>
 		{#if _mapData !== undefined && _mapData.teleport_locations.length > 0 && showTeleports}
 			{#each _mapData.teleport_locations as location}
 				<Marker latLng={LocationToLatLng(location)} width={40} height={40} isTeleport>

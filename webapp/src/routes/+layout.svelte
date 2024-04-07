@@ -80,7 +80,7 @@
 <svelte:window bind:innerHeight={windowHeight} bind:innerWidth={windowWidth} bind:scrollY={scrollY} />
 
 <header bind:clientHeight={$headerHeight}
-	class="sticky z-50 top-0 left-0 flex-none w-full mx-auto bg-[#000] text-[#fff] px-4 bg-gradient-to-b from-[#000009] via-[#001] via-15% to-[#242]">
+	class="sticky z-50 top-0 left-0 flex-none w-full mx-auto px-4 bg-primary-background border-b border-b-primary-accent-secondary">
 	<div style={windowWidth > 1280 ? 'height: ' + (short? 0 : svgHeight) + 'px' : undefined}
 			 class="justify-center flex transition-height duration-500">
 		<a href="/"
@@ -91,20 +91,20 @@
     <g transform="matrix(3.21932,0,0,2.88447,-124.953,-11.5454)">
         <g transform="matrix(12,0,0,12,96.6355,13.6074)">
         </g>
-			<text x="39.296px" y="13.607px"
-						style="font-family:'Arial-BoldMT', 'Arial', sans-serif;font-weight:700;font-size:12px;fill:#89ffd5;">THE ISLE</text>
+			<text x="39.296px" y="13.607px" class="fill-primary-primary"
+						style="font-family:'Arial-BoldMT', 'Arial', sans-serif;font-weight:700;font-size:12px">THE ISLE</text>
     </g>
 				<g transform="matrix(0.768454,0,0,0.768454,46.5009,3.2886)">
         <g transform="matrix(34.6136,0,0,34.6136,404.676,24.8742)">
         </g>
-					<text x="170.663px" y="24.874px"
-								style="font-family:'ArialMT', 'Arial', sans-serif;font-size:34.614px;fill:#567939;">SERVER INFO</text>
+					<text x="170.663px" y="24.874px" class="fill-primary-secondary"
+								style="font-family:'ArialMT', 'Arial', sans-serif;font-size:34.614px">SERVER INFO</text>
     </g>
 				<g transform="matrix(0.503268,0,0,0.503268,202.141,14.5073)">
         <g transform="matrix(7.14769,0,0,7.14769,306.105,26.2171)">
         </g>
-					<text x="269.947px" y="26.217px"
-								style="font-family:'ArialMT', 'Arial', sans-serif;font-size:7.148px;fill:#fff;">by santasia</text>
+					<text x="269.947px" y="26.217px" class="fill-primary-accent"
+								style="font-family:'ArialMT', 'Arial', sans-serif;font-size:7.148px">by santasia</text>
     </g>
 </svg>
 		</a>
@@ -122,8 +122,8 @@
 	<div class="items-center flex h-[90px] justify-between container my-0 mx-auto max-xl:hidden">
 		<ul class="justify-start flex">
 			{#each menuItemsLeft as item}
-				<li class="mr-[1.55vw] text-[#e2f8ff]">
-					<a href="{item.link}" class="{pathname === item.link ? ' text-[#bfc9ff]' : ''}">
+				<li class="mr-[1.55vw]">
+					<a href="{item.link}" aria-current={pathname === item.link}>
 						{$t(item.name)}
 					</a>
 				</li>
@@ -131,8 +131,8 @@
 		</ul>
 		<ul class="justify-end flex">
 			{#each menuItemsRight as item}
-				<li class="mr-[1.55vw] text-[#e2f8ff]">
-					<a href="{item.link}" class="{pathname === item.link ? ' text-[#bfc9ff]' : ''}">
+				<li class="mr-[1.55vw]">
+					<a href="{item.link}" aria-current={pathname === item.link}>
 						{$t(item.name)}
 					</a>
 				</li>

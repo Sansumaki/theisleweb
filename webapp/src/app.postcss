@@ -1,4 +1,23 @@
 /* Write your global styles here, in PostCSS syntax */
 @tailwind base;
+
+@layer base {
+  html {
+    @apply bg-primary-background text-primary-accent text-sm sm:text-base lg:text-lg;
+  }
+  h1 {
+    @apply text-2xl sm:text-3xl lg:text-5xl text-primary-secondary;
+  }
+  h2 {
+    @apply text-xl sm:text-2xl lg:text-3xl text-white;
+  }
+  h3 {
+    @apply text-sm sm:text-lg lg:text-xl text-primary-accent;
+  }
+    a {
+        @apply text-primary-secondary hover:text-primary-primary aria-current:text-primary-accent-secondary;
+    }
+}
+
 @tailwind components;
 @tailwind utilities;

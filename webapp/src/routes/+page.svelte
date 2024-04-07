@@ -19,9 +19,9 @@
     ]
 </script>
 
-<h4>{$t('ftr.content.heading')}</h4>
+<h1>{$t('ftr.content.heading')}</h1>
 {#each [0,1,2,3] as item}
-    <p class="my-4 sm:text-xl" justify>{$t("ftr.content.contents."+item+".value")}</p>
+    <p class="my-4">{$t("ftr.content.contents."+item+".value")}</p>
 {/each}
 
 <div class="text-center w-full">
@@ -29,8 +29,8 @@
 </div>
 
 <div class="py-4 mx-auto max-w-screen-xl">
-    <Heading tag="h4">{$t('ftr.sitecontent.title')}</Heading>
-    <p class="sm:text-xl" justify>{$t('ftr.sitecontent.description')}</p>
+    <h2>{$t('ftr.sitecontent.title')}</h2>
+    <p>{$t('ftr.sitecontent.description')}</p>
 </div>
 <div class="space-y-8 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-8 md:space-y-0 mb-12">
     {#each siteContent as item}
@@ -39,8 +39,8 @@
                 <Icon name="{item.icon}"
                       class="text-primary-600 dark:text-primary-300"/>
             </div>
-            <h5 class="mb-2">{$t(item.title)}</h5>
-            <p class="sm:text-xl">{$t(item.text)}</p>
+            <h3 class="mb-2">{$t(item.title)}</h3>
+            <p>{$t(item.text)}</p>
             {#if item.comingSoon}
                 <Badge color="yellow">Coming soon</Badge>
             {/if}
