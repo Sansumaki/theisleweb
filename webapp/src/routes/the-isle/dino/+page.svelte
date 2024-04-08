@@ -64,10 +64,10 @@
     }
 </script>
 
-<Heading tag="h4">{$t('theIsle.dino.title')}</Heading>
-<P class="my-4" justify>{$t('theIsle.dino.description')}</P>
+<h2>{$t('theIsle.dino.title')}</h2>
+<p>{$t('theIsle.dino.description')}</p>
 
-<Heading tag="h4">Dino List</Heading>
+<h2>Dino List</h2>
 <Table hoverable={true}>
     <TableHead>
         <TableHeadCell on:click={() => sortTable('name')}>Name</TableHeadCell>
@@ -88,7 +88,7 @@
         {#if $sortItems !== undefined}
             {#each $sortItems as dino}
                 <TableBodyRow>
-                    <TableBodyCell>{dino.name}</TableBodyCell>
+                    <TableBodyCell><a href="/the-isle/dino/{dino.name}">{dino.name}</a></TableBodyCell>
                     <TableBodyCell>
                         {#if dino.diet === 0}
                             <svg width="30px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 122.88 114.86">

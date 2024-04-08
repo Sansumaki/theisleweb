@@ -21,7 +21,11 @@
   "dino": {
     "title": "The Isle Dinosaur",
     "description": "Infos about all the isle dinosaur",
-    "menu": "Dinosaur"
+    "menu": "Dinosaur",
+    "name": "Name",
+    "diet": "Diät",
+    "herbivore": "Herbivore",
+    "carnivore": "Carnivore"
   },
   "maps": {
     "title": "The Isle Maps",

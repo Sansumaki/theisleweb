@@ -1,7 +1,14 @@
 <script>
-    import {Heading, P} from "flowbite-svelte";
     import {t} from "$lib/translations";
+
+    export let data;
 </script>
 
-<Heading tag="h4">{$t('theIsle.dino.title')}</Heading>
-<P class="my-4" justify>{$t('theIsle.dino.description')}</P>
+{#if data?.dinoData === undefined}
+    <h2>404: Dino not found</h2>
+{:else}
+    <a href="/the-isle/dino">{$t('common.back')}</a>
+    <h2>{data.dinoData.name}</h2>
+    <p>{$t('theIsle.dino.name')}: {data.dinoData.name}</p>
+    <p>{$t('theIsle.dino.diet')}: {data.dinoData.diet === 0 ? $t('theIsle.dino.herbivore') : $t('theIsle.dino.carnivore')}</p>
+{/if}

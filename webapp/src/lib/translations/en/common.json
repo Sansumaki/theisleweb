@@ -3,5 +3,6 @@
   "joinDiscord": "Join our Discord",
   "error404": "Sorry, we can't find that page. You'll find lots to explore on the home page.",
   "error500": "We are already working to solve the problem.",
-  "backToHome": "Back to Startpage"
+  "backToHome": "Back to Startpage",
+  "back": "Back"
 }

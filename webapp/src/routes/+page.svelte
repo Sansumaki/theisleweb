@@ -19,7 +19,7 @@
     ]
 </script>
 
-<h1>{$t('ftr.content.heading')}</h1>
+<h2>{$t('ftr.content.heading')}</h2>
 {#each [0,1,2,3] as item}
     <p class="my-4">{$t("ftr.content.contents."+item+".value")}</p>
 {/each}

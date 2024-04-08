@@ -21,7 +21,11 @@
   "dino": {
     "title": "The Isle Dinosaurier",
     "description": "Infos über alle in the isle existierenden Dinosaurier",
-    "menu": "Dinosauerier"
+    "menu": "Dinosauerier",
+    "name": "Name",
+    "diet": "Diät",
+    "herbivore": "Pflanzenfresser",
+    "carnivore": "Fleischfresser"
   },
   "maps": {
     "title": "The Isle Karten",
