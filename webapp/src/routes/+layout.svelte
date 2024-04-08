@@ -88,13 +88,14 @@
         HeaderHeight={headerHeight}
         SmallHeader={smallHeader} SmallSpace={smallSpace}/>
 
+{#if !hideHeading}
+    <div class="left-0 w-full m-auto">
+        <HeadBox title={title}></HeadBox>
+    </div>
+{/if}
+
 <div class="px-4 mx-auto w-full">
-    <main class="container my-5 mx-auto">
-        {#if !hideHeading}
-            <div class="mb-3">
-                <HeadBox title={title}></HeadBox>
-            </div>
-        {/if}
+    <main class="container mx-auto">
         <slot/>
     </main>
 </div>

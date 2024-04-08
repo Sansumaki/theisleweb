@@ -1,25 +1,24 @@
 <script lang="ts">
-    import {Heading, Hr, P} from "flowbite-svelte";
     import {t} from '$lib/translations';
 </script>
 
-<Heading tag="h4">{$t('theIsle.content.heading')}</Heading>
-<P class="my-4" justify>{$t('theIsle.content.content')}</P>
-<Heading tag="h4">{$t('theIsle.content.heading2')}</Heading>
-<P class="my-4" justify>{$t('theIsle.content.content2')}</P>
+<h2>{$t('theIsle.content.heading')}</h2>
+<p>{$t('theIsle.content.content')}</p>
+<h2>{$t('theIsle.content.heading2')}</h2>
+<p>{$t('theIsle.content.content2')}</p>
 
-<Heading tag="h4">{$t('theIsle.content.buyHeading')}</Heading>
-<P class="my-4" justify>{$t('theIsle.content.buyContent')}</P>
+<h2>{$t('theIsle.content.buyHeading')}</h2>
+<p>{$t('theIsle.content.buyContent')}</p>
 
 <a target="_blank" href="https://store.steampowered.com/app/376210/The_Isle/">
     <img src="https://cdn.akamai.steamstatic.com/steam/apps/376210/header.jpg?t=1653237914" height="90" alt="logo"/>
-    <P class="my-4" justify>{$t('theIsle.content.buyLink')}</P>
+    <p>{$t('theIsle.content.buyLink')}</p>
 </a>
 
-<Hr/>
+<hr/>
 
-<Heading tag="h4">{$t('theIsle.faq.title')}</Heading>
-<Heading tag="h5">{$t('theIsle.faq.heading1')}</Heading>
-<P class="my-4" justify>{$t('theIsle.faq.content1')}</P>
-<Heading tag="h5">{$t('theIsle.faq.heading2')}</Heading>
-<P class="my-4" justify>{$t('theIsle.faq.content2')}</P>
+<h2>{$t('theIsle.faq.title')}</h2>
+<h3>{$t('theIsle.faq.heading1')}</h3>
+<p>{$t('theIsle.faq.content1')}</p>
+<h3>{$t('theIsle.faq.heading2')}</h3>
+<p>{$t('theIsle.faq.content2')}</p>

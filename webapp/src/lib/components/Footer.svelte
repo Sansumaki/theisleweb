@@ -4,6 +4,7 @@
 
     export let MenuItemsFull: { name: string, items: { name: string, link: string, target: string }[] }[] = undefined
     let className: string = '';
+    // noinspection ReservedWordAsName
     export {className as class};
 
     $: pathname = $page.url.pathname;
@@ -16,7 +17,7 @@
 </script>
 
 <footer class={className}>
-    <hr class="border-0 border-b border-primary-accent-secondary">
+    <hr>
     <div class="w-full mx-auto px-4 bg-primary-background border-b border-b-primary-accent-secondary">
         {#if MenuItemsFull !== undefined}
             <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 px-6 py-8">
