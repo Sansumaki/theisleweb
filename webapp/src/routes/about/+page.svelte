@@ -1,5 +1,4 @@
 <script>
-    import DiscordLink from "$lib/components/DiscordLink.svelte";
     import {t} from "$lib/translations";
 </script>
 

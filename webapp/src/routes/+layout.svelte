@@ -2,7 +2,7 @@
     import '../app.postcss';
     import {page} from '$app/stores';
     import HeadBox from '$lib/components/HeadBox.svelte';
-    import {t, locale, locales} from '$lib/translations';
+    import {t} from '$lib/translations';
     import headerImage from '$lib/images/FTR_EX.gif';
     import {setContext} from 'svelte';
     import {writable} from 'svelte/store';

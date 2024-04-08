@@ -1,6 +1,5 @@
 <script>
     import { t } from '$lib/translations';
-    import {Badge, Heading, P} from "flowbite-svelte";
     import DiscordLink from "$lib/components/DiscordLink.svelte";
     import {Icon} from "flowbite-svelte-icons";
 
@@ -42,7 +41,7 @@
             <h3 class="mb-2">{$t(item.title)}</h3>
             <p>{$t(item.text)}</p>
             {#if item.comingSoon}
-                <Badge color="yellow">Coming soon</Badge>
+                <p class="border-gray-200 dark:border-gray-700 divide-gray-200 dark:divide-gray-700 font-medium inline-flex items-center justify-center px-2.5 py-0.5 text-xs bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300 rounded">Coming soon</p>
             {/if}
         </div>
     {/each}

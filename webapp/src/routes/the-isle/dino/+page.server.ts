@@ -3,7 +3,7 @@ import PandasiaDatabase from '$lib/server/prisma.js';
 
 export const prerender = false;
 
-export const load = (async ({ params, platform }) => {
+export const load = (async ({ platform }) => {
 	if (platform?.env == undefined) {
 		return {error: "platform is not defined!" }
 	}
