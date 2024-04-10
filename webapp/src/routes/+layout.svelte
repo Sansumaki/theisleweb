@@ -54,8 +54,6 @@
         }
     ];
 
-    console.log(menuItemsFull)
-
     const headerHeight = writable<number>();
     const smallSpace = writable<boolean>();
 
@@ -84,7 +82,7 @@
     <meta property="og:image" content="{headerImage}"/>
 </svelte:head>
 
-<Header MenuItemsLeft={menuItemsLeft} MenuItemsRight={menuItemsRight}, MenuItemsFull={menuItemsFull}
+<Header MenuItemsLeft={menuItemsLeft} MenuItemsRight={menuItemsRight} MenuItemsFull={menuItemsFull}
         HeaderHeight={headerHeight}
         SmallHeader={smallHeader} SmallSpace={smallSpace}/>
 
