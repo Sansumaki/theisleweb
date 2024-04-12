@@ -1,69 +1,37 @@
-/** @type {import('tailwindcss').Config}*/
-const config = {
-	content: [
-		'./src/**/*.{html,js,svelte,ts}',
-		'./node_modules/flowbite-svelte/**/*.{html,js,svelte,ts}',
-		'./node_modules/flowbite-svelte-icons/**/*.{html,js,svelte,ts}'
-	],
-
-	plugins: [
-		require('flowbite/plugin')
-	],
-
-	darkMode: 'selector',
-
-	theme: {
-		extend: {
-			transitionProperty: {
-				'height': 'height'
-			},
-			aria: {
-				current: 'current="true"'
-			},
-			colors: {
-				////Auffallend und einfach
-				//primary: {
-				//	'secondary': '#0B0C10',
-				//	'primary': '#1F2833',
-				//	'background': '#C5C6C7',
-				//	'accent-secondary': '#66FCF1',
-				//	'accent': '#45A29E'
-				//},
-				////Elegant und futuristisch
-				//primary: {
-				//	'background': '#2C3531',
-				//	'accent-secondary': '#116466',
-				//	'secondary': '#D9B08C',
-				//	'primary': '#FFCB9A',
-				//	'accent': '#D1E8E2'
-				//}
-				////Innovativ und kühn
-				//primary3: {
-				//	'secondary': '#272727',
-				//	'primary': '#747474',
-				//	'background': '#FF652F',
-				//	'accent-secondary': '#FFE400',
-				//	'accent': '#14A76C'
-				//},
-				////Sauber und modern
-				//primary4: {
-				//	'secondary': '#17252A',
-				//	'primary': '#2B7A78',
-				//	'background': '#3AAFA9',
-				//	'accent-secondary': '#DEF2F1',
-				//	'accent': '#FEFFFF'
-				//},
-				//Wunderschöner Kontrast
-				primary: {
-					'secondary': '#61892F',
-					'primary': '#86C232',
-					'background': '#222629',
-					'accent-secondary': '#474B4F',
-					'accent': '#6B6E70'
-				}
-			}
-		}
-	}
+/** @type {import('tailwindcss').Config} */
+export default {
+    content: ['./src/**/*.{html,js,svelte,ts}'],
+    theme: {
+        extend: {
+            transitionProperty: {
+                'height': 'height'
+            },
+            aria: {
+                current: 'current="true"'
+            },
+        },
+    },
+    plugins: [
+        require('@tailwindcss/typography'),
+        require('daisyui')
+    ],
+    daisyui: {
+        themes: [
+            {
+                pandasia: {
+                    "primary": "#86c232",
+                    "secondary": "#61892f",
+                    "accent": "#6b6e70",
+                    "neutral": "#474b4f",
+                    "base-100": "#222629",
+                },
+            },
+            'bumblebee',
+            'emerald',
+            'retro',
+            'forest'
+        ],
+        darkTheme: "pandasia",
+        lightTheme: 'retro',
+    }
 };
-
-module.exports = config;

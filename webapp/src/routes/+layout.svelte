@@ -52,13 +52,15 @@
         HeaderHeight={headerHeight}
         SmallHeader={smallHeader} SmallSpace={smallSpace}/>
 
-{#if !hideHeading}
-    <HeadBox title={pageTitle}></HeadBox>
-{/if}
 
 <div class="px-4 mx-auto w-full">
     <main class="container mx-auto">
+        <article class="prose prose-stone">
+            {#if !hideHeading}
+                <HeadBox title={pageTitle}></HeadBox>
+            {/if}
         <slot/>
+        </article>
     </main>
 </div>
 
