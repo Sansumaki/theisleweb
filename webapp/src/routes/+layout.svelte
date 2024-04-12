@@ -52,16 +52,13 @@
         HeaderHeight={headerHeight}
         SmallHeader={smallHeader} SmallSpace={smallSpace}/>
 
-
-<div class="px-4 mx-auto w-full">
-    <main class="container mx-auto">
-        <article class="prose prose-stone">
-            {#if !hideHeading}
-                <HeadBox title={pageTitle}></HeadBox>
-            {/if}
+<main class="">
+    <article class="prose mx-auto">
+        {#if !hideHeading}
+            <HeadBox title={pageTitle}></HeadBox>
+        {/if}
         <slot/>
-        </article>
-    </main>
-</div>
+    </article>
+</main>
 
 <Footer MenuItemsFull={menuItemsFull}/>

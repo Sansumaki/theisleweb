@@ -1,7 +1,9 @@
 export const themes = [
     'pandasia',
+    'futuristic',
+    'simple',
+    'innovation',
+    'modern',
     'bumblebee',
-    'emerald',
-    'retro',
     'forest',
 ]
