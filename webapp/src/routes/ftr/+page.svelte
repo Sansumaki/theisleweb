@@ -1,0 +1,48 @@
+<script>
+    import { t } from '$lib/translations';
+    import DiscordLink from "$lib/components/DiscordLink.svelte";
+    import {Icon} from "flowbite-svelte-icons";
+
+    const siteContent = [
+        {
+            icon: "map-pin-outline",
+            title: "ftr.sitecontent.items.0.title",
+            text: "ftr.sitecontent.items.0.description"
+        },
+        {
+            icon: "bug-outline",
+            title: "ftr.sitecontent.items.1.title",
+            text: "ftr.sitecontent.items.1.description",
+            comingSoon: true
+        }
+    ]
+</script>
+
+<h2>{$t('ftr.content.heading')}</h2>
+{#each [0,1,2,3] as item}
+    <p class="my-4">{$t("ftr.content.contents."+item+".value")}</p>
+{/each}
+
+<div class="text-center w-full">
+    <DiscordLink/>
+</div>
+
+<div class="py-4 mx-auto max-w-screen-xl">
+    <h2>{$t('ftr.sitecontent.title')}</h2>
+    <p>{$t('ftr.sitecontent.description')}</p>
+</div>
+<div class="space-y-8 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-8 md:space-y-0 mb-12">
+    {#each siteContent as item}
+        <div>
+            <div class="flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-primary-100 lg:h-12 lg:w-12 dark:bg-primary-900">
+                <Icon name="{item.icon}"
+                      class="text-primary-600 dark:text-primary-300"/>
+            </div>
+            <h3 class="mb-2">{$t(item.title)}</h3>
+            <p>{$t(item.text)}</p>
+            {#if item.comingSoon}
+                <p class="border-gray-200 dark:border-gray-700 divide-gray-200 dark:divide-gray-700 font-medium inline-flex items-center justify-center px-2.5 py-0.5 text-xs bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300 rounded">Coming soon</p>
+            {/if}
+        </div>
+    {/each}
+</div>

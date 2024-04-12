@@ -3,7 +3,8 @@ import type {PageLoad} from "./$types.js";
 export const load = (() => {
     return {
         page:{
-            title: 'common.name'
+            title: 'ftr.title',
+            content: "ftr.description"
         }
     }
 }) satisfies PageLoad;

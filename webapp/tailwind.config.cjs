@@ -30,13 +30,13 @@ const config = {
 				//	'accent': '#45A29E'
 				//},
 				////Elegant und futuristisch
-				//primary2: {
-				//	'secondary': '#2C3531',
-				//	'primary': '#116466',
-				//	'background': '#D9B08C',
-				//	'accent-secondary': '#FFCB9A',
+				//primary: {
+				//	'background': '#2C3531',
+				//	'accent-secondary': '#116466',
+				//	'secondary': '#D9B08C',
+				//	'primary': '#FFCB9A',
 				//	'accent': '#D1E8E2'
-				//},
+				//}
 				////Innovativ und kühn
 				//primary3: {
 				//	'secondary': '#272727',

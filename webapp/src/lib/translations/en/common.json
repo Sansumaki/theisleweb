@@ -1,8 +1,19 @@
 {
-  "title": "The Isle Info",
+  "name": "Pandasia",
+  "title": "{{page}}Pandasia",
+  "description": "{{detail}}\\; The Isle Server Info, Eine Seite rund um das Spiel The Isle und die Discord communities auf The Isle fokusiert.",
+  "keywords": "Pandasia, FTR, Fuck the revolution, the isle, isle, legacy, dinosaurier, online, rollplay, rpg, multiplayer, mmorpg, dino, dinosaur, game, map, karte, info, infos, extended, santasia",
   "joinDiscord": "Join our Discord",
   "error404": "Sorry, we can't find that page. You'll find lots to explore on the home page.",
   "error500": "We are already working to solve the problem.",
   "backToHome": "Back to Startpage",
-  "back": "Back"
+  "home": "Startpage",
+  "back": "Back",
+  "legal": "Legal",
+  "privacy.policy": "Privacy Policy",
+  "licensing": "Licensing",
+  "term.conditions": "Terms & Conditions",
+  "support": "Support",
+  "discord.server": "Discord Server",
+  "contactus": "Contact us"
 }

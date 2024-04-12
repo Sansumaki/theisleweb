@@ -21,9 +21,7 @@
     ];
 </script>
 
-<div class="text-center sm:bg-primary-secondary">
-    <h1 class="self-center sm:text-white sm:mt-0 sm:py-1 sm:mb-0">{title}</h1>
-</div>
+<h1 class="self-center text-center">{title}</h1>
 <div class="hidden sm:block">
     <Carousel {images} loop showCaptions={false} showThumbs={false} showIndicators={false} slideControls={false}
               slideClass="h-full [&>img]:w-full [&>img]:h-full [&>img]:object-cover [&>img]:object-center [&>img]:saturate-50 [&>img]:brightness-150 [&>img]:dark:brightness-100"

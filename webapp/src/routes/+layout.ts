@@ -3,7 +3,7 @@ import { addTranslations, setLocale, setRoute } from '$lib/translations';
 
 /** @type {import('@sveltejs/kit').Load} */
 export const load = async ({ data }: {data:any}) => {
-    const { i18n, translations } = data;
+    const { i18n, translations, menu } = data;
     const { locale, route } = i18n;
 
     addTranslations(translations);
@@ -11,5 +11,5 @@ export const load = async ({ data }: {data:any}) => {
     await setRoute(route);
     await setLocale(locale);
 
-    return i18n;
+    return {i18n, menu};
 }

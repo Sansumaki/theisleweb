@@ -23,7 +23,7 @@
             <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 px-6 py-8">
                 {#each MenuItemsFull as menu}
                     <div>
-                        <h2 class="mb-6">{menu.name}</h2>
+                        <h2 class="mb-6">{$t(menu.name)}</h2>
                         <ul class="">
                             {#each menu.items as item}
                                 <li class="mb-4">
